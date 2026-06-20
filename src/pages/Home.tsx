@@ -62,6 +62,12 @@ export default function Home() {
 
   const internships = [
     {
+      company: 'Decoders Entity',
+      role: 'Backend Developer Intern',
+      duration: 'June 2026 – Present',
+      points: [],
+    },
+    {
       company: 'Walk Reward',
       role: 'Software Developer Intern',
       duration: 'Mar 2026 – Apr 2026',
@@ -296,32 +302,34 @@ export default function Home() {
                       <p className="font-mono text-xs text-ink-dim">{job.role}</p>
                     </div>
 
-                    <ul className="space-y-2.5 pt-1">
-                      {job.points.map((point, idx) => {
-                        const splitIndex = point.indexOf(':');
-                        let title = '';
-                        let desc = point;
-                        if (splitIndex !== -1) {
-                          title = point.slice(0, splitIndex);
-                          desc = point.slice(splitIndex + 1);
-                        }
-                        return (
-                          <li key={idx} className="flex items-start gap-2.5 text-sm font-sans font-light text-ink-dim leading-relaxed">
-                            <span className="font-mono text-[9px] text-ink-faint mt-1.5">•</span>
-                            <span>
-                              {title ? (
-                                <>
-                                  <strong className="font-display font-semibold text-ink">{title}:</strong>
-                                  {desc}
-                                </>
-                              ) : (
-                                desc
-                              )}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    {job.points && job.points.length > 0 && (
+                      <ul className="space-y-2.5 pt-1">
+                        {job.points.map((point, idx) => {
+                          const splitIndex = point.indexOf(':');
+                          let title = '';
+                          let desc = point;
+                          if (splitIndex !== -1) {
+                            title = point.slice(0, splitIndex);
+                            desc = point.slice(splitIndex + 1);
+                          }
+                          return (
+                            <li key={idx} className="flex items-start gap-2.5 text-sm font-sans font-light text-ink-dim leading-relaxed">
+                              <span className="font-mono text-[9px] text-ink-faint mt-1.5">•</span>
+                              <span>
+                                {title ? (
+                                  <>
+                                    <strong className="font-display font-semibold text-ink">{title}:</strong>
+                                    {desc}
+                                  </>
+                                ) : (
+                                  desc
+                                )}
+                              </span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </div>
                 </BlurFade>
               ))}
