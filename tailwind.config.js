@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#080808',
-        'bg-soft': '#0f0f0f',
-        ink: '#f5f5f5',
-        'ink-dim': '#8a8a8a',
-        'ink-faint': '#545454',
-        line: 'rgba(255, 255, 255, 0.09)',
-        glass: 'rgba(255, 255, 255, 0.035)',
-        'glass-strong': 'rgba(255, 255, 255, 0.06)',
-        'glass-border': 'rgba(255, 255, 255, 0.1)',
+        bg: 'var(--bg)',
+        'bg-soft': 'var(--bg-soft)',
+        ink: 'var(--ink)',
+        'ink-dim': 'var(--ink-dim)',
+        'ink-faint': 'var(--ink-faint)',
+        line: 'var(--line)',
+        glass: 'var(--glass)',
+        'glass-strong': 'var(--glass-strong)',
+        'glass-border': 'var(--glass-border)',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

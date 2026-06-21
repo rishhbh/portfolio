@@ -88,7 +88,7 @@ export default function ProjectDetail() {
     return (
       <div className="max-w-6xl mx-auto px-6 py-48 text-center space-y-6">
         <BlurFade delay={0.1}>
-          <h1 className="font-display font-bold text-4xl text-ink">Project Not Found</h1>
+          <h1 className="font-display font-bold text-4xl text-ink gradient-heading">Project Not Found</h1>
           <p className="text-ink-dim font-mono text-sm">The project you're looking for doesn't exist.</p>
         </BlurFade>
         <BlurFade delay={0.2}>
@@ -133,7 +133,7 @@ export default function ProjectDetail() {
                 🏆 {project.result.toUpperCase()}
               </span>
             )}
-            <h1 className="font-display font-bold text-4xl sm:text-6xl tracking-tight text-ink">
+            <h1 className="font-display font-bold text-4xl sm:text-6xl tracking-tight text-ink gradient-heading">
               {project.name}
             </h1>
           </BlurFade>

@@ -1,11 +1,32 @@
 import { useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { motion, useSpring, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, Award, Briefcase, Code2 } from 'lucide-react';
 import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
+import { SpotlightCard } from '../components/SpotlightCard';
 
 export default function Home() {
   const location = useLocation();
+  const shouldReduceMotion = useReducedMotion();
+
+  // Magnetic Button state
+  const btnX = useSpring(0, { stiffness: 150, damping: 15, mass: 0.1 });
+  const btnY = useSpring(0, { stiffness: 150, damping: 15, mass: 0.1 });
+
+  const handleMagneticMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (shouldReduceMotion || window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    btnX.set((e.clientX - centerX) * 0.15); // Max ~10-15px displacement
+    btnY.set((e.clientY - centerY) * 0.15);
+  };
+
+  const handleMagneticLeave = () => {
+    btnX.set(0);
+    btnY.set(0);
+  };
 
   // Scroll to hash targets if specified in location (e.g. from hash navigation)
   useEffect(() => {
@@ -117,12 +138,12 @@ export default function Home() {
         </BlurFade>
 
         <BlurFade delay={0.2} className="relative">
-          <h1 className="font-display font-bold leading-[0.95] tracking-tight text-ink relative z-10" style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}>
+          <h1 className="font-display font-bold leading-[0.95] tracking-tight text-ink relative z-10 gradient-heading" style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}>
             SHAPING CODE.<br />
             SHIPPING CLARITY.
           </h1>
-          {/* Subtle background glow block - pure grayscale */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-white/5 filter blur-[100px] pointer-events-none -z-10" />
+          {/* Subtle background glow block */}
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-[var(--glow)] filter blur-[100px] pointer-events-none -z-10" />
         </BlurFade>
 
         <BlurFade delay={0.3} className="max-w-2xl space-y-6">
@@ -139,14 +160,17 @@ export default function Home() {
         </BlurFade>
 
         <BlurFade delay={0.4} className="flex flex-wrap gap-4 pt-4">
-          <button
+          <motion.button
+            style={{ x: btnX, y: btnY }}
+            onMouseMove={handleMagneticMove}
+            onMouseLeave={handleMagneticLeave}
             onClick={() => {
               document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
             className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-widest font-bold py-4 px-8 transition-colors flex items-center gap-2"
           >
             VIEW WORK <ArrowRight className="w-4 h-4" />
-          </button>
+          </motion.button>
           <button
             onClick={() => {
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -164,56 +188,111 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-ink-faint">01 // PROJECTS</span>
             <div className="h-px flex-1 bg-line" />
-            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink">
+            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink gradient-heading">
               Selected Work
             </h2>
           </div>
         </BlurFade>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <BlurFade key={project.slug} delay={0.2 + index * 0.1}>
-              <Link
-                to={`/projects/${project.slug}`}
-                className="group block glass bg-glass hover:bg-glass-strong border border-glass-border p-8 transition-all duration-300 relative h-full flex flex-col justify-between"
+          {projects.map((project, index) => {
+            const isLayerZero = index === 0;
+            const isKaushal = index === 1;
+
+            let gridClass = "col-span-1";
+            if (isLayerZero) gridClass = "md:col-span-2 md:row-start-1 md:col-start-1";
+            if (isKaushal) gridClass = "md:row-span-2 md:col-start-1 md:row-start-2";
+            if (index === 2) gridClass = "md:col-span-1 md:col-start-2 md:row-start-2";
+            if (index === 3) gridClass = "md:col-span-1 md:col-start-2 md:row-start-3";
+
+            return (
+              <BlurFade 
+                key={project.slug} 
+                delay={0.1 + index * 0.12} // Smooth cascade stagger
+                className={gridClass}
               >
-                <div className="space-y-6">
-                  {/* Eyebrow / Link indicator */}
-                  <div className="flex justify-between items-start">
-                    <span className="font-mono text-[10px] tracking-widest text-ink-faint">
-                      PROJECT_0{index + 1}
-                    </span>
-                    <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-ink transition-colors" />
-                  </div>
+                <SpotlightCard className="group glass bg-glass hover:bg-glass-strong border border-glass-border transition-all duration-300 h-full flex flex-col">
+                  <Link
+                    to={`/projects/${project.slug}`}
+                    className={`p-8 h-full flex flex-col relative ${isLayerZero ? 'md:flex-row md:gap-12 md:items-stretch' : 'justify-between'}`}
+                  >
+                    <ArrowUpRight className="absolute top-8 right-8 w-4 h-4 text-ink-faint group-hover:text-ink transition-colors" />
 
-                  <div className="space-y-2">
-                    <h3 className="font-display font-bold text-2xl tracking-tight text-ink group-hover:translate-x-1 transition-transform duration-300">
-                      {project.name}
-                    </h3>
-                    <p className="font-mono text-xs text-ink-dim">
-                      {project.tagline}
-                    </p>
-                  </div>
+                    <div className={`space-y-6 ${isLayerZero ? 'md:w-1/2 flex flex-col' : ''}`}>
+                      <span className="block font-mono text-[10px] tracking-widest text-ink-faint">
+                        PROJECT_0{index + 1}
+                      </span>
 
-                  <p className="text-ink-faint text-sm leading-relaxed font-sans line-clamp-3">
-                    {project.problem}
-                  </p>
-                </div>
+                      <div className="space-y-2 pr-6">
+                        <h3 className="font-display font-bold text-2xl tracking-tight text-ink group-hover:translate-x-1 transition-transform duration-300">
+                          {project.name}
+                        </h3>
+                        <p className="font-mono text-xs text-ink-dim">
+                          {project.tagline}
+                        </p>
+                      </div>
 
-                {/* Tech chips footer */}
-                <div className="flex flex-wrap gap-2 pt-8">
-                  {project.homeTags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="font-mono text-[10px] tracking-wide bg-white/5 border border-line text-ink-dim py-1 px-2.5"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            </BlurFade>
-          ))}
+                      {!isLayerZero && (
+                        <p className="text-ink-faint text-sm leading-relaxed font-sans line-clamp-3">
+                          {project.problem}
+                        </p>
+                      )}
+
+                      {/* Extra features for KaushalAI tall card */}
+                      {isKaushal && (
+                        <div className="hidden md:block space-y-3 mt-4 pt-6 border-t border-line">
+                          <p className="font-mono text-[10px] tracking-widest text-ink-dim uppercase">Platform Highlights</p>
+                          <ul className="space-y-2">
+                            <li className="flex items-center gap-3">
+                              <span className="w-1 h-1 bg-ink-faint rounded-full"></span>
+                              <span className="text-xs text-ink-faint font-sans">Tri-lingual UI (En, Hi, Mr)</span>
+                            </li>
+                            <li className="flex items-center gap-3">
+                              <span className="w-1 h-1 bg-ink-faint rounded-full"></span>
+                              <span className="text-xs text-ink-faint font-sans">Dual-Role RBAC System</span>
+                            </li>
+                            <li className="flex items-center gap-3">
+                              <span className="w-1 h-1 bg-ink-faint rounded-full"></span>
+                              <span className="text-xs text-ink-faint font-sans">QR-Verified Certificates</span>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    {isLayerZero ? (
+                      <div className="md:w-1/2 flex flex-col justify-end mt-8 md:mt-0">
+                        <p className="text-ink-faint text-sm sm:text-base leading-relaxed font-sans line-clamp-4 pr-6">
+                          {project.problem}
+                        </p>
+                        <div className="flex flex-wrap gap-2 pt-8">
+                          {project.homeTags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="font-mono text-[10px] tracking-wide bg-[var(--glow)] border border-line text-ink-dim py-1 px-2.5"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-wrap gap-2 pt-8 mt-auto pr-6">
+                        {project.homeTags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="font-mono text-[10px] tracking-wide bg-[var(--glow)] border border-line text-ink-dim py-1 px-2.5"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </Link>
+                </SpotlightCard>
+              </BlurFade>
+            );
+          })}
         </div>
       </section>
 
@@ -223,7 +302,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-ink-faint">02 // CAPABILITIES</span>
             <div className="h-px flex-1 bg-line" />
-            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink">
+            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink gradient-heading">
               Core Stack
             </h2>
           </div>
@@ -231,12 +310,16 @@ export default function Home() {
 
         <BlurFade delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {skillCategories.map((category) => (
-              <div
+            {skillCategories.map((category, index) => (
+              <BlurFade
                 key={category.title}
-                className="glass border border-glass-border p-6 space-y-4 relative overflow-hidden"
+                delay={0.15 + index * 0.1}
+                className="col-span-1"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.01] filter blur-[40px] pointer-events-none" />
+                <SpotlightCard
+                  className="glass border border-glass-border p-6 space-y-4 relative overflow-hidden h-full"
+                >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--glow-strong)] filter blur-[40px] pointer-events-none" />
                 <h3 className="font-display font-bold text-sm tracking-wider text-ink uppercase border-b border-line pb-2">
                   {category.title}
                 </h3>
@@ -244,13 +327,14 @@ export default function Home() {
                   {category.items.map((skill) => (
                     <span
                       key={skill}
-                      className="font-mono text-[10px] tracking-wide bg-white/5 border border-line text-ink-dim hover:text-ink py-1 px-2.5 transition-all"
+                      className="font-mono text-[10px] tracking-wide bg-[var(--glow)] border border-line text-ink-dim hover:text-ink py-1 px-2.5 transition-all"
                     >
                       {skill}
                     </span>
                   ))}
                 </div>
-              </div>
+                </SpotlightCard>
+              </BlurFade>
             ))}
           </div>
         </BlurFade>
@@ -262,7 +346,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-ink-faint">03 // TIMELINE</span>
             <div className="h-px flex-1 bg-line" />
-            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink">
+            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink gradient-heading">
               Experience & Recognition
             </h2>
           </div>
@@ -371,13 +455,13 @@ export default function Home() {
         <BlurFade delay={0.2}>
           <div className="glass border border-glass-border p-8 sm:p-16 text-center space-y-8 relative overflow-hidden">
             {/* Subtle center background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/[0.015] filter blur-[80px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--glow-strong)] filter blur-[80px] pointer-events-none" />
 
             <div className="space-y-4 max-w-xl mx-auto">
               <span className="font-mono text-[10px] tracking-[0.2em] text-ink-faint uppercase">
                 GET IN TOUCH
               </span>
-              <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink">
+              <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink gradient-heading">
                 Let's build something that ships.
               </h2>
               <p className="text-ink-dim text-sm sm:text-base font-light max-w-md mx-auto leading-relaxed">
