@@ -84,15 +84,14 @@ export default function Navbar() {
 
   const currentTarget = hoveredLink || activeSection;
 
-  const handleNavClick = (target: string) => {
+  const handleNavClick = (target: string, fromMobileMenu: boolean = false) => {
     // 1. Close menu visually
     setMobileMenuOpen(false);
     // 2. Remove body scroll lock synchronously to prevent race conditions
     // eslint-disable-next-line react-hooks/immutability
     document.body.style.overflow = '';
 
-    // 3. Trigger scroll after menu animation completes (0.35s)
-    setTimeout(() => {
+    const executeNavigation = () => {
       if (location.pathname === '/') {
         const element = document.getElementById(target);
         if (element) {
@@ -102,7 +101,14 @@ export default function Navbar() {
         // Navigate to homepage with hash
         navigate(`/#${target}`);
       }
-    }, 350);
+    };
+
+    if (fromMobileMenu) {
+      // 3. Trigger scroll after menu animation completes (0.35s)
+      setTimeout(executeNavigation, 350);
+    } else {
+      executeNavigation();
+    }
   };
 
   return (
@@ -226,7 +232,7 @@ export default function Navbar() {
                     initial={{ x: -12, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: idx * 0.04 + 0.1, duration: 0.2, ease: 'easeOut' }}
-                    onClick={() => handleNavClick(link.target)}
+                    onClick={() => handleNavClick(link.target, true)}
                     className={`w-full text-left py-3 transition-colors ${
                       activeSection === link.target ? 'text-ink' : 'hover:text-ink text-ink-dim'
                     }`}
