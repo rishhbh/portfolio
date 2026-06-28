@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, useSpring, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, Award, Briefcase, Code2 } from 'lucide-react';
@@ -10,6 +10,42 @@ import { GithubActivity } from '../components/GithubActivity';
 export default function Home() {
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
+
+  // Contact Form State
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setErrorMessage(data.error || 'Something went wrong.');
+      }
+    } catch (err) {
+      setStatus('error');
+      setErrorMessage('Failed to connect to the server.');
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   // Magnetic Button state
   const btnX = useSpring(0, { stiffness: 150, damping: 15, mass: 0.1 });
@@ -471,19 +507,70 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4 max-w-md mx-auto">
-              <a
-                href="mailto:rishabh223300@gmail.com"
-                className="w-full sm:w-auto bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-widest font-bold py-4 px-8 transition-colors"
-              >
-                EMAIL ME
-              </a>
-              <div className="flex gap-4 w-full sm:w-auto justify-center">
+            <div className="flex flex-col items-center gap-10 pt-8 max-w-xl mx-auto text-left">
+              
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="w-full space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="font-mono text-[10px] tracking-widest text-ink-dim uppercase block">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full bg-bg glass border border-glass-border p-3 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="font-mono text-[10px] tracking-widest text-ink-dim uppercase block">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full bg-bg glass border border-glass-border p-3 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="message" className="font-mono text-[10px] tracking-widest text-ink-dim uppercase block">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="w-full bg-bg glass border border-glass-border p-3 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none resize-none"
+                  ></textarea>
+                </div>
+                
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-widest font-bold py-4 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
+                </button>
+
+                {status === 'success' && (
+                  <p className="font-mono text-xs text-green-500 mt-4 text-center">Message sent successfully!</p>
+                )}
+                {status === 'error' && (
+                  <p className="font-mono text-xs text-red-500 mt-4 text-center">{errorMessage}</p>
+                )}
+              </form>
+
+              {/* Links */}
+              <div className="flex gap-4 w-full justify-center">
                 <a
                   href="https://github.com/rishhbh"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-4 px-6 transition-colors flex items-center justify-center gap-2"
+                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-3 px-6 transition-colors flex items-center justify-center gap-2"
                 >
                   GITHUB <Code2 className="w-3.5 h-3.5" />
                 </a>
@@ -491,7 +578,7 @@ export default function Home() {
                   href="https://linkedin.com/in/rishabhh-sharma"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-4 px-6 transition-colors flex items-center justify-center gap-2"
+                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-3 px-6 transition-colors flex items-center justify-center gap-2"
                 >
                   LINKEDIN <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>

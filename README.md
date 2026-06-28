@@ -44,28 +44,30 @@ A full-stack joke project that operates like a standard calculator, but with con
 
 ## 🛠️ Development Setup
 
+The project is structured as a monorepo with `client` and `server` workspaces.
+
 ### Installation
-Clone the repository and install the npm dependencies:
+Clone the repository and install all dependencies (root, client, and server):
 ```bash
-npm install
+npm run install:all
+```
+
+### Environment Variables
+Create a `.env` file in the `server` directory and add your Resend API Key:
+```env
+RESEND_API_KEY=your_resend_api_key_here
 ```
 
 ### Dev Server
-Spin up the hot-reloading Vite server locally:
+Spin up both the Vite client and Express server concurrently:
 ```bash
 npm run dev
 ```
 
 ### Compilation & Build
-Compile TypeScript declarations and bundle the static web asset assets:
+Compile TypeScript declarations and bundle the static web assets for both client and server:
 ```bash
 npm run build
-```
-
-### Linter
-Analyze source code files for formatting and potential runtime bugs:
-```bash
-npm run lint
 ```
 
 ---
