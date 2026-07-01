@@ -19,7 +19,7 @@ export const projects: Project[] = [
     name: 'LayerZero',
     tagline: 'AI-powered content summarization platform with a hybrid LLM architecture',
     problem: 'Most content summarization tools force users into a single AI provider and rely entirely on cloud-hosted AI. LayerZero combines cloud and local inference, giving users more control over privacy, performance, and operational costs. It allows summarizing PDFs, DOCX files, and web content using four selectable AI models, because sometimes you want the power of a cloud model, and sometimes you want your laptop to suffer instead.',
-    howItWorks: 'The platform unifies content ingestion and intelligent caching across multiple sources:\n1. Content Ingestion: Scrapes URLs with Axios/JSDOM and Mozilla Readability, or parses uploaded documents using pdf-parse (PDF) and mammoth (DOCX).\n2. Intelligent Caching: Extracts text, generates a SHA-256 content fingerprint, and checks an Upstash Redis caching layer. This deduplication reduces repeated summary latency from ~8.5s to ~150ms (~98% improvement).\n3. AI Summarization: Cache misses are routed to Gemini 2.5 Flash, Cerebras (GPT OSS 120B), local Gemma 4 via Ollama, or Sarvam 30B (for Hinglish/multilingual support).\n4. Export & Security: Summaries can be exported to cleanly formatted PDFs via jsPDF. The backend is secured with JWT httpOnly cookies, Zod payload validation, bcrypt hashing, express-rate-limit middleware, and is deployed on AWS EC2.',
+    howItWorks: 'The platform unifies content ingestion, intelligent caching, and multi-model AI routing across several distinct phases:\n1. Content Ingestion & Scraping: Robustly scrapes URLs with Axios/JSDOM and Mozilla Readability to extract meaningful web content while stripping out ads and boilerplate.\n2. Document Parsing: Processes uploaded documents using pdf-parse for PDFs and mammoth for DOCX files, ensuring reliable text extraction from complex file formats.\n3. Intelligent Caching System: Generates a SHA-256 fingerprint for ingested text and checks an Upstash Redis caching layer. This deduplication reduces repeated summary latency from ~8.5s to ~150ms (~98% improvement).\n4. Cloud AI Summarization: Routes complex processing to powerful cloud models like Gemini 2.5 Flash, Cerebras (GPT OSS 120B), or Sarvam 30B (tailored specifically for Hinglish and multilingual code-switched inputs).\n5. Local AI Inference: Supports privacy-focused offline inference via local Gemma 4 through Ollama.\n6. Client-Side Export: Allows users to seamlessly export generated summaries into cleanly formatted PDFs natively in the browser using jsPDF.\n7. Robust Security Architecture: Secures backend endpoints with JWT httpOnly cookies, Zod payload validation, bcrypt hashing, and express-rate-limit middleware.\n8. Automated Infrastructure: Containerized via Docker Compose, with the Node/Express backend deployed securely on AWS EC2, featuring automated CI/CD deployment via GitHub Actions.',
     keyFeatures: [
       'Multi-Format Ingestion: Scrapes URLs using JSDOM/Readability, parses PDFs using pdf-parse, and DOCX using mammoth.',
       'Intelligent Caching: Upstash Redis-powered caching with SHA-256 content fingerprinting, 7-day TTLs, and cache-first retrieval.',
@@ -27,7 +27,7 @@ export const projects: Project[] = [
       'Hinglish & Multilingual: Seamless translation and summarization workflows using Sarvam 30B for code-switched inputs.',
       'Hardened Security: JWT authorization in httpOnly cookies, Zod payload validation, bcrypt hashing, and express-rate-limit.',
       'Export Options: Generates cleanly formatted PDFs from generated summaries using jsPDF after converting markdown to plain text.',
-      'Infrastructure: Orchestrated multi-container Docker Compose configuration supporting React frontend, Node/Express backend (deployed on AWS EC2), and Redis.'
+      'Infrastructure: Orchestrated multi-container Docker Compose configuration supporting React frontend, Node/Express backend (deployed on AWS EC2 with a GitHub Actions CI/CD automated deployment workflow), and Redis.'
     ],
     techStack: [
       'React',
@@ -55,9 +55,10 @@ export const projects: Project[] = [
       'Sarvam 30B',
       'Docker',
       'Docker Compose',
-      'AWS EC2'
+      'AWS EC2',
+      'GitHub Actions'
     ],
-    homeTags: ['TypeScript', 'Express.js', 'AWS EC2', 'Docker', 'Cerebras API'],
+    homeTags: ['TypeScript', 'Express.js', 'AWS EC2', 'GitHub Actions', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/layerzero',
     liveUrl: 'https://layerzero.uchihamadara3472.workers.dev/',
     images: ['layerzero-one.png', 'layerzero-two.png']

@@ -279,19 +279,13 @@ export default function Home() {
                       {isKaushal && (
                         <div className="hidden md:block space-y-3 mt-4 pt-6 border-t border-line">
                           <p className="font-mono text-[10px] tracking-widest text-ink-dim uppercase">Platform Highlights</p>
-                          <ul className="space-y-2">
-                            <li className="flex items-center gap-3">
-                              <span className="w-1 h-1 bg-ink-faint rounded-full"></span>
-                              <span className="text-xs text-ink-faint font-sans">Tri-lingual UI (En, Hi, Mr)</span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                              <span className="w-1 h-1 bg-ink-faint rounded-full"></span>
-                              <span className="text-xs text-ink-faint font-sans">Dual-Role RBAC System</span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                              <span className="w-1 h-1 bg-ink-faint rounded-full"></span>
-                              <span className="text-xs text-ink-faint font-sans">QR-Verified Certificates</span>
-                            </li>
+                          <ul className="space-y-3">
+                            {project.keyFeatures.map((feature, idx) => (
+                              <li key={idx} className="flex items-start gap-3">
+                                <span className="w-1 h-1 bg-ink-faint rounded-full mt-1.5 shrink-0"></span>
+                                <span className="text-xs text-ink-faint font-sans leading-relaxed">{feature}</span>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       )}
