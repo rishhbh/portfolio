@@ -98,15 +98,13 @@ body {
 /* Glassmorphism utility classes */
 .glass {
   background: var(--glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  @apply backdrop-blur-[20px];
   border: 1px solid var(--glass-border);
 }
 
 .glass-strong {
   background: var(--glass-strong);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  @apply backdrop-blur-[20px];
   border: 1px solid var(--glass-border);
 }
 
