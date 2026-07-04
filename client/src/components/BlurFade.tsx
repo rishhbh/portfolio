@@ -8,6 +8,7 @@ interface BlurFadeProps {
   yOffset?: number;
   className?: string;
   id?: string;
+  forceAnimate?: boolean;
 }
 
 export function BlurFade({
@@ -17,6 +18,7 @@ export function BlurFade({
   yOffset = 24,
   className = '',
   id,
+  forceAnimate = false,
 }: BlurFadeProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -43,7 +45,8 @@ export function BlurFade({
     <motion.div
       id={id}
       initial="hidden"
-      whileInView="visible"
+      whileInView={!forceAnimate ? "visible" : undefined}
+      animate={forceAnimate ? "visible" : undefined}
       viewport={{ once: true, margin: '-80px' }}
       variants={variants}
       transition={{

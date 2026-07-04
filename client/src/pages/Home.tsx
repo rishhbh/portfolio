@@ -175,13 +175,13 @@ export default function Home() {
       
       {/* 1. HERO SECTION */}
       <section id="hero" className="min-h-[70vh] flex flex-col justify-center space-y-8 py-12">
-        <BlurFade delay={0.1}>
+        <BlurFade delay={0.1} forceAnimate={true}>
           <div className="font-mono text-xs tracking-tight text-ink-dim lowercase">
             SOFTWARE ENGINEER — AI / ML
           </div>
         </BlurFade>
 
-        <TextReveal delay={0.2} className="relative w-full">
+        <TextReveal delay={0.2} forceAnimate={true} className="relative w-full">
           <h1 className="font-display font-bold leading-[0.8] tracking-[-0.06em] text-ink relative z-10 gradient-heading pb-4 pt-2" style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}>
             SHAPING CODE.<br />
             SHIPPING CLARITY.
@@ -189,7 +189,7 @@ export default function Home() {
           {/* Subtle background glow block removed (now global) */}
         </TextReveal>
 
-        <BlurFade delay={0.3} className="max-w-2xl space-y-6">
+        <BlurFade delay={0.3} forceAnimate={true} className="max-w-2xl space-y-6">
           <p className="text-ink-dim text-lg sm:text-xl leading-relaxed font-sans font-light">
             I build robust, containerized backends and intelligent interfaces. 
             My focus centers on combining large language model capabilities with secure, 
@@ -202,7 +202,7 @@ export default function Home() {
           </div>
         </BlurFade>
 
-        <BlurFade delay={0.4} className="flex flex-wrap gap-4 pt-4">
+        <BlurFade delay={0.4} forceAnimate={true} className="flex flex-wrap gap-4 pt-4">
           <motion.button
             style={{ x: btnX, y: btnY }}
             onMouseMove={handleMagneticMove}

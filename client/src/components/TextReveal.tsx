@@ -6,6 +6,7 @@ interface TextRevealProps {
   delay?: number;
   duration?: number;
   className?: string;
+  forceAnimate?: boolean;
 }
 
 export function TextReveal({
@@ -13,6 +14,7 @@ export function TextReveal({
   delay = 0,
   duration = 0.8,
   className = '',
+  forceAnimate = false,
 }: TextRevealProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -36,7 +38,8 @@ export function TextReveal({
     <div className={`overflow-hidden block ${className}`}>
       <motion.div
         initial="hidden"
-        whileInView="visible"
+        whileInView={!forceAnimate ? "visible" : undefined}
+        animate={forceAnimate ? "visible" : undefined}
         viewport={{ once: true, margin: '0px' }}
         variants={variants}
         transition={{
