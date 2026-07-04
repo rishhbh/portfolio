@@ -3,7 +3,6 @@ import { motion, useReducedMotion, useSpring } from 'framer-motion';
 
 export function CustomCursor() {
   const shouldReduceMotion = useReducedMotion();
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
 
   // Smooth springs for a sharp but fluid tracking motion
@@ -16,7 +15,6 @@ export function CustomCursor() {
     }
 
     const onMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
