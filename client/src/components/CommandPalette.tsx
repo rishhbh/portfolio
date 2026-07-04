@@ -166,7 +166,7 @@ export function CommandPalette() {
                   
                   return (
                     <div key={category} className="mb-4 last:mb-0">
-                      <div className="px-3 py-2 text-xs font-mono tracking-wider text-ink-dim uppercase">
+                      <div className="px-3 py-2 text-xs font-mono tracking-tight text-ink-dim lowercase">
                         {category}
                       </div>
                       <div className="space-y-0.5">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, Sun, Moon, Search } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useCommandPalette } from '../context/CommandPaletteContext';
 
@@ -22,6 +22,13 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const { openPalette } = useCommandPalette();
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   // Handle body overflow lock when mobile menu is open
   useEffect(() => {
@@ -113,20 +120,24 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-6 left-0 right-0 mx-auto w-[calc(100%-3rem)] max-w-6xl z-50 transition-all duration-300 glass border border-glass-border shadow-2xl ${
         isScrolled
-          ? 'glass-strong border-b border-glass-border py-4'
-          : 'bg-transparent py-6'
+          ? 'py-3'
+          : 'py-5'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink origin-left z-10"
+        style={{ scaleX }}
+      />
+      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center relative z-20">
         {/* Logo/Wordmark */}
         <Link
           to="/"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="font-display font-bold text-lg tracking-wider text-ink hover:text-ink-dim transition-colors"
+          className="font-display font-bold text-lg tracking-tight text-ink hover:text-ink-dim transition-colors"
         >
           RISHABH SHARMA
         </Link>
@@ -134,7 +145,7 @@ export default function Navbar() {
         <div className="flex items-center space-x-4 md:space-x-8">
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <ul className="flex space-x-8 font-mono text-xs tracking-widest text-ink-dim">
+            <ul className="flex space-x-8 font-mono text-xs tracking-tight text-ink-dim">
               {navLinks.map((link) => (
                 <li key={link.name} className="flex items-center">
                   <button
@@ -168,7 +179,7 @@ export default function Navbar() {
               href="https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view?usp=drive_link"
               target="_blank"
               rel="noopener noreferrer"
-              className="glass hover:bg-glass-strong border border-glass-border text-ink font-mono text-xs tracking-widest py-2 px-4 transition-colors flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
+              className="glass hover:bg-glass-strong border border-glass-border text-ink font-mono text-xs tracking-tight py-2 px-4 transition-colors flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
             >
               RESUME <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
@@ -178,7 +189,7 @@ export default function Navbar() {
             {/* Command Palette Trigger */}
             <button
               onClick={openPalette}
-              className="hidden sm:flex items-center gap-2 glass hover:bg-glass-strong border border-glass-border text-ink font-mono text-xs tracking-widest py-2 px-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
+              className="hidden sm:flex items-center gap-2 glass hover:bg-glass-strong border border-glass-border text-ink font-mono text-xs tracking-tight py-2 px-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
               aria-label="Open command palette"
             >
               <Search className="w-3.5 h-3.5" />
@@ -223,9 +234,9 @@ export default function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden absolute top-[100%] left-0 right-0 glass-strong border-b border-glass-border overflow-hidden"
+            className="md:hidden absolute top-[calc(100%+0.5rem)] left-0 right-0 glass border border-glass-border overflow-hidden shadow-2xl"
           >
-            <div className="flex flex-col space-y-6 p-6 font-mono text-xs tracking-widest text-ink-dim">
+            <div className="flex flex-col space-y-6 p-6 font-mono text-xs tracking-tight text-ink-dim">
               {navLinks.map((link, idx) => (
                 <div key={link.name} className="relative border-b border-line">
                   <motion.button

@@ -33,12 +33,12 @@ export function GithubActivity() {
   return (
     <ErrorBoundary>
       <SpotlightCard className="glass border border-glass-border p-6 space-y-6 relative overflow-hidden mt-6">
-        <h3 className="font-display font-bold text-sm tracking-wider text-ink uppercase border-b border-line pb-2">
+        <h3 className="font-display font-bold text-sm tracking-tight text-ink lowercase border-b border-line pb-2">
           Contribution Activity
         </h3>
         
         <div className="w-full overflow-x-auto scrollbar-none pb-2 cursor-grab active:cursor-grabbing">
-          <div className="min-w-max text-ink-dim font-mono text-[10px] tracking-widest">
+          <div className="min-w-max text-ink-dim font-mono text-[10px] tracking-tight">
             <GitHubCalendar
               username="rishhbh"
               colorScheme={theme === 'dark' ? 'dark' : 'light'}

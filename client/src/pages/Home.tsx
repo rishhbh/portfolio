@@ -165,18 +165,18 @@ export default function Home() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-36">
+    <div className="max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-36 lowercase">
       
       {/* 1. HERO SECTION */}
       <section id="hero" className="min-h-[70vh] flex flex-col justify-center space-y-8 py-12">
         <BlurFade delay={0.1}>
-          <div className="font-mono text-xs tracking-[0.2em] text-ink-dim uppercase">
+          <div className="font-mono text-xs tracking-tight text-ink-dim lowercase">
             SOFTWARE ENGINEER — AI / ML
           </div>
         </BlurFade>
 
         <BlurFade delay={0.2} className="relative">
-          <h1 className="font-display font-bold leading-[0.95] tracking-tight text-ink relative z-10 gradient-heading" style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}>
+          <h1 className="font-display font-bold leading-[0.8] tracking-[-0.06em] text-ink relative z-10 gradient-heading pb-4 pt-2" style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}>
             SHAPING CODE.<br />
             SHIPPING CLARITY.
           </h1>
@@ -204,7 +204,7 @@ export default function Home() {
             onClick={() => {
               document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-widest font-bold py-4 px-8 transition-colors flex items-center gap-2"
+            className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-4 px-8 transition-colors flex items-center gap-2"
           >
             VIEW WORK <ArrowRight className="w-4 h-4" />
           </motion.button>
@@ -212,7 +212,7 @@ export default function Home() {
             onClick={() => {
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            className="glass hover:bg-glass-strong text-ink border border-glass-border font-mono text-xs tracking-widest py-4 px-8 transition-colors"
+            className="glass hover:bg-glass-strong text-ink border border-glass-border font-mono text-xs tracking-tight py-4 px-8 transition-colors"
           >
             GET IN TOUCH
           </button>
@@ -225,7 +225,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-ink-faint">01 // PROJECTS</span>
             <div className="h-px flex-1 bg-line" />
-            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink gradient-heading">
+            <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
               Selected Work
             </h2>
           </div>
@@ -256,12 +256,12 @@ export default function Home() {
                     <ArrowUpRight className="absolute top-8 right-8 w-4 h-4 text-ink-faint group-hover:text-ink transition-colors" />
 
                     <div className={`space-y-6 ${isLayerZero ? 'md:w-1/2 flex flex-col' : ''}`}>
-                      <span className="block font-mono text-[10px] tracking-widest text-ink-faint">
+                      <span className="block font-mono text-[10px] tracking-tight text-ink-faint">
                         PROJECT_0{index + 1}
                       </span>
 
                       <div className="space-y-2 pr-6">
-                        <h3 className="font-display font-bold text-2xl tracking-tight text-ink group-hover:translate-x-1 transition-transform duration-300">
+                        <h3 className="font-display font-bold text-2xl tracking-tighter text-ink group-hover:translate-x-1 transition-transform duration-300">
                           {project.name}
                         </h3>
                         <p className="font-mono text-xs text-ink-dim">
@@ -278,7 +278,7 @@ export default function Home() {
                       {/* Extra features for KaushalAI tall card */}
                       {isKaushal && (
                         <div className="hidden md:block space-y-3 mt-4 pt-6 border-t border-line">
-                          <p className="font-mono text-[10px] tracking-widest text-ink-dim uppercase">Platform Highlights</p>
+                          <p className="font-mono text-[10px] tracking-tight text-ink-dim lowercase">Platform Highlights</p>
                           <ul className="space-y-3">
                             {project.keyFeatures.map((feature, idx) => (
                               <li key={idx} className="flex items-start gap-3">
@@ -300,7 +300,7 @@ export default function Home() {
                           {project.homeTags.map((tag) => (
                             <span
                               key={tag}
-                              className="font-mono text-[10px] tracking-wide bg-[var(--glow)] border border-line text-ink-dim py-1 px-2.5"
+                              className="font-mono text-[10px] tracking-tight bg-[var(--glow)] border border-line text-ink-dim py-1 px-2.5"
                             >
                               {tag}
                             </span>
@@ -312,7 +312,7 @@ export default function Home() {
                         {project.homeTags.map((tag) => (
                           <span
                             key={tag}
-                            className="font-mono text-[10px] tracking-wide bg-[var(--glow)] border border-line text-ink-dim py-1 px-2.5"
+                            className="font-mono text-[10px] tracking-tight bg-[var(--glow)] border border-line text-ink-dim py-1 px-2.5"
                           >
                             {tag}
                           </span>
@@ -333,7 +333,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-ink-faint">02 // CAPABILITIES</span>
             <div className="h-px flex-1 bg-line" />
-            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink gradient-heading">
+            <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
               Core Stack
             </h2>
           </div>
@@ -350,14 +350,14 @@ export default function Home() {
                   <SpotlightCard
                   className="glass border border-glass-border p-6 space-y-4 relative overflow-hidden h-full"
                 >
-                <h3 className="font-display font-bold text-sm tracking-wider text-ink uppercase border-b border-line pb-2">
+                <h3 className="font-display font-bold text-sm tracking-tight text-ink lowercase border-b border-line pb-2">
                   {category.title}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
                   {category.items.map((skill) => (
                     <span
                       key={skill}
-                      className="font-mono text-[10px] tracking-wide bg-[var(--glow)] border border-line text-ink-dim hover:text-ink py-1 px-2.5 transition-all"
+                      className="font-mono text-[10px] tracking-tight bg-[var(--glow)] border border-line text-ink-dim hover:text-ink py-1 px-2.5 transition-all"
                     >
                       {skill}
                     </span>
@@ -380,7 +380,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-ink-faint">03 // TIMELINE</span>
             <div className="h-px flex-1 bg-line" />
-            <h2 className="font-display font-bold text-2xl tracking-wide uppercase text-ink gradient-heading">
+            <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
               Experience & Recognition
             </h2>
           </div>
@@ -393,7 +393,7 @@ export default function Home() {
             <BlurFade delay={0.2}>
               <div className="flex items-center gap-2 pb-4 border-b border-line">
                 <Briefcase className="w-4 h-4 text-ink-dim" />
-                <h3 className="font-display font-bold text-lg tracking-wider text-ink uppercase">
+                <h3 className="font-display font-bold text-lg tracking-tight text-ink lowercase">
                   Professional Experience
                 </h3>
               </div>
@@ -459,7 +459,7 @@ export default function Home() {
             <BlurFade delay={0.2}>
               <div className="flex items-center gap-2 pb-4 border-b border-line">
                 <Award className="w-4 h-4 text-ink-dim" />
-                <h3 className="font-display font-bold text-lg tracking-wider text-ink uppercase">
+                <h3 className="font-display font-bold text-lg tracking-tight text-ink lowercase">
                   Hackathons & Contests
                 </h3>
               </div>
@@ -491,10 +491,10 @@ export default function Home() {
             {/* Subtle center background glow removed (now global) */}
 
             <div className="space-y-4 max-w-xl mx-auto">
-              <span className="font-mono text-[10px] tracking-[0.2em] text-ink-faint uppercase">
+              <span className="font-mono text-[10px] tracking-tight text-ink-faint lowercase">
                 GET IN TOUCH
               </span>
-              <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink gradient-heading">
+              <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tighter text-ink gradient-heading">
                 Let's build something that ships.
               </h2>
               <p className="text-ink-dim text-sm sm:text-base font-light max-w-md mx-auto leading-relaxed">
@@ -507,7 +507,7 @@ export default function Home() {
               {/* Form */}
               <form onSubmit={handleSubmit} className="w-full space-y-4">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="font-mono text-[10px] tracking-widest text-ink-dim uppercase block">Name</label>
+                  <label htmlFor="name" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Name</label>
                   <input
                     type="text"
                     id="name"
@@ -519,7 +519,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="font-mono text-[10px] tracking-widest text-ink-dim uppercase block">Email</label>
+                  <label htmlFor="email" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Email</label>
                   <input
                     type="email"
                     id="email"
@@ -531,7 +531,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="message" className="font-mono text-[10px] tracking-widest text-ink-dim uppercase block">Message</label>
+                  <label htmlFor="message" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Message</label>
                   <textarea
                     id="message"
                     name="message"
@@ -546,7 +546,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-widest font-bold py-4 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-4 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
                 </button>
@@ -565,7 +565,7 @@ export default function Home() {
                   href="https://github.com/rishhbh"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-3 px-6 transition-colors flex items-center justify-center gap-2"
+                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-tight py-3 px-6 transition-colors flex items-center justify-center gap-2"
                 >
                   GITHUB <Code2 className="w-3.5 h-3.5" />
                 </a>
@@ -573,7 +573,7 @@ export default function Home() {
                   href="https://linkedin.com/in/rishabhh-sharma"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-3 px-6 transition-colors flex items-center justify-center gap-2"
+                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-tight py-3 px-6 transition-colors flex items-center justify-center gap-2"
                 >
                   LINKEDIN <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>

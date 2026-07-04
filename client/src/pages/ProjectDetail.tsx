@@ -94,7 +94,7 @@ export default function ProjectDetail() {
         <BlurFade delay={0.2}>
           <Link
             to="/#work"
-            className="inline-flex items-center gap-2 text-ink hover:text-ink-dim font-mono text-xs tracking-wider"
+            className="inline-flex items-center gap-2 text-ink hover:text-ink-dim font-mono text-xs tracking-tight"
           >
             <ArrowLeft className="w-4 h-4" /> RETURN HOME
           </Link>
@@ -119,7 +119,7 @@ export default function ProjectDetail() {
         <BlurFade delay={0.05}>
           <Link
             to="/#work"
-            className="inline-flex items-center gap-2 text-ink-dim hover:text-ink transition-colors font-mono text-xs tracking-widest uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
+            className="inline-flex items-center gap-2 text-ink-dim hover:text-ink transition-colors font-mono text-xs tracking-tight lowercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
           >
             <ArrowLeft className="w-4 h-4" /> Back to work
           </Link>
@@ -129,17 +129,17 @@ export default function ProjectDetail() {
         <header className="space-y-4">
           <BlurFade delay={0.1}>
             {project.result && (
-              <span className="font-mono text-[10px] tracking-wider bg-white/5 border border-line text-ink py-1 px-3 mb-2 inline-block">
+              <span className="font-mono text-[10px] tracking-tight bg-white/5 border border-line text-ink py-1 px-3 mb-2 inline-block">
                 🏆 {project.result.toUpperCase()}
               </span>
             )}
-            <h1 className="font-display font-bold text-4xl sm:text-6xl tracking-tight text-ink gradient-heading">
+            <h1 className="font-display font-bold text-4xl sm:text-6xl tracking-tighter text-ink gradient-heading">
               {project.name}
             </h1>
           </BlurFade>
 
           <BlurFade delay={0.15}>
-            <p className="text-ink-dim font-mono text-xs sm:text-sm tracking-wide leading-relaxed">
+            <p className="text-ink-dim font-mono text-xs sm:text-sm tracking-tight leading-relaxed">
               {project.tagline}
             </p>
           </BlurFade>
@@ -152,12 +152,12 @@ export default function ProjectDetail() {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-widest font-bold py-3.5 px-6 transition-colors flex items-center gap-2"
+              className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-3.5 px-6 transition-colors flex items-center gap-2"
             >
               VIEW CODE <Github className="w-4 h-4" />
             </a>
           ) : (
-            <div className="glass border border-glass-border font-mono text-xs tracking-widest text-ink-faint py-3.5 px-6 flex items-center gap-2">
+            <div className="glass border border-glass-border font-mono text-xs tracking-tight text-ink-faint py-3.5 px-6 flex items-center gap-2">
               PRIVATE REPOSITORY <EyeOff className="w-4 h-4" />
             </div>
           )}
@@ -167,7 +167,7 @@ export default function ProjectDetail() {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-widest py-3.5 px-6 transition-colors flex items-center gap-2"
+              className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-tight py-3.5 px-6 transition-colors flex items-center gap-2"
             >
               VIEW LIVE <Globe className="w-4 h-4" />
             </a>
@@ -185,7 +185,7 @@ export default function ProjectDetail() {
                 return (
                   <div key={imgName} className="w-full aspect-video border border-dashed border-line bg-glass flex flex-col items-center justify-center p-6 text-center space-y-3 hover:bg-glass-strong transition-colors group">
                     <LayoutGrid className="w-6 h-6 text-ink-faint group-hover:text-ink-dim transition-colors" />
-                    <div className="font-mono text-xs text-ink-dim tracking-wider uppercase">
+                    <div className="font-mono text-xs text-ink-dim tracking-tight lowercase">
                       Missing Media
                     </div>
                     <div className="text-[10px] text-ink-faint font-mono truncate max-w-full">
@@ -216,7 +216,7 @@ export default function ProjectDetail() {
             
             {/* Overview */}
             <BlurFade delay={0.3} className="space-y-4">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-ink uppercase pb-2 border-b border-line flex items-center gap-2">
+              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
                 <span className="text-ink-faint">01 //</span> OVERVIEW
               </h2>
               <p className="text-ink-dim text-sm sm:text-base leading-relaxed font-sans font-light">
@@ -226,7 +226,7 @@ export default function ProjectDetail() {
 
             {/* How it works */}
             <BlurFade delay={0.35} className="space-y-6">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-ink uppercase pb-2 border-b border-line flex items-center gap-2">
+              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
                 <span className="text-ink-faint">02 //</span> HOW IT WORKS
               </h2>
               <div className="space-y-4">
@@ -236,7 +236,7 @@ export default function ProjectDetail() {
 
             {/* Key Features */}
             <BlurFade delay={0.4} className="space-y-6">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-ink uppercase pb-2 border-b border-line flex items-center gap-2">
+              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
                 <span className="text-ink-faint">03 //</span> KEY FEATURES
               </h2>
               <ul className="space-y-3 font-sans font-light text-sm sm:text-base text-ink-dim">
@@ -271,14 +271,14 @@ export default function ProjectDetail() {
           {/* Tech stack sidebar (Right 1 col) */}
           <div className="md:border-l md:border-line md:pl-10 space-y-12">
             <BlurFade delay={0.3} className="space-y-4">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-ink uppercase pb-2 border-b border-line flex items-center gap-2">
+              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
                 <span className="text-ink-faint">04 //</span> TECHNOLOGIES
               </h2>
               <div className="flex flex-wrap gap-1.5 pt-2">
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="font-mono text-[10px] tracking-wide bg-white/5 border border-line text-ink-dim py-1.5 px-2.5 transition-colors hover:text-ink hover:border-ink-dim"
+                    className="font-mono text-[10px] tracking-tight bg-white/5 border border-line text-ink-dim py-1.5 px-2.5 transition-colors hover:text-ink hover:border-ink-dim"
                   >
                     {tech}
                   </span>
@@ -288,7 +288,7 @@ export default function ProjectDetail() {
 
             {project.result && (
               <BlurFade delay={0.35} className="space-y-3">
-                <h3 className="font-mono text-xs tracking-[0.2em] text-ink uppercase pb-2 border-b border-line flex items-center gap-2">
+                <h3 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
                   <span className="text-ink-faint">05 //</span> RECOGNITION
                 </h3>
                 <p className="font-sans text-xs text-ink-dim leading-relaxed font-light">

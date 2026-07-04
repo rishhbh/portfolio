@@ -25,7 +25,7 @@ export default function Footer() {
     <footer className="border-t border-line bg-bg py-12 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Credit */}
-        <div className="text-ink-faint text-xs font-mono tracking-wider">
+        <div className="text-ink-faint text-xs font-mono tracking-tight">
           © {currentYear} RISHABH SHARMA. ALL RIGHTS RESERVED.
         </div>
 
@@ -37,7 +37,7 @@ export default function Footer() {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-ink-dim hover:text-ink transition-colors flex items-center gap-2 font-mono text-xs tracking-wider"
+              className="text-ink-dim hover:text-ink transition-colors flex items-center gap-2 font-mono text-xs tracking-tight"
               aria-label={social.name}
             >
               {social.icon}
