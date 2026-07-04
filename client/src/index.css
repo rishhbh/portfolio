@@ -54,8 +54,8 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  * {
-    transition-property: background-color, border-color, color, fill, stroke;
+  body {
+    transition-property: background-color, color;
     transition-duration: 300ms;
     transition-timing-function: ease;
   }
