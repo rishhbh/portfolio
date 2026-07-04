@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, useSpring, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Award, Briefcase, Code2 } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Award, Briefcase } from 'lucide-react';
 import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
+import { TextReveal } from '../components/TextReveal';
 import { SpotlightCard } from '../components/SpotlightCard';
 import { GithubActivity } from '../components/GithubActivity';
 
@@ -124,16 +125,21 @@ export default function Home() {
       company: 'Decoders Entity',
       role: 'Backend Developer Intern',
       duration: 'June 2026 – Present',
-      points: [],
+      points: [
+        "Backend Architecture: Architected and developed the complete backend for HerShield, an AI-powered women's safety platform, using Node.js, Express.js, MongoDB, and Socket.io",
+        "Secure Authentication: Built dual-channel OTP authentication system with phone (D7 Networks SMS) and email (Nodemailer SMTP) verification, bcrypt hashing, and JWT-based stateless auth",
+        "Emergency Pipeline: Engineered a sub-2s SOS emergency pipeline that simultaneously triggers Socket.io guardian alerts, Firebase Cloud Messaging push notifications, and D7 SMS via Promise.allSettled",
+        "Real-Time Tracking: Implemented real-time live location tracking and journey monitoring using Socket.io rooms with guardian fan-out architecture"
+      ],
     },
     {
       company: 'Walk Reward',
       role: 'Software Developer Intern',
       duration: 'Mar 2026 – Apr 2026',
       points: [
-        'Web Development: Built and maintained production websites using the MERN stack and WordPress, including a split-domain architecture with a React SPA and WordPress blog hosted on the same domain.',
-        'CI/CD and Automation: Implemented a CI/CD pipeline using GitHub Actions to automate Vite + React builds and FTP-based deployment to production on every Git push.',
-        'Performance Optimization: Improved website performance using Lighthouse and Chrome DevTools, achieving measurable gains in page load speed, SEO scores, and mobile responsiveness.'
+        'Architecture: Architected a split-domain production setup hosting a React SPA and WordPress blog on the same domain using .htaccess routing and subdirectory configuration.',
+        'CI/CD Pipeline: Built a GitHub Actions CI/CD pipeline automating Vite + React builds and FTP deployment to production on every push to main.',
+        'Performance Optimization: Optimized Web Vitals, SEO, and mobile responsiveness using Lighthouse and Chrome DevTools.'
       ],
     },
     {
@@ -141,10 +147,10 @@ export default function Home() {
       role: 'MERN Developer Intern',
       duration: 'Nov 2025 – Feb 2026',
       points: [
-        'MERN Development: Contributed to the development and maintenance of 2 production-grade MERN applications using TypeScript.',
-        'API Development: Built and maintained RESTful APIs powering a production Chrome extension and web application.',
-        'OAuth & Backend Architecture: Designed 12+ API endpoints across multi-provider OAuth (Google, Microsoft) and dashboard data layers.',
-        'Cross-Functional Collaboration: Collaborated cross-functionally to deliver end-to-end features from backend to deployment.'
+        'Backend Engineering: Solely engineered the backend for an SDR outreach platform across a Chrome extension (LinkedIn/Sales Navigator) and web app using MERN + TypeScript.',
+        'API Development: Engineered 12+ RESTful APIs covering multi-provider OAuth (Google & Microsoft), contact list management, campaign orchestration (Autopilot/Copilot modes), and analytics dashboard data layers.',
+        'Authentication & RBAC: Implemented OAuth 2.0 with session management and org-level RBAC (individual vs. Org-Head).',
+        'Real-Time Sync: Built real-time list sync between extension and web app with bulk contact selection.'
       ],
     },
   ];
@@ -152,7 +158,7 @@ export default function Home() {
   const recognitions = [
     {
       title: '1st Place — Ideas to Impact 2026 Innovation Hackathon',
-      details: 'Awadh Incubation Foundation, KMCLU Lucknow. Built KaushalAI, placing 1st among 50+ teams from 14+ institutions.',
+      details: 'Awadh Incubation Foundation, KMCLU Lucknow. Led a team of 4 to build KaushalAI, placing 1st among 50+ teams from 14+ institutions.',
     },
     {
       title: 'Winner — CodeSprint',
@@ -175,13 +181,13 @@ export default function Home() {
           </div>
         </BlurFade>
 
-        <BlurFade delay={0.2} className="relative">
+        <TextReveal delay={0.2} className="relative w-full">
           <h1 className="font-display font-bold leading-[0.8] tracking-[-0.06em] text-ink relative z-10 gradient-heading pb-4 pt-2" style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}>
             SHAPING CODE.<br />
             SHIPPING CLARITY.
           </h1>
           {/* Subtle background glow block removed (now global) */}
-        </BlurFade>
+        </TextReveal>
 
         <BlurFade delay={0.3} className="max-w-2xl space-y-6">
           <p className="text-ink-dim text-lg sm:text-xl leading-relaxed font-sans font-light">
@@ -221,15 +227,15 @@ export default function Home() {
 
       {/* 2. SELECTED WORK SECTION */}
       <section id="work" className="space-y-12 scroll-mt-24">
-        <BlurFade delay={0.1}>
-          <div className="flex items-center gap-4">
+        <TextReveal delay={0.1} className="w-full">
+          <div className="flex items-center gap-4 pb-2">
             <span className="font-mono text-xs text-ink-faint">01 // PROJECTS</span>
             <div className="h-px flex-1 bg-line" />
             <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
               Selected Work
             </h2>
           </div>
-        </BlurFade>
+        </TextReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project, index) => {
@@ -329,15 +335,15 @@ export default function Home() {
 
       {/* 3. STACK / SKILLS SECTION */}
       <section id="stack" className="space-y-12 scroll-mt-24">
-        <BlurFade delay={0.1}>
-          <div className="flex items-center gap-4">
+        <TextReveal delay={0.1} className="w-full">
+          <div className="flex items-center gap-4 pb-2">
             <span className="font-mono text-xs text-ink-faint">02 // CAPABILITIES</span>
             <div className="h-px flex-1 bg-line" />
             <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
               Core Stack
             </h2>
           </div>
-        </BlurFade>
+        </TextReveal>
 
         <BlurFade delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -376,15 +382,15 @@ export default function Home() {
 
       {/* 4. EXPERIENCE & RECOGNITION */}
       <section id="experience" className="space-y-12 scroll-mt-24">
-        <BlurFade delay={0.1}>
-          <div className="flex items-center gap-4">
+        <TextReveal delay={0.1} className="w-full">
+          <div className="flex items-center gap-4 pb-2">
             <span className="font-mono text-xs text-ink-faint">03 // TIMELINE</span>
             <div className="h-px flex-1 bg-line" />
             <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
               Experience & Recognition
             </h2>
           </div>
-        </BlurFade>
+        </TextReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           
@@ -486,101 +492,82 @@ export default function Home() {
 
       {/* 5. CONTACT SECTION */}
       <section id="contact" className="scroll-mt-24">
-        <BlurFade delay={0.2}>
-          <div className="glass border border-glass-border p-8 sm:p-16 text-center space-y-8 relative overflow-hidden">
-            {/* Subtle center background glow removed (now global) */}
+        <TextReveal delay={0.2} className="w-full">
+          <div className="glass border border-glass-border p-6 sm:p-8 text-center space-y-5 relative overflow-hidden">
 
-            <div className="space-y-4 max-w-xl mx-auto">
-              <span className="font-mono text-[10px] tracking-tight text-ink-faint lowercase">
+            <div className="space-y-1.5 max-w-xl mx-auto">
+              <span className="font-mono text-[10px] tracking-tight text-ink-faint lowercase block">
                 GET IN TOUCH
               </span>
-              <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tighter text-ink gradient-heading">
+              <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tighter text-ink gradient-heading">
                 Let's build something that ships.
               </h2>
-              <p className="text-ink-dim text-sm sm:text-base font-light max-w-md mx-auto leading-relaxed">
+              <p className="text-ink-dim text-xs sm:text-sm font-light max-w-md mx-auto leading-relaxed pt-1">
                 Whether you have an interesting AI routing project or need a robust full-stack architect, let's start the conversation.
               </p>
             </div>
 
-            <div className="flex flex-col items-center gap-10 pt-8 max-w-xl mx-auto text-left">
+            <div className="flex flex-col items-center gap-4 pt-2 max-w-xl mx-auto text-left">
               
               {/* Form */}
-              <form onSubmit={handleSubmit} className="w-full space-y-4">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full bg-bg glass border border-glass-border p-3 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
-                  />
+              <form onSubmit={handleSubmit} className="w-full space-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label htmlFor="name" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label htmlFor="email" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full bg-bg glass border border-glass-border p-3 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
-                  />
-                </div>
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <label htmlFor="message" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Message</label>
                   <textarea
                     id="message"
                     name="message"
                     required
-                    rows={4}
+                    rows={2}
                     value={formData.message}
                     onChange={handleInputChange}
-                    className="w-full bg-bg glass border border-glass-border p-3 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none resize-none"
+                    className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none resize-none"
                   ></textarea>
                 </div>
                 
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-4 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-3 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
                 >
                   {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
                 </button>
 
                 {status === 'success' && (
-                  <p className="font-mono text-xs text-green-500 mt-4 text-center">Message sent successfully!</p>
+                  <p className="font-mono text-xs text-green-500 mt-2 text-center">Message sent successfully!</p>
                 )}
                 {status === 'error' && (
-                  <p className="font-mono text-xs text-red-500 mt-4 text-center">{errorMessage}</p>
+                  <p className="font-mono text-xs text-red-500 mt-2 text-center">{errorMessage}</p>
                 )}
               </form>
-
-              {/* Links */}
-              <div className="flex gap-4 w-full justify-center">
-                <a
-                  href="https://github.com/rishhbh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-tight py-3 px-6 transition-colors flex items-center justify-center gap-2"
-                >
-                  GITHUB <Code2 className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/rishabhh-sharma"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-tight py-3 px-6 transition-colors flex items-center justify-center gap-2"
-                >
-                  LINKEDIN <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
             </div>
           </div>
-        </BlurFade>
+        </TextReveal>
       </section>
 
     </div>

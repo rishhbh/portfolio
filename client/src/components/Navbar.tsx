@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Sun, Moon, Search } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import { useCommandPalette } from '../context/CommandPaletteContext';
+
 
 const navLinks = [
   { name: 'WORK', target: 'work' },
@@ -21,7 +21,6 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const { openPalette } = useCommandPalette();
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -119,13 +118,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`fixed top-6 left-0 right-0 mx-auto w-[calc(100%-3rem)] max-w-6xl z-50 transition-all duration-300 glass border border-glass-border shadow-2xl ${
-        isScrolled
-          ? 'py-3'
-          : 'py-5'
-      }`}
-    >
+    <div className="fixed top-6 left-0 right-0 mx-auto w-[calc(100%-3rem)] max-w-6xl z-50">
+      <nav
+        className={`relative transition-all duration-300 glass border border-glass-border shadow-2xl ${
+          isScrolled
+            ? 'py-3'
+            : 'py-5'
+        }`}
+      >
       <motion.div 
         className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink origin-left z-10"
         style={{ scaleX }}
@@ -139,7 +139,8 @@ export default function Navbar() {
           }}
           className="font-display font-bold text-lg tracking-tight text-ink hover:text-ink-dim transition-colors"
         >
-          RISHABH SHARMA
+          <span className="hidden sm:inline">RISHABH SHARMA</span>
+          <span className="sm:hidden">RISHABH</span>
         </Link>
 
         <div className="flex items-center space-x-4 md:space-x-8">
@@ -174,35 +175,9 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-
-            <a
-              href="https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view?usp=drive_link"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glass hover:bg-glass-strong border border-glass-border text-ink font-mono text-xs tracking-tight py-2 px-4 transition-colors flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
-            >
-              RESUME <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Command Palette Trigger */}
-            <button
-              onClick={openPalette}
-              className="hidden sm:flex items-center gap-2 glass hover:bg-glass-strong border border-glass-border text-ink font-mono text-xs tracking-tight py-2 px-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
-              aria-label="Open command palette"
-            >
-              <Search className="w-3.5 h-3.5" />
-              <span>⌘K</span>
-            </button>
-            <button
-              onClick={openPalette}
-              className="sm:hidden text-ink hover:text-ink-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink p-1.5 transition-colors"
-              aria-label="Open command palette"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
@@ -225,6 +200,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+      </nav>
 
       {/* Mobile Drawer Menu */}
       <AnimatePresence>
@@ -261,21 +237,10 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
-              <motion.a
-                initial={{ x: -12, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: navLinks.length * 0.04 + 0.1, duration: 0.2, ease: 'easeOut' }}
-                href="https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view?usp=drive_link"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass hover:bg-glass-strong border border-glass-border text-ink text-center py-3 px-4 transition-colors flex items-center justify-center gap-2"
-              >
-                RESUME <ArrowUpRight className="w-3.5 h-3.5" />
-              </motion.a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </div>
   );
 }
