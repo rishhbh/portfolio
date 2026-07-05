@@ -1,7 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
-import ProjectDetail from '../pages/ProjectDetail';
+
+const Home = lazy(() => import('../pages/Home'));
+const ProjectDetail = lazy(() => import('../pages/ProjectDetail'));
 
 export function PageTransition() {
   const location = useLocation();
@@ -13,7 +15,9 @@ export function PageTransition() {
           path="/" 
           element={
             <TransitionWrapper>
-              <Home />
+              <Suspense fallback={null}>
+                <Home />
+              </Suspense>
             </TransitionWrapper>
           } 
         />
@@ -21,7 +25,9 @@ export function PageTransition() {
           path="/projects/:slug" 
           element={
             <TransitionWrapper>
-              <ProjectDetail />
+              <Suspense fallback={null}>
+                <ProjectDetail />
+              </Suspense>
             </TransitionWrapper>
           } 
         />
@@ -29,7 +35,9 @@ export function PageTransition() {
           path="*" 
           element={
             <TransitionWrapper>
-              <Home />
+              <Suspense fallback={null}>
+                <Home />
+              </Suspense>
             </TransitionWrapper>
           } 
         />

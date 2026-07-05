@@ -499,7 +499,7 @@ export default function Home() {
               <span className="font-mono text-[10px] tracking-tight text-ink-faint lowercase block">
                 GET IN TOUCH
               </span>
-              <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tighter text-ink gradient-heading">
+              <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tighter text-ink relative z-10 gradient-heading">
                 Let's build something that ships.
               </h2>
               <p className="text-ink-dim text-xs sm:text-sm font-light max-w-md mx-auto leading-relaxed pt-1">
