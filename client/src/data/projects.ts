@@ -60,7 +60,7 @@ export const projects: Project[] = [
     ],
     homeTags: ['TypeScript', 'Express.js', 'AWS EC2', 'GitHub Actions', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/layerzero',
-    liveUrl: 'https://layerzero.uchihamadara3472.workers.dev/',
+    liveUrl: 'https://layerzero.rishhbh.workers.dev',
     images: ['layerzero-one.png', 'layerzero-two.png']
   },
   {
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     homeTags: ['React', 'Node/Express', 'MongoDB', 'Gemini API', 'i18next'],
     result: '1st place, Ideas to Impact 2026 Innovation Hackathon (Awadh Incubation Foundation, KMCLU Lucknow) — beat 50+ teams from 14+ institutions',
     githubUrl: 'https://github.com/rishhbh/kaushal-ai',
-    liveUrl: 'https://thekaushal-ai.vercel.app/',
+    liveUrl: 'https://kaushal-ai.rishhbh.workers.dev/',
     images: ['kaushal.png']
   },
   {

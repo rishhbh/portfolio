@@ -31,7 +31,6 @@ export function CommandPalette() {
       }, 50);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setQuery('');
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedIndex(0);
     } else {
       document.body.style.overflow = '';

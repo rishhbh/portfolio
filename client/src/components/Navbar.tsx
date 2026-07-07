@@ -6,6 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 
 
 const navLinks = [
+  { name: 'ABOUT', target: 'about' },
   { name: 'WORK', target: 'work' },
   { name: 'STACK', target: 'stack' },
   { name: 'EXPERIENCE', target: 'experience' },

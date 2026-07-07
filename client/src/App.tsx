@@ -32,7 +32,7 @@ function App() {
             </AnimatePresence>
 
             {!isBooting && (
-              <div className="flex flex-col min-h-screen text-ink selection:bg-[var(--selection-bg)] selection:text-ink font-sans relative z-0">
+              <div className="flex flex-col min-h-screen text-ink selection:bg-[var(--selection-bg)] selection:text-ink font-sans relative z-0 select-none">
                 <Navbar />
                 <Dock />
                 <main className="flex-grow">

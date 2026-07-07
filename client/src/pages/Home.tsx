@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, useSpring, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Award, Briefcase } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Award, Briefcase, Github, ExternalLink, Check } from 'lucide-react';
 import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
 import { TextReveal } from '../components/TextReveal';
@@ -16,6 +16,17 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const sarcasticMessages = [
+    "wow, you actually pressed send. bold move.",
+    "noted. i'll get to it between deployment failures.",
+    "message received. no promises on the timeline.",
+    "cool, another thing in my backlog.",
+    "sent. i'll read it after i fix this one bug. (it's not one bug.)",
+    "alright, i'll pretend i saw this immediately.",
+    "message delivered. my anxiety noted.",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,13 +44,14 @@ export default function Home() {
 
       if (res.ok) {
         setStatus('success');
+        setSuccessMessage(sarcasticMessages[Math.floor(Math.random() * sarcasticMessages.length)]);
         setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setStatus('idle'), 5000);
+        setTimeout(() => setStatus('idle'), 6000);
       } else {
         setStatus('error');
         setErrorMessage(data.error || 'Something went wrong.');
       }
-    } catch (err) {
+    } catch {
       setStatus('error');
       setErrorMessage('Failed to connect to the server.');
     }
@@ -116,7 +128,7 @@ export default function Home() {
     },
     {
       title: 'AI/ML & Tools',
-      items: ['Ollama', 'Gemma', 'Gemini API', 'Stripe', 'Git/GitHub', 'Chrome DevTools', 'Postman']
+      items: ['Ollama', 'Gemma', 'Gemini API', 'Git/GitHub', 'Chrome DevTools', 'Postman']
     }
   ];
 
@@ -222,6 +234,54 @@ export default function Home() {
           >
             GET IN TOUCH
           </button>
+          <button
+            onClick={() => {
+              document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+            className="glass hover:bg-glass-strong text-ink border border-glass-border font-mono text-xs tracking-tight py-4 px-8 transition-colors"
+          >
+            ABOUT ME
+          </button>
+        </BlurFade>
+      </section>
+
+      {/* 1.5 ABOUT */}
+      <section id="about" className="scroll-mt-24">
+        <BlurFade delay={0.1}>
+          <div className="flex items-center gap-4 pb-4">
+            <span className="font-mono text-xs text-ink-faint">00 // ABOUT</span>
+            <div className="h-px flex-1 bg-line" />
+            <h2 className="font-display font-bold text-2xl tracking-tight lowercase text-ink gradient-heading">
+              About
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            <div className="font-sans text-ink-dim text-lg leading-relaxed font-light max-w-2xl space-y-4">
+              <p>
+                final year B.Tech CSE (AI & ML) at School of Management Sciences, Lucknow. backend-focused software engineer. i build APIs, secure them, containerize them, and then watch AWS EC2 spin up a new instance anyway.
+              </p>
+              <p>
+                i don't memorize syntax. i understand systems. the code almost writes itself once the architecture is clear.
+              </p>
+
+            </div>
+
+            <div className="flex flex-row gap-6">
+              <button 
+                onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className="font-mono text-xs text-ink-dim hover:text-ink underline-offset-4 hover:underline transition-colors flex items-center gap-1"
+              >
+                <ArrowUpRight className="w-3 h-3" /> view my work
+              </button>
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className="font-mono text-xs text-ink-dim hover:text-ink underline-offset-4 hover:underline transition-colors flex items-center gap-1"
+              >
+                <ArrowUpRight className="w-3 h-3" /> get in touch
+              </button>
+            </div>
+          </div>
         </BlurFade>
       </section>
 
@@ -254,19 +314,31 @@ export default function Home() {
                 delay={0.1 + index * 0.12} // Smooth cascade stagger
                 className={gridClass}
               >
-                <SpotlightCard className="group glass bg-glass hover:bg-glass-strong border border-glass-border transition-all duration-300 h-full flex flex-col">
+                <SpotlightCard className="group glass bg-glass hover:bg-glass-strong border border-glass-border transition-all duration-300 h-full flex flex-col relative">
+                  <div className={`absolute top-8 right-8 flex items-center gap-4 z-20 pointer-events-none ${isLayerZero ? 'flex-col' : ''}`}>
+                    {project.githubUrl && (
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-ink-faint hover:text-ink transition-colors pointer-events-auto" aria-label="GitHub">
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-ink-faint hover:text-ink transition-colors pointer-events-auto" aria-label="Live Site">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                    <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-ink transition-colors" />
+                  </div>
                   <Link
                     to={`/projects/${project.slug}`}
                     className={`p-8 h-full flex flex-col relative ${isLayerZero ? 'md:flex-row md:gap-12 md:items-stretch' : 'justify-between'}`}
                   >
-                    <ArrowUpRight className="absolute top-8 right-8 w-4 h-4 text-ink-faint group-hover:text-ink transition-colors" />
 
                     <div className={`space-y-6 ${isLayerZero ? 'md:w-1/2 flex flex-col' : ''}`}>
                       <span className="block font-mono text-[10px] tracking-tight text-ink-faint">
                         PROJECT_0{index + 1}
                       </span>
 
-                      <div className="space-y-2 pr-6">
+                      <div className={`space-y-2 ${isLayerZero ? 'pr-12 md:pr-6' : 'pr-28'}`}>
                         <h3 className="font-display font-bold text-2xl tracking-tighter text-ink group-hover:translate-x-1 transition-transform duration-300">
                           {project.name}
                         </h3>
@@ -299,7 +371,7 @@ export default function Home() {
 
                     {isLayerZero ? (
                       <div className="md:w-1/2 flex flex-col justify-end mt-8 md:mt-0">
-                        <p className="text-ink-faint text-sm sm:text-base leading-relaxed font-sans line-clamp-4 pr-6">
+                        <p className="text-ink-faint text-sm sm:text-base leading-relaxed font-sans line-clamp-4 pr-6 md:pr-12">
                           {project.problem}
                         </p>
                         <div className="flex flex-wrap gap-2 pt-8">
@@ -509,62 +581,68 @@ export default function Home() {
 
             <div className="flex flex-col items-center gap-4 pt-2 max-w-xl mx-auto text-left">
               
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="w-full space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label htmlFor="name" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
-                    />
+              {/* Form or Success State */}
+              {status === 'success' ? (
+                <div className="w-full flex flex-col items-center justify-center py-12 space-y-4">
+                  <Check className="w-8 h-8 text-ink-dim" />
+                  <p className="font-mono text-xs text-ink-dim text-center">
+                    {successMessage}
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="w-full space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <label htmlFor="name" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label htmlFor="email" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
+                      />
+                    </div>
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="email" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
+                    <label htmlFor="message" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Message</label>
+                    <textarea
+                      id="message"
+                      name="message"
                       required
-                      value={formData.email}
+                      rows={5}
+                      value={formData.message}
                       onChange={handleInputChange}
-                      className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none"
-                    />
+                      className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none resize-none"
+                    ></textarea>
                   </div>
-                </div>
-                <div className="space-y-1">
-                  <label htmlFor="message" className="font-mono text-[10px] tracking-tight text-ink-dim lowercase block">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={2}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full bg-bg glass border border-glass-border p-2 text-sm font-sans text-ink focus:outline-none focus:border-ink-dim transition-colors rounded-none resize-none"
-                  ></textarea>
-                </div>
-                
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-3 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
-                >
-                  {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
-                </button>
+                  
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-3 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+                  >
+                    {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
+                  </button>
 
-                {status === 'success' && (
-                  <p className="font-mono text-xs text-green-500 mt-2 text-center">Message sent successfully!</p>
-                )}
-                {status === 'error' && (
-                  <p className="font-mono text-xs text-red-500 mt-2 text-center">{errorMessage}</p>
-                )}
-              </form>
+                  {status === 'error' && (
+                    <p className="font-mono text-xs text-red-500 mt-2 text-center">{errorMessage}</p>
+                  )}
+                </form>
+              )}
             </div>
           </div>
         </TextReveal>
