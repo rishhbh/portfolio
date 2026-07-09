@@ -90,7 +90,7 @@ export const projects: Project[] = [
     homeTags: ['React', 'Node/Express', 'MongoDB', 'Gemini API', 'i18next'],
     result: '1st place, Ideas to Impact 2026 Innovation Hackathon (Awadh Incubation Foundation, KMCLU Lucknow) — beat 50+ teams from 14+ institutions',
     githubUrl: 'https://github.com/rishhbh/kaushal-ai',
-    liveUrl: 'https://kaushal-ai.rishhbh.workers.dev/',
+    liveUrl: 'https://kaushal-ai.pages.dev/',
     images: ['kaushal.png']
   },
   {
