@@ -10,8 +10,8 @@
   --ink-dim: #8a8a8a;
   --ink-faint: #545454;
   --line: rgba(255, 255, 255, 0.09);
-  --glass: rgba(255, 255, 255, 0.035);
-  --glass-strong: rgba(255, 255, 255, 0.06);
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-strong: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.1);
   --selection-bg: rgba(255, 255, 255, 0.15);
   --glow: rgba(255, 255, 255, 0.06);
@@ -97,8 +97,8 @@ body {
 
 /* Glassmorphism utility classes */
 .glass {
-  background: var(--glass);
-  @apply backdrop-blur-[20px];
+  /* background: var(--glass); */
+  @apply backdrop-blur-[25px];
   border: 1px solid var(--glass-border);
 }
 
