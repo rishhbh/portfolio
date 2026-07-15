@@ -4,6 +4,7 @@ import { useLocation, Routes, Route } from 'react-router-dom';
 
 const Home = lazy(() => import('../pages/Home'));
 const ProjectDetail = lazy(() => import('../pages/ProjectDetail'));
+const ResumeManPage = lazy(() => import('../pages/ResumeManPage'));
 
 export function PageTransition() {
   const location = useLocation();
@@ -27,6 +28,16 @@ export function PageTransition() {
             <TransitionWrapper>
               <Suspense fallback={null}>
                 <ProjectDetail />
+              </Suspense>
+            </TransitionWrapper>
+          } 
+        />
+        <Route 
+          path="/resume" 
+          element={
+            <TransitionWrapper>
+              <Suspense fallback={null}>
+                <ResumeManPage />
               </Suspense>
             </TransitionWrapper>
           } 

@@ -12,9 +12,13 @@ import { NoiseOverlay } from './components/NoiseOverlay';
 import { CustomCursor } from './components/CustomCursor';
 import { CommandPalette } from './components/CommandPalette';
 import { Preloader } from './components/Preloader';
-
 function App() {
-  const [isBooting, setIsBooting] = useState(true);
+  const [isBooting, setIsBooting] = useState(() => !sessionStorage.getItem('hasBooted'));
+
+  const handleBootComplete = () => {
+    setIsBooting(false);
+    sessionStorage.setItem('hasBooted', 'true');
+  };
 
   return (
     <ThemeProvider>
@@ -80,7 +84,7 @@ function App() {
 
             <AnimatePresence mode="wait">
               {isBooting ? (
-                <Preloader key="preloader" onComplete={() => setIsBooting(false)} />
+                <Preloader key="preloader" onComplete={handleBootComplete} />
               ) : null}
             </AnimatePresence>
 

@@ -4,14 +4,15 @@
 
 :root {
   /* Dark Mode (default) */
-  --bg: #080808;
-  --bg-soft: #0f0f0f;
-  --ink: #f5f5f5;
-  --ink-dim: #8a8a8a;
-  --ink-faint: #545454;
-  --line: rgba(255, 255, 255, 0.09);
+  --bg: #000000;           /* Deepest black for the absolute background */
+  --bg-soft: #0c0c0c;      /* Slightly lighter for terminal windows */
+  --bg-softer: #161616;    /* For inner elements or hover states */
+  --ink: #fcfcfc;          /* Brightest white for primary text */
+  --ink-dim: #a1a1aa;      /* Soft zinc for secondary text */
+  --ink-faint: #52525b;    /* Muted zinc for tertiary text */
+  --line: rgba(255, 255, 255, 0.08);
   --glass: rgba(255, 255, 255, 0.03);
-  --glass-strong: rgba(255, 255, 255, 0.03);
+  --glass-strong: rgba(255, 255, 255, 0.06);
   --glass-border: rgba(255, 255, 255, 0.1);
   --selection-bg: rgba(255, 255, 255, 0.15);
   --glow: rgba(255, 255, 255, 0.06);
@@ -22,12 +23,13 @@
 
 html.light {
   /* Light Mode */
-  --bg: #f9f9f9;
-  --bg-soft: #f0f0f0;
-  --ink: #111111;
-  --ink-dim: #666666;
-  --ink-faint: #999999;
-  --line: rgba(0, 0, 0, 0.09);
+  --bg: #f4f4f5;           /* Soft zinc background */
+  --bg-soft: #ffffff;      /* Pure white for terminal windows */
+  --bg-softer: #e4e4e7;    /* For inner elements or hover states */
+  --ink: #09090b;          /* Pure black for primary text */
+  --ink-dim: #52525b;      /* Dark zinc for secondary text */
+  --ink-faint: #a1a1aa;    /* Muted zinc for tertiary text */
+  --line: rgba(0, 0, 0, 0.08);
   --glass: rgba(0, 0, 0, 0.035);
   --glass-strong: rgba(0, 0, 0, 0.06);
   --glass-border: rgba(0, 0, 0, 0.1);
@@ -119,3 +121,23 @@ body {
   background: var(--selection-bg);
   color: var(--ink);
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

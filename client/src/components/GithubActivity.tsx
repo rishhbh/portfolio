@@ -1,7 +1,6 @@
 import React from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
 import { useTheme } from '../context/ThemeContext';
-import { SpotlightCard } from './SpotlightCard';
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
@@ -27,15 +26,15 @@ export function GithubActivity() {
   // Custom grayscale theme matching the site's brutalist aesthetic
   const explicitTheme = {
     light: ['#e5e5e5', '#cccccc', '#999999', '#666666', '#111111'],
-    dark: ['#111111', '#333333', '#666666', '#999999', '#ffffff'],
+    dark: ['#111111', '#444444', '#777777', '#aaaaaa', '#ffffff'],
   };
 
   return (
     <ErrorBoundary>
-      <SpotlightCard className="glass border border-glass-border p-6 space-y-6 relative overflow-hidden mt-6">
-        <h3 className="font-display font-bold text-sm tracking-tight text-ink lowercase border-b border-line pb-2">
-          Contribution Activity
-        </h3>
+      <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 font-mono text-xs sm:text-sm shadow-2xl overflow-hidden mt-6">
+        <div className="text-ink-dim mb-8">
+          <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">curl -s https://api.github.com/users/rishhbh/activity | grep commits</span>
+        </div>
         
         <div className="w-full overflow-x-auto scrollbar-none pb-2 cursor-grab active:cursor-grabbing">
           <div className="min-w-max text-ink-dim font-mono text-[10px] tracking-tight">
@@ -50,7 +49,7 @@ export function GithubActivity() {
             />
           </div>
         </div>
-      </SpotlightCard>
+      </div>
     </ErrorBoundary>
   );
 }

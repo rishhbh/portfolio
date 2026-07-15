@@ -3,35 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCommandPalette } from '../context/CommandPaletteContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Search, Monitor, ArrowRight, FileText, Github, Linkedin, Sun, Moon } from 'lucide-react';
-
-interface PaletteItem {
-  id: string;
-  title: string;
-  category: 'Sections' | 'Projects' | 'Links' | 'Actions';
-  icon?: React.ReactNode;
-  action: () => void;
-}
+import { useSound } from '../hooks/useSound';
 
 export function CommandPalette() {
   const { isOpen, closePalette } = useCommandPalette();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const [query, setQuery] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [input, setInput] = useState('');
+  const [history, setHistory] = useState<{ type: 'command' | 'output'; text: string; }[]>([
+    { type: 'output', text: 'Terminal v1.0.0. Type "help" for a list of available commands.' }
+  ]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const { playKeystroke, playBeep } = useSound();
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 50);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setQuery('');
-      setSelectedIndex(0);
+      setTimeout(() => inputRef.current?.focus(), 50);
     } else {
       document.body.style.overflow = '';
     }
@@ -40,88 +30,118 @@ export function CommandPalette() {
     };
   }, [isOpen]);
 
-  const handleScrollToSection = (target: string) => {
-    closePalette();
-    if (location.pathname === '/') {
-      const element = document.getElementById(target);
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      navigate('/#' + target);
-      // Let the Navbar's existing logic handle smooth scrolling on route change if implemented,
-      // or the browser will jump to the anchor.
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView();
     }
-  };
+  }, [history, isOpen]);
 
-  const handleNavigateProject = (slug: string) => {
-    closePalette();
-    navigate(`/projects/${slug}`);
-  };
+  const handleCommand = (cmd: string) => {
+    const trimmed = cmd.trim();
+    if (!trimmed) return;
 
-  const handleExternalLink = (url: string) => {
-    closePalette();
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+    setHistory(prev => [...prev, { type: 'command', text: trimmed }]);
+    const args = trimmed.split(' ');
+    const command = args[0].toLowerCase();
 
-  const items: PaletteItem[] = [
-    { id: 'sec-work', title: 'Work', category: 'Sections', icon: <Monitor className="w-4 h-4" />, action: () => handleScrollToSection('work') },
-    { id: 'sec-stack', title: 'Stack', category: 'Sections', icon: <Monitor className="w-4 h-4" />, action: () => handleScrollToSection('stack') },
-    { id: 'sec-exp', title: 'Experience', category: 'Sections', icon: <Monitor className="w-4 h-4" />, action: () => handleScrollToSection('experience') },
-    { id: 'sec-contact', title: 'Contact', category: 'Sections', icon: <Monitor className="w-4 h-4" />, action: () => handleScrollToSection('contact') },
-    
-    { id: 'proj-lz', title: 'LayerZero', category: 'Projects', icon: <ArrowRight className="w-4 h-4" />, action: () => handleNavigateProject('layerzero') },
-    { id: 'proj-ka', title: 'KaushalAI', category: 'Projects', icon: <ArrowRight className="w-4 h-4" />, action: () => handleNavigateProject('kaushal-ai') },
-    { id: 'proj-ds', title: 'DeepSynth', category: 'Projects', icon: <ArrowRight className="w-4 h-4" />, action: () => handleNavigateProject('deepsynth') },
-    { id: 'proj-calc', title: 'Calculator', category: 'Projects', icon: <ArrowRight className="w-4 h-4" />, action: () => handleNavigateProject('calculator') },
+    const addOutput = (text: string) => {
+      setHistory(prev => [...prev, { type: 'output', text }]);
+    };
 
-    { id: 'link-res', title: 'Resume', category: 'Links', icon: <FileText className="w-4 h-4" />, action: () => handleExternalLink('https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view?usp=drive_link') },
-    { id: 'link-git', title: 'GitHub', category: 'Links', icon: <Github className="w-4 h-4" />, action: () => handleExternalLink('https://github.com/rishhbh') },
-    { id: 'link-lin', title: 'LinkedIn', category: 'Links', icon: <Linkedin className="w-4 h-4" />, action: () => handleExternalLink('https://linkedin.com/in/rishabhh-sharma') },
-
-    { id: 'act-theme', title: `Toggle Theme (${theme === 'dark' ? 'Light' : 'Dark'})`, category: 'Actions', icon: theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />, action: () => { toggleTheme(); closePalette(); } }
-  ];
-
-  const filteredItems = items.filter(item => item.title.toLowerCase().includes(query.toLowerCase()));
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSelectedIndex(0);
-  }, [query]);
-
-  useEffect(() => {
-    if (listRef.current) {
-      const selectedEl = listRef.current.querySelector('[aria-selected="true"]') as HTMLElement;
-      if (selectedEl) {
-        selectedEl.scrollIntoView({ block: 'nearest' });
+    switch (command) {
+      case 'help':
+        addOutput('Available commands:');
+        addOutput('  ls         - List available directories/projects');
+        addOutput('  cd <dir>   - Navigate to section (e.g., cd work)');
+        addOutput('  cat <file> - Open a file (e.g., cat resume.md)');
+        addOutput('  theme      - Toggle light/dark mode');
+        addOutput('  clear      - Clear terminal window');
+        addOutput('  exit       - Close terminal');
+        break;
+      case 'ls':
+        addOutput('Directories: work/  stack/  experience/  contact/');
+        addOutput('Projects:    layerzero/  kaushal-ai/  deepsynth/  calculator/');
+        addOutput('Files:       resume.md');
+        break;
+      case 'clear':
+        setHistory([]);
+        break;
+      case 'exit':
+        closePalette();
+        break;
+      case 'theme':
+        toggleTheme();
+        addOutput(`Theme switched to ${theme === 'dark' ? 'light' : 'dark'} mode.`);
+        break;
+      case 'cat':
+        if (args[1] === 'resume.md') {
+          addOutput('Opening man page...');
+          setTimeout(() => {
+            closePalette();
+            navigate('/resume');
+          }, 400);
+        } else if (args[1] === 'resume.pdf') {
+            addOutput('Opening PDF...');
+            setTimeout(() => {
+              closePalette();
+              window.open('https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view', '_blank');
+            }, 400);
+        } else {
+          addOutput(`cat: ${args[1] || ''}: No such file or directory`);
+        }
+        break;
+      case 'cd': {
+        const target = args[1];
+        if (!target) {
+          addOutput('cd: missing argument');
+          break;
+        }
+        const sections = ['work', 'stack', 'experience', 'contact'];
+        const projects = ['layerzero', 'kaushal-ai', 'deepsynth', 'calculator'];
+        
+        if (sections.includes(target)) {
+          addOutput(`Navigating to /${target}...`);
+          setTimeout(() => {
+            closePalette();
+            if (location.pathname === '/') {
+              document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              navigate('/#' + target);
+            }
+          }, 400);
+        } else if (projects.includes(target)) {
+          addOutput(`Opening project /${target}...`);
+          setTimeout(() => {
+            closePalette();
+            navigate(`/projects/${target}`);
+          }, 400);
+        } else {
+          addOutput(`cd: ${target}: No such file or directory`);
+        }
+        break;
       }
+      default:
+        addOutput(`command not found: ${command}`);
     }
-  }, [selectedIndex, filteredItems.length]);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    playKeystroke();
     if (e.key === 'Escape') {
       e.preventDefault();
       closePalette();
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setSelectedIndex(prev => (prev + 1) % filteredItems.length);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setSelectedIndex(prev => (prev - 1 + filteredItems.length) % filteredItems.length);
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (filteredItems[selectedIndex]) {
-        filteredItems[selectedIndex].action();
-      }
-    } else if (e.key === 'Tab') {
-      e.preventDefault(); // Trap focus
+      playBeep();
+      handleCommand(input);
+      setInput('');
     }
   };
-
-  const categories = ['Sections', 'Projects', 'Links', 'Actions'] as const;
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8" role="dialog" aria-modal="true">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -136,69 +156,46 @@ export function CommandPalette() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="relative w-full max-w-xl bg-bg border border-line overflow-hidden flex flex-col max-h-[60vh] shadow-2xl shadow-black/20"
-            onKeyDown={handleKeyDown}
+            className="relative w-full max-w-3xl bg-bg border border-line overflow-hidden flex flex-col h-[70vh] shadow-2xl shadow-black/40 font-mono text-sm"
           >
-            <div className="flex items-center px-4 border-b border-line bg-glass">
-              <Search className="w-5 h-5 text-ink-dim mr-3 shrink-0" />
-              <input
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                placeholder="Search projects, sections, links..."
-                className="w-full bg-transparent border-none text-ink placeholder:text-ink-dim font-mono text-base py-4 outline-none"
-                aria-label="Command Palette Search"
-              />
-              <div className="text-[10px] font-mono text-ink-faint border border-line px-1.5 py-0.5 rounded-sm">ESC</div>
+            {/* Terminal Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-bg-soft">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80 cursor-pointer" onClick={closePalette} />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              </div>
+              <div className="text-xs text-ink-dim tracking-wider font-bold">guest@portfolio:~</div>
+              <div className="text-[10px] text-ink-faint border border-line px-1.5 py-0.5 rounded-sm bg-bg">ESC</div>
             </div>
 
-            <div ref={listRef} className="overflow-y-auto p-2 flex-grow">
-              {filteredItems.length === 0 ? (
-                <div className="py-8 text-center text-ink-faint font-mono text-xs">
-                  No results found for "{query}"
-                </div>
-              ) : (
-                categories.map(category => {
-                  const categoryItems = filteredItems.filter(i => i.category === category);
-                  if (categoryItems.length === 0) return null;
-                  
-                  return (
-                    <div key={category} className="mb-4 last:mb-0">
-                      <div className="px-3 py-2 text-xs font-mono tracking-tight text-ink-dim lowercase">
-                        {category}
-                      </div>
-                      <div className="space-y-0.5">
-                        {categoryItems.map(item => {
-                          const globalIndex = filteredItems.findIndex(i => i.id === item.id);
-                          const isSelected = globalIndex === selectedIndex;
-                          
-                          return (
-                            <button
-                              key={item.id}
-                              role="option"
-                              aria-selected={isSelected}
-                              onClick={() => item.action()}
-                              onMouseEnter={() => setSelectedIndex(globalIndex)}
-                              className={`w-full flex items-center px-3 py-3 font-mono text-sm text-left transition-colors ${
-                                isSelected 
-                                  ? 'bg-glass-strong text-ink border-l-2 border-ink' 
-                                  : 'text-ink-dim hover:text-ink border-l-2 border-transparent hover:bg-glass'
-                              }`}
-                            >
-                              <span className="mr-3 text-ink-faint flex-shrink-0">{item.icon}</span>
-                              <span className="truncate">{item.title}</span>
-                              {isSelected && (
-                                <ArrowRight className="w-3 h-3 ml-auto text-ink-faint" />
-                              )}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })
-              )}
+            {/* Terminal Body */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-bg text-ink-dim" onClick={() => inputRef.current?.focus()}>
+              <div className="space-y-2 mb-2">
+                {history.map((line, i) => (
+                  <div key={i} className={line.type === 'command' ? 'text-ink mt-4' : 'whitespace-pre-wrap leading-relaxed'}>
+                    {line.type === 'command' && (
+                      <span className="text-green-500/70 mr-2">guest@portfolio:~$</span>
+                    )}
+                    {line.text}
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center text-ink mt-4">
+                <span className="text-green-500/70 mr-2 shrink-0">guest@portfolio:~$</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="w-full bg-transparent border-none outline-none text-ink caret-ink placeholder:text-ink-faint/30"
+                  spellCheck={false}
+                  autoComplete="off"
+                  placeholder="Type a command..."
+                />
+              </div>
+              <div ref={bottomRef} className="h-4" />
             </div>
           </motion.div>
         </div>

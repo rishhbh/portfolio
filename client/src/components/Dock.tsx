@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Github, Linkedin, FileText, Mail, Search } from 'lucide-react';
+import { Home, User, Briefcase, Layers, Activity, Github, Linkedin, FileText, Mail, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCommandPalette } from '../context/CommandPaletteContext';
 
 const dockLinks = [
   { name: 'Home', icon: <Home className="w-[18px] h-[18px]" />, target: '/' },
+  { name: 'About', icon: <User className="w-[18px] h-[18px]" />, target: 'about' },
+  { name: 'Work', icon: <Briefcase className="w-[18px] h-[18px]" />, target: 'work' },
+  { name: 'Stack', icon: <Layers className="w-[18px] h-[18px]" />, target: 'stack' },
+  { name: 'Experience', icon: <Activity className="w-[18px] h-[18px]" />, target: 'experience' },
+  { name: 'Contact', icon: <Mail className="w-[18px] h-[18px]" />, target: 'contact' },
   { name: 'Search', icon: <Search className="w-[18px] h-[18px]" />, action: 'search' },
   { name: 'GitHub', icon: <Github className="w-[18px] h-[18px]" />, href: 'https://github.com/rishhbh' },
   { name: 'LinkedIn', icon: <Linkedin className="w-[18px] h-[18px]" />, href: 'https://linkedin.com/in/rishabhh-sharma' },
   { name: 'Resume', icon: <FileText className="w-[18px] h-[18px]" />, href: 'https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view?usp=drive_link' },
-  { name: 'Contact', icon: <Mail className="w-[18px] h-[18px]" />, target: 'contact' },
 ];
 
 export default function Dock() {
@@ -52,7 +56,7 @@ export default function Dock() {
       initial={{ y: 50, opacity: 0, x: '-50%' }}
       animate={{ y: 0, opacity: 1, x: '-50%' }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="fixed bottom-8 left-1/2 z-[100] glass border border-glass-border shadow-2xl flex items-center p-1.5 md:p-2 gap-1 md:gap-2 transform-gpu"
+      className="fixed bottom-8 left-1/2 z-[100] glass border border-glass-border shadow-2xl flex items-center p-1.5 md:p-2 gap-1 md:gap-2 transform-gpu max-w-[calc(100vw-2rem)] overflow-x-auto no-scrollbar"
     >
       {dockLinks.map((link) => {
         const isAction = !!link.href;
@@ -61,7 +65,7 @@ export default function Dock() {
         const content = (
           <div 
             className={`relative p-3 md:p-3.5 transition-colors flex items-center justify-center ${
-              isHovered ? 'bg-glass-strong text-ink' : 'text-ink-dim hover:text-ink hover:bg-glass'
+              isHovered ? 'bg-glass-strong text-ink' : 'text-ink-dim hover:text-ink hover:bg-bg-softer'
             }`}
             onMouseEnter={() => setHoveredLink(link.name)}
             onMouseLeave={() => setHoveredLink(null)}
