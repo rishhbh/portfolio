@@ -54,8 +54,8 @@ export default function Home() {
     if (e.key === 'Escape') {
       setVimMode('NORMAL');
       setVimCommand('');
-      if (document.activeElement instanceof HTMLElement) {
-        document.activeElement.blur();
+      if (formRef.current) {
+        formRef.current.focus();
       }
     } else if (vimMode === 'NORMAL' && e.key === ':') {
       setVimMode('COMMAND');
@@ -192,14 +192,17 @@ export default function Home() {
     {
       title: '1st Place — Ideas to Impact 2026 Innovation Hackathon',
       details: 'Awadh Incubation Foundation, KMCLU Lucknow. Led a team of 4 to build KaushalAI, placing 1st among 50+ teams from 14+ institutions.',
+      type: 'Achievement / Hackathon',
     },
     {
       title: 'Winner — CodeSprint',
-      details: 'School of Management Sciences, Lucknow. Solved within 15 minutes of a 1-hour window.',
+      details: 'School of Management Sciences, Lucknow. DSA coding round, solved within 15 minutes of a 1-hour window.',
+      type: 'Achievement / Coding',
     },
     {
       title: 'First Runner Up — Design Dynamics, Ingenuity 2k24',
-      details: 'SMS Lucknow. UI/UX design for hybrid education and student mental health support.',
+      details: 'SMS Lucknow. UI/UX designing for hybrid education and student mental health support.',
+      type: 'Achievement / UI/UX Design',
     },
   ];
 
@@ -302,7 +305,7 @@ export default function Home() {
           <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 relative overflow-hidden shadow-2xl font-mono text-xs sm:text-sm">
             
             <div className="flex flex-col md:flex-row gap-8">
-              {/* Fake ASCII Logo (like neofetch) */}
+              {/* Fake ASCII Logo (like fastfetch) */}
               <div className="hidden md:block text-ink-faint leading-[1.1] whitespace-pre select-none">
 {`   _____ 
   / __  \\
@@ -317,7 +320,7 @@ export default function Home() {
               {/* System Specs */}
               <div className="flex-1 space-y-6">
                 <div>
-                  <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">neofetch --user rishabh</span>
+                  <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">fastfetch --user rishabh</span>
                 </div>
                 
                 <div className="space-y-1 text-ink-dim">
@@ -610,7 +613,7 @@ export default function Home() {
                   
                   <div className="space-y-3 pb-8 flex-1">
                     <div className="text-yellow-500/80">tag {award.title.split(' ')[0].toLowerCase()}-{((index + 1) * 12345).toString(16).slice(0, 4)}</div>
-                    <div><span className="text-ink-faint">Type:</span>  Achievement / Hackathon</div>
+                    <div><span className="text-ink-faint">Type:</span>  {award.type}</div>
                     
                     <div className="pt-4 pl-4 space-y-2">
                       <div className="font-bold text-ink">
@@ -667,8 +670,9 @@ export default function Home() {
                 <form 
                   ref={formRef}
                   onSubmit={handleSubmit} 
-                  className="w-full flex flex-col border border-glass-border bg-bg-soft"
+                  className="w-full flex flex-col border border-glass-border bg-bg-soft outline-none focus:ring-1 focus:ring-glass-border"
                   onKeyDownCapture={handleVimKeydown}
+                  tabIndex={-1}
                 >
                   <div className="bg-bg border-b border-glass-border px-4 py-1 text-xs text-ink-dim flex justify-between">
                     <span>~ contact.txt</span>

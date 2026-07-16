@@ -64,7 +64,7 @@ export const projects: Project[] = [
     images: ['layerzero-one.png', 'layerzero-two.png']
   },
   {
-    slug: 'kaushalai',
+    slug: 'kaushal-ai',
     name: 'KaushalAI',
     tagline: 'AI-powered job marketplace for India\'s informal workforce',
     problem: 'Informal-sector workers lack digital tools to prove their skills or get matched to employers, especially across language barriers.',

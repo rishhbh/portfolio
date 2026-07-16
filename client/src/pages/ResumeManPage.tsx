@@ -38,10 +38,10 @@ export default function ResumeManPage() {
           <h2 className="font-bold mb-4 uppercase">Description</h2>
           <div className="pl-8 sm:pl-12 space-y-4">
             <p>
-              <strong>rishabh</strong> is a highly motivated software engineer with a strong foundation in backend architecture, containerization, and artificial intelligence. He specializes in designing robust APIs, optimizing database performance, and seamlessly integrating machine learning models into production systems.
+              <strong>rishabh</strong> is a software engineer focusing on backend architecture and intelligent interfaces. He specializes in combining large language model capabilities with secure, rate-limited application layers that perform at scale.
             </p>
             <p>
-              Currently completing his B.Tech in CSE (AI & ML) at the School of Management Sciences, Lucknow (2021-2025). He recently won the "Ideas to Impact 2026" hackathon with KaushalAI.
+              He is currently a final-year B.Tech CSE (AI & ML) student at the School of Management Sciences, Lucknow.
             </p>
           </div>
         </section>
@@ -50,23 +50,34 @@ export default function ResumeManPage() {
           <h2 className="font-bold mb-4 uppercase">Experience</h2>
           
           <div className="pl-8 sm:pl-12 mb-6">
-            <div className="font-bold">KaushalAI - Lead Backend Developer</div>
-            <div className="text-ink-dim text-sm italic mb-2">May 2024 - Present</div>
+            <div className="font-bold">Decoders Entity - Backend Developer Intern</div>
+            <div className="text-ink-dim text-sm italic mb-2">June 2026 - Present</div>
             <ul className="list-[square] list-inside space-y-2 ml-4">
-              <li>Architected the primary RESTful API using Node.js and Express.</li>
-              <li>Integrated Python-based ML models via microservices and message queues.</li>
-              <li>Reduced query latency by 40% through MongoDB indexing and Redis caching.</li>
-              <li>Led a team of 4 to win the national "Ideas to Impact 2026" hackathon.</li>
+              <li>Architected and developed the complete backend for HerShield using Node.js, Express.js, MongoDB, and Socket.io.</li>
+              <li>Built dual-channel OTP authentication system with phone and email verification, bcrypt hashing, and JWT.</li>
+              <li>Engineered a sub-2s SOS emergency pipeline triggering Socket.io alerts, Firebase push notifications, and SMS.</li>
+              <li>Implemented real-time live location tracking using Socket.io rooms.</li>
             </ul>
           </div>
 
           <div className="pl-8 sm:pl-12 mb-6">
-            <div className="font-bold">LayerZero - Core Maintainer</div>
-            <div className="text-ink-dim text-sm italic mb-2">Jan 2024 - Apr 2024</div>
+            <div className="font-bold">Walk Reward - Software Developer Intern</div>
+            <div className="text-ink-dim text-sm italic mb-2">Mar 2026 - Apr 2026</div>
             <ul className="list-[square] list-inside space-y-2 ml-4">
-              <li>Developed a high-throughput webhook processing engine processing 1k req/sec.</li>
-              <li>Implemented comprehensive test coverage using Jest and Supertest.</li>
-              <li>Containerized the application using Docker, simplifying the deployment pipeline.</li>
+              <li>Architected a split-domain production setup hosting a React SPA and WordPress blog on the same domain.</li>
+              <li>Built a GitHub Actions CI/CD pipeline automating Vite + React builds and FTP deployment.</li>
+              <li>Optimized Web Vitals, SEO, and mobile responsiveness using Lighthouse and Chrome DevTools.</li>
+            </ul>
+          </div>
+
+          <div className="pl-8 sm:pl-12 mb-6">
+            <div className="font-bold">RevLabz Solutions - MERN Developer Intern</div>
+            <div className="text-ink-dim text-sm italic mb-2">Nov 2025 - Feb 2026</div>
+            <ul className="list-[square] list-inside space-y-2 ml-4">
+              <li>Engineered the backend for an SDR outreach platform across a Chrome extension and web app using MERN + TypeScript.</li>
+              <li>Engineered 12+ RESTful APIs covering multi-provider OAuth, contact list management, and campaign orchestration.</li>
+              <li>Implemented OAuth 2.0 with session management and org-level RBAC.</li>
+              <li>Built real-time list sync between extension and web app with bulk contact selection.</li>
             </ul>
           </div>
         </section>
@@ -76,16 +87,19 @@ export default function ResumeManPage() {
           <div className="pl-8 sm:pl-12">
             <dl className="grid grid-cols-1 sm:grid-cols-4 gap-4">
               <dt className="font-bold">LANGUAGES</dt>
-              <dd className="sm:col-span-3">JavaScript, TypeScript, Python, C++, SQL, Bash</dd>
+              <dd className="sm:col-span-3">TypeScript, JavaScript, Python, C</dd>
               
-              <dt className="font-bold">FRAMEWORKS</dt>
-              <dd className="sm:col-span-3">Node.js, Express, React, Next.js, FastAPI</dd>
+              <dt className="font-bold">FRONTEND</dt>
+              <dd className="sm:col-span-3">React.js, Tailwind CSS, Zustand, i18next</dd>
               
-              <dt className="font-bold">DATABASES</dt>
-              <dd className="sm:col-span-3">MongoDB, PostgreSQL, Redis, Supabase</dd>
+              <dt className="font-bold">BACKEND & APIs</dt>
+              <dd className="sm:col-span-3">Node.js, Express.js, REST APIs, OAuth 2.0, JWT, Auth0</dd>
               
-              <dt className="font-bold">TOOLS</dt>
-              <dd className="sm:col-span-3">Docker, Git, AWS (EC2, S3), Linux, Nginx</dd>
+              <dt className="font-bold">DEVOPS & INFRA</dt>
+              <dd className="sm:col-span-3">AWS EC2, Docker, GitHub Actions, Cloudflare Pages/Workers, Linux</dd>
+              
+              <dt className="font-bold">DATABASES & AI</dt>
+              <dd className="sm:col-span-3">MongoDB, Redis, Ollama, Gemma, Gemini API</dd>
             </dl>
           </div>
         </section>
@@ -107,7 +121,7 @@ export default function ResumeManPage() {
         <section className="mb-8">
           <h2 className="font-bold mb-4 uppercase">See Also</h2>
           <div className="pl-8 sm:pl-12">
-            <p>layerzero(1), kaushal-ai(1), deepsynth(1)</p>
+            <p>hershield(1), kaushal-ai(1), layerzero(1)</p>
           </div>
         </section>
 
