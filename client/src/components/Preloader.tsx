@@ -90,7 +90,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
               {log}
             </div>
           ))}
-          <div ref={bottomRef} />the
+          <div ref={bottomRef} />
         </div>
       </div>
     </motion.div>
