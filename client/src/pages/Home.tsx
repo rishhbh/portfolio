@@ -155,6 +155,11 @@ export default function Home() {
 
   const internships = [
     {
+      company: 'foundertruth',
+      role: 'SDE & Tech Lead Intern',
+      duration: 'Jul 2026 – Present',
+    },
+    {
       company: 'Decoders Entity',
       role: 'Backend Developer Intern',
       duration: 'June 2026 – Present',
