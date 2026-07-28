@@ -158,16 +158,20 @@ export default function Home() {
       company: 'foundertruth',
       role: 'SDE & Tech Lead Intern',
       duration: 'Jul 2026 – Present',
+      points: [
+        "Authentication System: Built a JWT authentication system for foundertruth using Node.js, Express.js, and MongoDB, with access/refresh token rotation, hashed token storage, and email verification via Resend, tested across all endpoints.",
+        "Backend Architecture: Structured the backend into 15+ Mongoose models covering user management, incubator programs, and community features, with centralized error handling and Docker deployment."
+      ],
     },
     {
       company: 'Decoders Entity',
       role: 'Backend Developer Intern',
-      duration: 'June 2026 – Present',
+      duration: 'Jun 2026 – Present',
       points: [
-        "Backend Architecture: Architected and developed the complete backend for HerShield, an AI-powered women's safety platform, using Node.js, Express.js, MongoDB, and Socket.io",
-        "Secure Authentication: Built dual-channel OTP authentication system with phone (D7 Networks SMS) and email (Nodemailer SMTP) verification, bcrypt hashing, and JWT-based stateless auth",
-        "Emergency Pipeline: Engineered a sub-2s SOS emergency pipeline that simultaneously triggers Socket.io guardian alerts, Firebase Cloud Messaging push notifications, and D7 SMS via Promise.allSettled",
-        "Real-Time Tracking: Implemented real-time live location tracking and journey monitoring using Socket.io rooms with guardian fan-out architecture"
+        "Backend Architecture: Architected the complete backend for HerShield, an AI-powered women's safety platform using Node.js, Express.js, MongoDB, and Socket.io with 15+ REST API modules.",
+        "Emergency Pipeline: Engineered a sub-2s SOS emergency pipeline with dual-channel OTP auth (D7 Networks SMS + Nodemailer SMTP), simultaneously triggering Socket.io alerts, Firebase FCM push, and D7 SMS via Promise.allSettled.",
+        "Real-Time Tracking: Implemented real-time live location tracking with Socket.io rooms at less than 500ms latency and geospatial community alerts using MongoDB 2dsphere indexing and Google Places API.",
+        "Features & Deployment: Built encrypted evidence capture with Cloudinary AES-256 storage, guardian network with three-channel alert fan-out, safety check-in cron escalation, admin panel with aggregation-based analytics dashboard, and Docker-based deployment."
       ],
     },
     {
