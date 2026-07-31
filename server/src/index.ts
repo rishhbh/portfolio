@@ -31,10 +31,19 @@ app.use(cors({
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
 app.use('/api/contact', contactLimiter, contactRouter);
 
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "API is running properly",
+    uptime: Math.floor(process.uptime()) + " seconds"
+  });
+});
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on: http://localhost:${PORT}`);
 });
