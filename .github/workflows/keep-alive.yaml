@@ -1,0 +1,13 @@
+name: \[CRON] Keep Render Instance Alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes
+  workflow_dispatch:         # lets you trigger it manually too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render service
+        run: curl -sf https://portfolio-mnme.onrender.com/|| echo "Ping failed"
