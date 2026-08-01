@@ -156,11 +156,11 @@ export default function Home() {
   const internships = [
     {
       company: 'foundertruth',
-      role: 'SDE & Tech Lead Intern',
+      role: 'SDE Intern & Tech Lead',
       duration: 'Jul 2026 – Present',
       points: [
-        "Authentication System: Built a JWT authentication system for foundertruth using Node.js, Express.js, and MongoDB, with access/refresh token rotation, hashed token storage, and email verification via Resend, tested across all endpoints.",
-        "Backend Architecture: Structured the backend into 15+ Mongoose models covering user management, incubator programs, and community features, with centralized error handling and Docker deployment."
+        "Built JWT authentication for foundertruth using Node.js, Express, and MongoDB across 15+ Mongoose models, with email verification and Docker deployment.",
+        "Added Google OAuth login, verifying tokens server-side and auto-linking accounts through the existing JWT session flow."
       ],
     },
     {

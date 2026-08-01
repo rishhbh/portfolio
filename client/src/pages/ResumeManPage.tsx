@@ -50,6 +50,15 @@ export default function ResumeManPage() {
           <h2 className="font-bold mb-4 uppercase">Experience</h2>
           
           <div className="pl-8 sm:pl-12 mb-6">
+            <div className="font-bold">foundertruth - SDE Intern & Tech Lead</div>
+            <div className="text-ink-dim text-sm italic mb-2">Jul 2026 - Present</div>
+            <ul className="list-[square] list-inside space-y-2 ml-4">
+              <li>Built JWT authentication for foundertruth using Node.js, Express, and MongoDB across 15+ Mongoose models, with email verification and Docker deployment.</li>
+              <li>Added Google OAuth login, verifying tokens server-side and auto-linking accounts through the existing JWT session flow.</li>
+            </ul>
+          </div>
+
+          <div className="pl-8 sm:pl-12 mb-6">
             <div className="font-bold">Decoders Entity - Backend Developer Intern</div>
             <div className="text-ink-dim text-sm italic mb-2">June 2026 - Present</div>
             <ul className="list-[square] list-inside space-y-2 ml-4">
