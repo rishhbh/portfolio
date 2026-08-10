@@ -1,26 +1,22 @@
 import { useEffect, useState, useRef } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
+import { ArrowUpRight, Github, ExternalLink, ArrowRight, CheckCircle2, Send, Terminal } from 'lucide-react';
 import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
 import { TextReveal } from '../components/TextReveal';
-import { SpotlightCard } from '../components/SpotlightCard';
 import { GithubActivity } from '../components/GithubActivity';
 import { useSound } from '../hooks/useSound';
 
 export default function Home() {
   const location = useLocation();
-    const { playKeystroke } = useSound();
+  const { playKeystroke } = useSound();
 
   // Contact Form State
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [vimMode, setVimMode] = useState<'NORMAL' | 'INSERT' | 'COMMAND'>('INSERT');
-  const [vimCommand, setVimCommand] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
@@ -37,7 +33,6 @@ export default function Home() {
 
       if (res.ok) {
         setStatus('success');
-        
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setStatus('idle'), 6000);
       } else {
@@ -49,66 +44,20 @@ export default function Home() {
       setErrorMessage('Failed to connect to the server.');
     }
   };
-  const handleVimKeydown = (e: React.KeyboardEvent) => {
-    playKeystroke();
-    if (e.key === 'Escape') {
-      setVimMode('NORMAL');
-      setVimCommand('');
-      if (formRef.current) {
-        formRef.current.focus();
-      }
-    } else if (vimMode === 'NORMAL' && e.key === ':') {
-      setVimMode('COMMAND');
-      setVimCommand(':');
-      e.preventDefault();
-    } else if (vimMode === 'COMMAND') {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (vimCommand === ':wq') {
-          if (formRef.current) {
-            formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-          }
-          setVimMode('NORMAL');
-          setVimCommand('');
-        } else if (vimCommand === ':q' || vimCommand === ':q!') {
-          setFormData({ name: '', email: '', message: '' });
-          setVimMode('NORMAL');
-          setVimCommand('');
-        } else {
-          setVimMode('NORMAL');
-          setVimCommand('');
-        }
-      } else if (e.key === 'Backspace') {
-        setVimCommand(prev => prev.slice(0, -1));
-        if (vimCommand.length <= 1) setVimMode('NORMAL');
-      } else if (e.key.length === 1) {
-        setVimCommand(prev => prev + e.key);
-      }
-    }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     playKeystroke();
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Magnetic Button state
-  
-  
-
-  
-
-  
-
-  // Scroll to hash targets if specified in location (e.g. from hash navigation)
+  // Scroll to hash targets if specified in location
   useEffect(() => {
     if (location.hash) {
       const targetId = location.hash.replace('#', '');
       const element = document.getElementById(targetId);
       if (element) {
-        // Delay slightly to allow full render
         const timer = setTimeout(() => {
-          const offset = 90; // Fixed header offset
+          const offset = 80;
           const bodyRect = document.body.getBoundingClientRect().top;
           const elementRect = element.getBoundingClientRect().top;
           const elementPosition = elementRect - bodyRect;
@@ -140,8 +89,12 @@ export default function Home() {
       items: ['Node.js', 'Express.js', 'REST APIs', 'OAuth 2.0', 'JWT', 'Auth0', 'Rate Limiting']
     },
     {
+      title: 'Testing',
+      items: ['Jest', 'Supertest', 'mongodb-memory-server']
+    },
+    {
       title: 'DevOps & Infra',
-      items: ['AWS EC2', 'Docker', 'Docker Compose', 'GitHub Actions', 'Cloudflare Pages/Workers', 'Render', 'Linux']
+      items: ['AWS EC2', 'Docker', 'Docker Compose', 'GitHub Actions', 'Cloudflare Pages/Workers', 'Cloudflare R2', 'Render', 'Linux']
     },
     {
       title: 'Databases & Cache',
@@ -159,8 +112,8 @@ export default function Home() {
       role: 'SDE Intern & Tech Lead',
       duration: 'Jul 2026 – Present',
       points: [
-        "Built JWT authentication for foundertruth using Node.js, Express, and MongoDB across 15+ Mongoose models, with email verification and Docker deployment.",
-        "Added Google OAuth login, verifying tokens server-side and auto-linking accounts through the existing JWT session flow."
+        "Document Upload Pipeline: Engineered a document upload pipeline using Multer supporting 3+ formats (DOCX, PDF, PPTX) and concurrent multi-file batching (5+ files per upload), persisting assets to Cloudflare R2.",
+        "Authentication & OAuth: Added JWT authentication and Google OAuth login with email verification links using Resend, featuring account linking with existing session flows."
       ],
     },
     {
@@ -216,312 +169,348 @@ export default function Home() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-36 lowercase">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-24 space-y-24">
       
-      {/* 1. HERO SECTION */}
-      <section id="hero" className="min-h-[85vh] flex flex-col justify-center space-y-8 py-12">
-        <BlurFade delay={0.1} forceAnimate={true} className="w-full">
-          <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 relative overflow-hidden shadow-2xl">
-            {/* Terminal Header */}
-            <div className="flex items-center gap-2 border-b border-glass-border pb-4 mb-6">
-               <div className="w-2.5 h-2.5 bg-ink-faint rounded-full opacity-50 hover:bg-red-500 transition-colors" />
-               <div className="w-2.5 h-2.5 bg-ink-faint rounded-full opacity-50 hover:bg-yellow-500 transition-colors" />
-               <div className="w-2.5 h-2.5 bg-ink-faint rounded-full opacity-50 hover:bg-green-500 transition-colors" />
-               <span className="ml-4 font-mono text-[10px] tracking-widest text-ink-faint">bash — rishabh@server: ~</span>
-            </div>
-            
-            {/* Terminal Content */}
-            <div className="font-mono text-xs sm:text-sm text-ink-dim space-y-6">
-              <div className="space-y-2">
-                <div>
-                  <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">whoami</span>
-                </div>
-                <div className="text-ink font-bold tracking-tight">rishabh sharma</div>
+      {/* ==========================================
+          1. HERO SECTION — RAW EDITORIAL BRUTALISM
+         ========================================== */}
+      <section id="hero" className="space-y-8 pt-4">
+        <BlurFade delay={0.1} forceAnimate={true} className="w-full space-y-8">
+          
+          {/* Giant Display Headline */}
+          <div className="border-b-3 border-black pb-8">
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[104px] font-black uppercase tracking-tighter leading-none flex flex-wrap items-baseline gap-x-4">
+              <span className="text-ink">RISHABH</span>
+              <span className="text-outline">SHARMA</span>
+            </h1>
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-black/20 mt-4">
+              <span className="text-xl sm:text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-ink flex items-center gap-3">
+                SOFTWARE ENGINEER <span className="inline-flex items-center justify-center w-10 h-10 rounded-none border-2 border-black bg-brutal-yellow text-black text-lg shadow-[2px_2px_0px_#000]">→</span>
+              </span>
+              <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase">
+                <span className="bg-black text-white px-3 py-1 border-2 border-black rounded-none">LUCKNOW, INDIA</span>
+                <span className="bg-emerald-400 text-black px-3 py-1 border-2 border-black flex items-center gap-1.5 rounded-none shadow-[2px_2px_0px_#000]">
+                  <span className="w-2 h-2 bg-emerald-950 animate-pulse" /> OPEN FOR ROLES
+                </span>
               </div>
-              
-              <BlurFade delay={0.3} forceAnimate={true}>
-                <div className="space-y-2">
-                  <div>
-                    <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">cat role.txt</span>
-                  </div>
-                  <div>Software Engineer — AI / ML</div>
-                  <div className="text-ink-faint border-l border-line pl-4 py-1 mt-2">
-                    Final-year B.Tech CSE (AI & ML)<br />
-                    School of Management Sciences, Lucknow
-                  </div>
-                </div>
-              </BlurFade>
-
-              <BlurFade delay={0.5} forceAnimate={true}>
-                <div className="space-y-4">
-                  <div>
-                    <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">./execute_mission.sh</span>
-                  </div>
-                  <div>
-                    <h1 className="font-display font-bold leading-[0.85] tracking-[-0.04em] text-ink relative z-10 py-4 gradient-heading" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
-                      SHAPING CODE.<br />
-                      SHIPPING CLARITY.
-                    </h1>
-                  </div>
-                  <p className="max-w-2xl leading-relaxed font-light pb-2 font-sans text-sm sm:text-base">
-                    I build robust, containerized backends and intelligent interfaces. 
-                    My focus centers on combining large language model capabilities with secure, 
-                    rate-limited application layers that perform at scale.
-                  </p>
-                </div>
-              </BlurFade>
-
-              <BlurFade delay={0.8} forceAnimate={true}>
-                <div className="flex items-center gap-2 pt-2">
-                  <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="animate-blink bg-ink w-2.5 h-4 inline-block align-middle" />
-                </div>
-              </BlurFade>
             </div>
           </div>
-        </BlurFade>
 
-        <BlurFade delay={1.0} forceAnimate={true} className="flex flex-wrap gap-4 pt-4">
-          <button
-            onClick={() => {
-              document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }}
-            className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-4 px-8 transition-colors flex items-center gap-2"
-          >
-            [ EXECUTE DEPLOYMENTS ]
-          </button>
-          
-          <button
-            onClick={() => {
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }}
-            className="glass hover:bg-bg-softer text-ink border border-glass-border font-mono text-xs tracking-tight py-4 px-8 transition-colors"
-          >
-            ./contact.sh
-          </button>
+          {/* Hero Grid Block */}
+          <div className="grid grid-cols-1 md:grid-cols-12 border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none">
+            
+            {/* Left Column: Directives */}
+            <div className="md:col-span-6 p-6 sm:p-8 space-y-6 border-b-3 md:border-b-0 md:border-r-3 border-black">
+              <div className="text-xs font-black uppercase tracking-widest text-brutal-red border-b-2 border-black pb-2 flex items-center gap-2">
+                <span className="w-2 h-2 bg-brutal-red border border-black" /> Architecture & Engineering Directives
+              </div>
+              
+              <div className="space-y-4">
+                <div className="border-b border-black/20 pb-3">
+                  <span className="text-[11px] font-bold text-ink-faint block uppercase">Primary Focus</span>
+                  <span className="text-sm sm:text-base font-extrabold text-ink uppercase">Backend Systems & LLM Integration Pipelines</span>
+                </div>
+
+                <div className="border-b border-black/20 pb-3">
+                  <span className="text-[11px] font-bold text-ink-faint block uppercase">Academic Degree</span>
+                  <span className="text-sm sm:text-base font-extrabold text-ink uppercase">B.Tech CSE (AI & ML) — SMS Lucknow</span>
+                </div>
+
+                <div className="border-b border-black/20 pb-3">
+                  <span className="text-[11px] font-bold text-ink-faint block uppercase">Core Infrastructure</span>
+                  <span className="text-sm sm:text-base font-extrabold text-ink uppercase">Node.js · Express v5 · MongoDB · Upstash Redis</span>
+                </div>
+
+                <div className="border-b border-black/20 pb-3">
+                  <span className="text-[11px] font-bold text-ink-faint block uppercase">Deployment & Testing</span>
+                  <span className="text-sm sm:text-base font-extrabold text-ink uppercase">Docker · AWS EC2 · Cloudflare R2 · Jest Unit Tests</span>
+                </div>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-3">
+                <button
+                  onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="brutal-btn py-3 px-6 text-xs uppercase flex items-center gap-2 rounded-none"
+                >
+                  EXPLORE WORK <ArrowUpRight className="w-4 h-4 stroke-[3]" />
+                </button>
+                <button
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-brutal-red text-white border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-xs py-3 px-6 uppercase hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none rounded-none"
+                >
+                  GET IN TOUCH
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Metrics Matrix */}
+            <div className="md:col-span-6 p-6 sm:p-8 flex flex-col justify-between bg-bg-softer space-y-6">
+              <div className="flex items-center justify-between border-b-2 border-black pb-3">
+                <span className="font-extrabold text-xs text-ink uppercase tracking-wider">Engineering Impact Matrix</span>
+                <span className="bg-brutal-yellow text-black font-black text-[10px] px-2 py-0.5 border border-black uppercase rounded-none">ACTIVE METRICS</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
+                  <div className="text-3xl sm:text-4xl font-black text-ink">04+</div>
+                  <div className="text-xs font-bold text-ink-dim uppercase mt-1">Software Internships</div>
+                </div>
+                <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
+                  <div className="text-3xl sm:text-4xl font-black text-brutal-red">15+</div>
+                  <div className="text-xs font-bold text-ink-dim uppercase mt-1">REST API Modules</div>
+                </div>
+                <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
+                  <div className="text-3xl sm:text-4xl font-black text-brutal-blue">1st</div>
+                  <div className="text-xs font-bold text-ink-dim uppercase mt-1">Ideas to Impact Winner</div>
+                </div>
+                <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
+                  <div className="text-3xl sm:text-4xl font-black text-emerald-400">&lt;2s</div>
+                  <div className="text-xs font-bold text-ink-dim uppercase mt-1">Emergency SOS Latency</div>
+                </div>
+              </div>
+
+              <div className="p-4 border-2 border-black bg-brutal-yellow text-black space-y-1 shadow-[2px_2px_0px_#000] rounded-none">
+                <div className="font-black text-xs uppercase flex items-center gap-2">
+                  <span className="w-2 h-2 bg-black rounded-none" /> Recent System Milestone
+                </div>
+                <div className="text-xs font-bold leading-relaxed">
+                  Architected multi-format document ingestion pipeline with Multer batching & Cloudflare R2 object storage.
+                </div>
+              </div>
+            </div>
+
+          </div>
         </BlurFade>
       </section>
 
-      {/* 1.5 ABOUT */}
-      <section id="about" className="scroll-mt-24">
+      {/* ==========================================
+          2. SECTION 00 // OVERVIEW & BIOGRAPHY
+         ========================================== */}
+      <section id="about" className="scroll-mt-24 space-y-6">
         <TextReveal delay={0.1} className="w-full">
-          <div className="flex items-center gap-4 pb-8">
-            <span className="font-mono text-xs text-ink-faint">00 // WHOAMI</span>
-            <div className="h-px flex-1 bg-line" />
+          <div className="flex items-center justify-between border-b-3 border-black pb-3">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase text-ink flex items-center gap-3">
+              <span>00 // OVERVIEW</span>
+              <span className="text-outline hidden sm:inline">& BIOGRAPHY</span>
+            </h2>
+            <span className="bg-brutal-blue text-white font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+              RISHABH SHARMA
+            </span>
           </div>
         </TextReveal>
 
         <BlurFade delay={0.1}>
-          <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 relative overflow-hidden shadow-2xl font-mono text-xs sm:text-sm">
-            
-            <div className="flex flex-col md:flex-row gap-8">
-              {/* Fake ASCII Logo (like fastfetch) */}
-              <div className="hidden md:block text-ink-faint leading-[1.1] whitespace-pre select-none">
-{`   _____ 
-  / __  \\
- | |  | |
- | |  | |
- | |__| |
-  \\____/ 
-         
-  SYS_ID `}
+          <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none grid grid-cols-1 lg:grid-cols-12">
+            {/* Bio Left Column */}
+            <div className="lg:col-span-7 p-6 sm:p-10 space-y-6 border-b-3 lg:border-b-0 lg:border-r-3 border-black">
+              <div className="text-xs font-black uppercase tracking-wider text-brutal-red border-b-2 border-black pb-2">
+                // System Developer Statement
+              </div>
+              
+              <p className="text-lg sm:text-xl font-bold text-ink leading-relaxed tracking-tight">
+                Backend-focused Software Engineer specializing in <span className="bg-brutal-yellow text-black px-1.5 py-0.5 border border-black">scalable API design</span>, microservices, and hybrid LLM orchestration pipelines.
+              </p>
+
+              <p className="text-ink-dim leading-relaxed font-medium text-sm sm:text-base">
+                Final year B.Tech student in Computer Science (AI & ML) at SMS Lucknow. I design deterministic systems that handle high throughput under tight performance budgets, prioritizing unit test coverage, automated CI/CD pipelines, and defensive security layers.
+              </p>
+
+              <div className="pt-4 border-t-2 border-black/20 flex flex-wrap gap-2">
+                {['Node.js', 'Express v5', 'MongoDB', 'Docker', 'AWS EC2', 'Cloudflare R2', 'Jest', 'Upstash Redis'].map((item) => (
+                  <span key={item} className="font-bold text-xs bg-bg-softer text-ink border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Spec Matrix Right Column */}
+            <div className="lg:col-span-5 p-6 sm:p-8 bg-bg-softer space-y-6 flex flex-col justify-between">
+              <div className="text-xs font-black uppercase tracking-wider text-ink border-b-2 border-black pb-2 flex items-center justify-between">
+                <span>Developer Spec Sheet</span>
+                <span className="font-mono text-[10px] text-ink-faint">ID: RS-2026</span>
               </div>
 
-              {/* System Specs */}
-              <div className="flex-1 space-y-6">
-                <div>
-                  <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">fastfetch --user rishabh</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-3.5 border-2 border-black bg-bg-soft shadow-[2px_2px_0px_#000]">
+                  <span className="text-[10px] font-bold text-ink-faint block uppercase">Role</span>
+                  <span className="text-xs font-extrabold text-ink uppercase">Backend SDE / AI Lead</span>
                 </div>
-                
-                <div className="space-y-1 text-ink-dim">
-                  <div className="text-ink font-bold border-b border-glass-border pb-2 mb-2 inline-block">rishabh@backend-dev</div>
-                  <div className="flex"><span className="w-24 text-ink-faint">OS:</span> <span>Fedora 44</span></div>
-                  <div className="flex"><span className="w-24 text-ink-faint">Kernel:</span> <span>x86_64 Linux 7.0.0</span></div>
-                  <div className="flex"><span className="w-24 text-ink-faint">Uptime:</span> <span>20 years</span></div>
-                  <div className="flex"><span className="w-24 text-ink-faint">Packages:</span> <span>NPM, Pip, Docker</span></div>
-                  <div className="flex"><span className="w-24 text-ink-faint">Shell:</span> <span>bash 5.1.16</span></div>
-                  <div className="flex"><span className="w-24 text-ink-faint">Role:</span> <span className="text-ink">Backend Engineer (AI/ML)</span></div>
-                  <div className="flex"><span className="w-24 text-ink-faint">Location:</span> <span>Lucknow, IN</span></div>
+                <div className="p-3.5 border-2 border-black bg-bg-soft shadow-[2px_2px_0px_#000]">
+                  <span className="text-[10px] font-bold text-ink-faint block uppercase">Location</span>
+                  <span className="text-xs font-extrabold text-ink uppercase">Lucknow, UP, India</span>
                 </div>
+                <div className="p-3.5 border-2 border-black bg-bg-soft shadow-[2px_2px_0px_#000]">
+                  <span className="text-[10px] font-bold text-ink-faint block uppercase">Education</span>
+                  <span className="text-xs font-extrabold text-ink uppercase">B.Tech CSE (AI & ML)</span>
+                </div>
+                <div className="p-3.5 border-2 border-black bg-bg-soft shadow-[2px_2px_0px_#000]">
+                  <span className="text-[10px] font-bold text-ink-faint block uppercase">Institution</span>
+                  <span className="text-xs font-extrabold text-ink uppercase">SMS Lucknow (2026)</span>
+                </div>
+              </div>
 
-                <div className="space-y-2 pt-2 border-t border-glass-border">
-                  <div className="flex flex-wrap gap-2">
-                    <div className="w-4 h-4 bg-[#080808] border border-glass-border"></div>
-                    <div className="w-4 h-4 bg-red-500/80"></div>
-                    <div className="w-4 h-4 bg-green-500/80"></div>
-                    <div className="w-4 h-4 bg-yellow-500/80"></div>
-                    <div className="w-4 h-4 bg-blue-500/80"></div>
-                    <div className="w-4 h-4 bg-purple-500/80"></div>
-                    <div className="w-4 h-4 bg-cyan-500/80"></div>
-                    <div className="w-4 h-4 bg-white/80"></div>
-                  </div>
-                </div>
-
-                <div className="pt-4 space-y-4">
-                  <div>
-                    <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">cat ~/.skills.json</span>
-                  </div>
-                  <div className="text-ink-dim">
-                    <pre className="font-mono text-xs overflow-x-auto text-ink-dim leading-relaxed">
-{`{
-  "backend_apis": ["Node.js", "Express.js", "REST APIs", "OAuth 2.0", "JWT"],
-  "devops_infra": ["AWS EC2", "Docker", "GitHub Actions", "Cloudflare", "Linux"],
-  "databases_ai": ["MongoDB", "Redis", "Ollama", "Gemma", "Gemini API"]
-}`}
-                    </pre>
-                  </div>
-                </div>
+              <div className="p-4 border-2 border-black bg-brutal-blue text-white space-y-1 shadow-[2px_2px_0px_#000]">
+                <div className="font-black text-xs uppercase">Core Engineering Motto</div>
+                <div className="text-xs font-medium leading-tight">"If it cannot be monitored, rate-limited, and tested, it does not belong in production."</div>
               </div>
             </div>
           </div>
         </BlurFade>
       </section>
 
-      {/* 2. SELECTED WORK SECTION */}
-      <section id="work" className="space-y-12 scroll-mt-24">
+      {/* ==========================================
+          3. SECTION 01 // SELECTED WORK SHOWCASE
+         ========================================== */}
+      <section id="work" className="scroll-mt-24 space-y-8">
         <TextReveal delay={0.1} className="w-full">
-          <div className="flex items-center gap-4 pb-2">
-            <span className="font-mono text-xs text-ink-faint">01 // ls -la ~/deployments</span>
-            <div className="h-px flex-1 bg-line" />
+          <div className="flex items-center justify-between border-b-3 border-black pb-3">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase text-ink flex items-center gap-3">
+              <span>01 // SELECTED WORK</span>
+              <span className="text-outline hidden sm:inline">& SYSTEMS</span>
+            </h2>
+            <span className="bg-brutal-yellow text-black font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+              [ 04 FEATURED PROJECTS ]
+            </span>
           </div>
         </TextReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Editorial Project Rows */}
+        <div className="space-y-8">
           {projects.map((project, index) => {
-            const isLayerZero = index === 0;
-            const isKaushal = index === 1;
-
-            let gridClass = "col-span-1";
-            if (isLayerZero) gridClass = "md:col-span-2 md:row-start-1 md:col-start-1";
-            if (isKaushal) gridClass = "md:row-span-2 md:col-start-1 md:row-start-2";
-            if (index === 2) gridClass = "md:col-span-1 md:col-start-2 md:row-start-2";
-            if (index === 3) gridClass = "md:col-span-1 md:col-start-2 md:row-start-3";
+            const indexStr = String(index + 1).padStart(2, '0');
 
             return (
-              <BlurFade 
-                key={project.slug} 
-                delay={0.1 + index * 0.12} // Smooth cascade stagger
-                className={gridClass}
-              >
-                <SpotlightCard className="group glass bg-bg-soft hover:bg-bg-softer border border-glass-border transition-all duration-300 h-full flex flex-col relative font-mono">
-                  <div className={`absolute top-6 right-6 flex items-center gap-4 z-20 pointer-events-none ${isLayerZero ? 'flex-col' : ''}`}>
-                    {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-ink-faint hover:text-ink transition-colors pointer-events-auto" aria-label="GitHub">
-                        <Github className="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-ink-faint hover:text-ink transition-colors pointer-events-auto" aria-label="Live Site">
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                    <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-ink transition-colors" />
-                  </div>
+              <BlurFade key={project.slug} delay={0.1 + index * 0.1}>
+                <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] hover:shadow-[8px_8px_0px_#000] transition-all rounded-none overflow-hidden">
                   
-                  <Link
-                    to={`/projects/${project.slug}`}
-                    className={`p-6 sm:p-8 h-full flex flex-col relative ${isLayerZero ? 'md:flex-row md:gap-12 md:items-stretch' : 'justify-between'}`}
-                  >
-                    <div className={`space-y-6 ${isLayerZero ? 'md:w-1/2 flex flex-col' : ''}`}>
-                      <div className="space-y-1">
-                        <span className="block font-mono text-[10px] tracking-tight text-ink-faint">
-                          drwxr-xr-x rishabh root 4096 {project.slug}
-                        </span>
-                      </div>
-
-                      <div className={`space-y-2 ${isLayerZero ? 'pr-12 md:pr-6' : 'pr-28'}`}>
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-500/70 text-xs">➜</span>
-                          <h3 className="font-display font-bold text-xl tracking-tighter text-ink group-hover:translate-x-1 transition-transform duration-300">
-                            {project.name}
-                          </h3>
-                        </div>
-                        <p className="font-mono text-[11px] text-ink-dim">
-                          {project.tagline}
-                        </p>
-                      </div>
-
-                      {!isLayerZero && (
-                        <p className="text-ink-faint text-sm leading-relaxed font-sans line-clamp-3">
-                          {project.problem}
-                        </p>
-                      )}
-
-                      {/* Extra features for KaushalAI tall card */}
-                      {isKaushal && (
-                        <div className="hidden md:block space-y-3 mt-4 pt-6 border-t border-line">
-                          <p className="font-mono text-[10px] tracking-tight text-ink-dim lowercase">Platform Highlights</p>
-                          <ul className="space-y-3">
-                            {project.keyFeatures.map((feature, idx) => (
-                              <li key={idx} className="flex items-start gap-3">
-                                <span className="w-1 h-1 bg-ink-faint rounded-full mt-1.5 shrink-0"></span>
-                                <span className="text-xs text-ink-faint font-sans leading-relaxed">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                  {/* Top Bar Header */}
+                  <div className="flex flex-wrap items-center justify-between bg-bg-softer border-b-3 border-black px-6 py-4 gap-4">
+                    <div className="flex items-center gap-4">
+                      <span className="bg-black text-white text-sm font-mono font-extrabold px-3 py-1 border-2 border-black rounded-none">
+                        PROJECT {indexStr}
+                      </span>
+                      <h3 className="text-2xl sm:text-3xl font-black text-ink uppercase tracking-tight flex items-center gap-2">
+                        {project.name}
+                        <ArrowRight className="w-6 h-6 text-brutal-red" />
+                      </h3>
                     </div>
 
-                    {isLayerZero ? (
-                      <div className="md:w-1/2 flex flex-col justify-end mt-8 md:mt-0">
-                        <p className="text-ink-faint text-sm sm:text-base leading-relaxed font-sans line-clamp-4 pr-6 md:pr-12">
-                          {project.problem}
-                        </p>
-                        <div className="flex flex-wrap gap-2 pt-8">
-                          {project.homeTags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="font-mono text-[10px] tracking-tight bg-bg-softer border border-line text-ink-dim py-1 px-2.5"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                    <div className="flex items-center gap-3">
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 bg-bg-soft text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none transition-colors"
+                        >
+                          <Github className="w-4 h-4" /> GitHub
+                        </a>
+                      )}
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 bg-brutal-yellow text-black border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" /> Live System
+                        </a>
+                      )}
+                      <Link
+                        to={`/projects/${project.slug}`}
+                        className="bg-brutal-red text-white border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none flex items-center gap-1 hover:translate-x-0.5 transition-transform"
+                      >
+                        Details <ArrowUpRight className="w-4 h-4 stroke-[3]" />
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Body Content Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12">
+                    
+                    {/* Left: Problem & Description */}
+                    <div className="lg:col-span-7 p-6 sm:p-8 space-y-4 border-b-3 lg:border-b-0 lg:border-r-3 border-black">
+                      <div className="inline-block font-bold text-xs text-brutal-red uppercase tracking-wider">
+                        // {project.tagline}
                       </div>
-                    ) : (
-                      <div className="flex flex-wrap gap-2 pt-8 mt-auto pr-6">
+                      <p className="text-ink-dim text-sm sm:text-base font-medium leading-relaxed">
+                        {project.problem}
+                      </p>
+
+                      <div className="pt-2 flex flex-wrap gap-2">
                         {project.homeTags.map((tag) => (
                           <span
                             key={tag}
-                            className="font-mono text-[10px] tracking-tight bg-bg-softer border border-line text-ink-dim py-1 px-2.5"
+                            className="font-bold text-xs bg-bg-softer text-ink border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none"
                           >
                             {tag}
                           </span>
                         ))}
                       </div>
-                    )}
-                  </Link>
-                </SpotlightCard>
+                    </div>
+
+                    {/* Right: Key Features Highlights */}
+                    <div className="lg:col-span-5 p-6 sm:p-8 bg-bg-softer space-y-3">
+                      <span className="font-extrabold text-xs text-ink uppercase tracking-wider block border-b-2 border-black pb-2">
+                        Key Architectural Features
+                      </span>
+                      <ul className="space-y-2.5">
+                        {project.keyFeatures.map((feature, idx) => (
+                          <li key={idx} className="flex items-start gap-2.5">
+                            <span className="w-2 h-2 bg-brutal-yellow border border-black rounded-none mt-1.5 shrink-0" />
+                            <span className="text-xs font-medium text-ink-dim leading-relaxed">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                  </div>
+
+                </div>
               </BlurFade>
             );
           })}
         </div>
       </section>
 
-      {/* 3. STACK / SKILLS SECTION */}
-      <section id="stack" className="space-y-12 scroll-mt-24">
+      {/* ==========================================
+          4. SECTION 02 // TECHNICAL STACK GRID
+         ========================================== */}
+      <section id="stack" className="scroll-mt-24 space-y-8">
         <TextReveal delay={0.1} className="w-full">
-          <div className="flex items-center gap-4 pb-2">
-            <span className="font-mono text-xs text-ink-faint">02 // ./scan_capabilities.sh</span>
-            <div className="h-px flex-1 bg-line" />
+          <div className="flex items-center justify-between border-b-3 border-black pb-3">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase text-ink flex items-center gap-3">
+              <span>02 // TECHNICAL STACK</span>
+              <span className="text-outline hidden sm:inline">& TOOLING MATRIX</span>
+            </h2>
+            <span className="bg-brutal-red text-white font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+              CATEGORIZED LEDGER
+            </span>
           </div>
         </TextReveal>
 
         <BlurFade delay={0.2}>
-          <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 font-mono text-xs sm:text-sm shadow-2xl">
-            <div className="text-ink-dim mb-8">
-              <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">cat /opt/stack/modules.conf</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {skillCategories.map((category) => (
-                <div key={category.title} className="space-y-4">
-                  <div className="text-yellow-500/80 font-bold border-b border-line pb-2">[{category.title.toUpperCase()}]</div>
+          <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {skillCategories.map((category, idx) => (
+                <div 
+                  key={category.title} 
+                  className={`p-6 space-y-4 border-b-3 border-black ${
+                    idx % 3 !== 2 ? 'lg:border-r-3' : ''
+                  }`}
+                >
+                  <div className="flex items-center justify-between border-b-2 border-black pb-2">
+                    <span className="font-extrabold text-sm text-ink uppercase">{category.title}</span>
+                    <span className="font-mono text-xs font-bold bg-brutal-yellow text-black px-2 py-0.5 border border-black">
+                      [{category.items.length}]
+                    </span>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {category.items.map((skill) => (
                       <span
                         key={skill}
-                        className="font-mono text-ink bg-glass border border-glass-border py-1 px-3 hover:bg-ink hover:text-bg transition-colors cursor-default"
+                        className="font-bold text-xs text-ink bg-bg-softer border-2 border-black py-1.5 px-3 shadow-[2px_2px_0px_#000] rounded-none hover:bg-brutal-yellow hover:text-black transition-colors"
                       >
                         {skill}
                       </span>
@@ -533,241 +522,237 @@ export default function Home() {
           </div>
         </BlurFade>
 
+        {/* GitHub Activity */}
         <BlurFade delay={0.4}>
-          <GithubActivity />
+          <div className="border-3 border-black bg-bg-soft p-6 shadow-[6px_6px_0px_#000] rounded-none space-y-4">
+            <div className="flex items-center justify-between border-b-2 border-black pb-2">
+              <span className="font-extrabold text-sm text-ink uppercase flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-brutal-red" /> Continuous Commit Activity
+              </span>
+              <span className="font-mono text-xs font-bold text-ink-dim uppercase">GITHUB TELEMETRY</span>
+            </div>
+            <GithubActivity />
+          </div>
         </BlurFade>
       </section>
 
-      {/* 4. EXPERIENCE & RECOGNITION */}
-      <section id="experience" className="space-y-12 scroll-mt-24">
+      {/* ==========================================
+          5. SECTION 03 // EXPERIENCE & RECOGNITION
+         ========================================== */}
+      <section id="experience" className="scroll-mt-24 space-y-8">
         <TextReveal delay={0.1} className="w-full">
-          <div className="flex items-center gap-4 pb-2">
-            <span className="font-mono text-xs text-ink-faint">03 // git log --oneline --graph</span>
-            <div className="h-px flex-1 bg-line" />
+          <div className="flex items-center justify-between border-b-3 border-black pb-3">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase text-ink flex items-center gap-3">
+              <span>03 // EXPERIENCE</span>
+              <span className="text-outline hidden sm:inline">& RECOGNITION</span>
+            </h2>
+            <span className="bg-brutal-blue text-white font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+              CAREER TRACK RECORD
+            </span>
           </div>
         </TextReveal>
 
-        <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 font-mono text-xs sm:text-sm shadow-2xl overflow-x-auto">
-          
-          <BlurFade delay={0.2}>
-            <div className="text-ink-dim mb-8">
-              <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">git log --author="rishabh" --all</span>
-            </div>
-          </BlurFade>
-
-          <div className="space-y-12">
-            {/* Internships as Commits */}
-            {internships.map((job, index) => (
-              <BlurFade key={job.company} delay={0.3 + index * 0.1}>
-                <div className="flex gap-4">
-                  {/* Git branch line */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-3 h-3 rounded-full border-2 border-green-500 bg-bg z-10"></div>
-                    <div className="w-px h-full bg-line -mt-1"></div>
+        <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none divide-y-3 divide-black">
+          {/* Internships List */}
+          {internships.map((job, index) => (
+            <BlurFade key={job.company} delay={0.2 + index * 0.1}>
+              <div className="p-6 sm:p-8 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-black pb-3">
+                  <div>
+                    <h3 className="font-extrabold text-xl sm:text-2xl text-ink uppercase">
+                      {job.role}
+                    </h3>
+                    <span className="text-brutal-red font-bold text-sm uppercase">@ {job.company}</span>
                   </div>
-                  
-                  {/* Commit Content */}
-                  <div className="space-y-3 pb-8 flex-1">
-                    <div className="text-yellow-500/80">commit {((index + 1) * 9876543).toString(16).slice(0, 7)} (HEAD -&gt; {job.company.toLowerCase().replace(/\s+/g, '-')})</div>
-                    <div><span className="text-ink-faint">Author:</span> rishabh &lt;sys@rishabh.dev&gt;</div>
-                    <div><span className="text-ink-faint">Date:</span>   {job.duration}</div>
-                    
-                    <div className="pt-4 pl-4 space-y-4">
-                      <div className="font-bold text-ink text-base">
-                        feat(role): {job.role}
-                      </div>
-
-                      {job.points && job.points.length > 0 && (
-                        <div className="space-y-2 text-ink-dim leading-relaxed">
-                          {job.points.map((point, idx) => {
-                            const splitIndex = point.indexOf(':');
-                            let title = '';
-                            let desc = point;
-                            if (splitIndex !== -1) {
-                              title = point.slice(0, splitIndex);
-                              desc = point.slice(splitIndex + 1);
-                            }
-                            return (
-                              <div key={idx} className="flex items-start gap-2">
-                                <span className="text-ink-faint mt-1">*</span>
-                                <span>
-                                  {title ? (
-                                    <>
-                                      <span className="text-ink font-semibold">{title}:</span>
-                                      {desc}
-                                    </>
-                                  ) : (
-                                    desc
-                                  )}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <span className="bg-brutal-yellow text-black border-2 border-black font-mono font-bold text-xs px-3 py-1.5 shadow-[2px_2px_0px_#000] rounded-none w-fit">
+                    {job.duration}
+                  </span>
                 </div>
-              </BlurFade>
-            ))}
 
-            {/* Hackathons as merges/tags */}
-            {recognitions.map((award, index) => (
-              <BlurFade key={index} delay={0.6 + index * 0.1}>
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-3 h-3 border-2 border-blue-500 bg-bg z-10 rotate-45"></div>
-                    {index !== recognitions.length - 1 && <div className="w-px h-full bg-line -mt-1"></div>}
-                  </div>
-                  
-                  <div className="space-y-3 pb-8 flex-1">
-                    <div className="text-yellow-500/80">tag {award.title.split(' ')[0].toLowerCase()}-{((index + 1) * 12345).toString(16).slice(0, 4)}</div>
-                    <div><span className="text-ink-faint">Type:</span>  {award.type}</div>
-                    
-                    <div className="pt-4 pl-4 space-y-2">
-                      <div className="font-bold text-ink">
-                        {award.title}
-                      </div>
-                      <div className="text-ink-dim leading-relaxed">
-                        {award.details}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </BlurFade>
-            ))}
-            
-            <BlurFade delay={1.0}>
-               <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-3 h-3 rounded-full border-2 border-ink-faint bg-bg z-10"></div>
-                  </div>
-                  <div className="text-ink-faint italic">initial commit</div>
-               </div>
+                {job.points && job.points.length > 0 && (
+                  <ul className="space-y-3 text-ink-dim text-sm font-medium leading-relaxed pt-2">
+                    {job.points.map((point, idx) => {
+                      const splitIndex = point.indexOf(':');
+                      let title = '';
+                      let desc = point;
+                      if (splitIndex !== -1) {
+                        title = point.slice(0, splitIndex);
+                        desc = point.slice(splitIndex + 1);
+                      }
+                      return (
+                        <li key={idx} className="flex items-start gap-3">
+                          <CheckCircle2 className="w-4 h-4 text-brutal-blue shrink-0 mt-0.5" />
+                          <span>
+                            {title ? (
+                              <>
+                                <strong className="text-ink font-bold">{title}:</strong>
+                                {desc}
+                              </>
+                            ) : (
+                              desc
+                            )}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
             </BlurFade>
+          ))}
+        </div>
+
+        {/* Hackathon Wins & Awards */}
+        <div className="space-y-4 pt-4">
+          <h3 className="text-2xl font-black text-ink uppercase border-b-3 border-black pb-2 flex items-center gap-2">
+            <span>Hackathon Victories & Industry Honors</span>
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {recognitions.map((award, index) => (
+              <BlurFade key={index} delay={0.4 + index * 0.1}>
+                <div className="border-3 border-black bg-bg-soft p-5 shadow-[4px_4px_0px_#000] rounded-none space-y-3 h-full flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <span className="bg-brutal-yellow text-black text-[10px] font-bold px-2 py-0.5 border border-black uppercase inline-block">
+                      {award.type}
+                    </span>
+                    <h4 className="font-extrabold text-base text-ink uppercase leading-snug">
+                      {award.title}
+                    </h4>
+                  </div>
+                  <p className="text-xs text-ink-dim font-medium leading-relaxed border-t border-black/20 pt-2">
+                    {award.details}
+                  </p>
+                </div>
+              </BlurFade>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 5. CONTACT SECTION */}
-      <section id="contact" className="scroll-mt-24 mb-24">
+      {/* ==========================================
+          6. SECTION 04 // CONTACT & DISPATCH
+         ========================================== */}
+      <section id="contact" className="scroll-mt-24 mb-24 space-y-8">
         <TextReveal delay={0.1} className="w-full">
-          <div className="flex items-center gap-4 pb-8">
-            <span className="font-mono text-xs text-ink-faint">04 // ./contact.sh</span>
-            <div className="h-px flex-1 bg-line" />
+          <div className="flex items-center justify-between border-b-3 border-black pb-3">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase text-ink flex items-center gap-3">
+              <span>04 // CONTACT</span>
+              <span className="text-outline hidden sm:inline">& DIRECT DISPATCH</span>
+            </h2>
+            <span className="bg-brutal-yellow text-black font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+              COMMUNICATION CHANNEL
+            </span>
           </div>
         </TextReveal>
 
-        <TextReveal delay={0.2} className="w-full">
-          <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 font-mono text-xs sm:text-sm shadow-2xl overflow-hidden">
+        <BlurFade delay={0.2}>
+          <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none grid grid-cols-1 lg:grid-cols-12">
             
-            <div className="text-ink-dim mb-8 space-y-2">
-              <div>
-                <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">./contact.sh</span>
+            {/* Left Column: Direct Info */}
+            <div className="lg:col-span-5 p-6 sm:p-10 space-y-6 border-b-3 lg:border-b-0 lg:border-r-3 border-black bg-bg-softer flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="text-xs font-black uppercase tracking-wider text-brutal-red border-b-2 border-black pb-2">
+                  // Initiate Connection
+                </div>
+
+                <h3 className="font-black text-3xl sm:text-4xl text-ink uppercase leading-tight">
+                  Let's Build Scale.
+                </h3>
+
+                <p className="text-ink-dim text-sm font-medium leading-relaxed">
+                  Open to software engineering roles, backend consulting, or technical collaborations. Feel free to drop a message or send an email directly.
+                </p>
               </div>
-              <div className="text-ink-faint">[SYS] Initializing secure comms channel...</div>
-              <div className="text-ink-faint">[SYS] Waiting for user input.</div>
+
+              <div className="space-y-4 pt-4 border-t-2 border-black">
+                <div className="border-b border-black/20 pb-3">
+                  <span className="text-[10px] font-bold text-ink-faint block uppercase">Email Address</span>
+                  <a href="mailto:rishabh223300@gmail.com" className="text-sm font-extrabold text-brutal-red underline hover:text-ink transition-colors">
+                    rishabh223300@gmail.com
+                  </a>
+                </div>
+
+                <div className="border-b border-black/20 pb-3">
+                  <span className="text-[10px] font-bold text-ink-faint block uppercase">Base Location</span>
+                  <span className="text-sm font-extrabold text-ink uppercase">Lucknow, India (UTC +5:30)</span>
+                </div>
+              </div>
             </div>
 
-            <div className="max-w-3xl">
+            {/* Right Column: Dispatch Form */}
+            <div className="lg:col-span-7 p-6 sm:p-10">
               {status === 'success' ? (
-                <div className="space-y-4 py-8">
-                  <div className="text-green-500">➜ <span className="text-ink font-bold">SUCCESS:</span> Payload delivered securely.</div>
-                  <div className="text-ink-dim">Connection closed by foreign host.</div>
+                <div className="p-8 border-3 border-black bg-emerald-400 text-black font-bold shadow-[4px_4px_0px_#000] rounded-none space-y-3">
+                  <div className="font-black text-2xl uppercase">Message Dispatched Successfully</div>
+                  <div className="text-sm text-black/90 font-mono">Thank you for reaching out. I will respond to your message promptly.</div>
                 </div>
               ) : (
                 <form 
                   ref={formRef}
                   onSubmit={handleSubmit} 
-                  className="w-full flex flex-col border border-glass-border bg-bg-soft outline-none focus:ring-1 focus:ring-glass-border"
-                  onKeyDownCapture={handleVimKeydown}
-                  tabIndex={-1}
+                  className="space-y-6"
                 >
-                  <div className="bg-bg border-b border-glass-border px-4 py-1 text-xs text-ink-dim flex justify-between">
-                    <span>~ contact.txt</span>
-                    <span>{formData.name || formData.email || formData.message ? '[Modified]' : ''}</span>
-                  </div>
-                  
-                  <div className="p-4 sm:p-6 space-y-6 flex-1">
-                    <div className="space-y-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 group">
-                        <label htmlFor="name" className="text-ink-dim w-32 shrink-0 select-none">Name:</label>
-                        <div className="flex-1 relative flex items-center">
-                          <span className="absolute left-3 text-green-500 font-bold opacity-0 group-focus-within:opacity-100 transition-opacity">&gt;</span>
-                          <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            required
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            onFocus={() => setVimMode('INSERT')}
-                            className="w-full bg-transparent border-b border-glass-border py-2 px-3 pl-8 font-mono text-ink hover:bg-bg-softer focus:bg-bg-softer focus:outline-none focus:border-green-500 transition-all rounded-none placeholder-ink-faint/30"
-                            placeholder="John Doe"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 group">
-                        <label htmlFor="email" className="text-ink-dim w-32 shrink-0 select-none">Email:</label>
-                        <div className="flex-1 relative flex items-center">
-                          <span className="absolute left-3 text-green-500 font-bold opacity-0 group-focus-within:opacity-100 transition-opacity">&gt;</span>
-                          <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            required
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            onFocus={() => setVimMode('INSERT')}
-                            className="w-full bg-transparent border-b border-glass-border py-2 px-3 pl-8 font-mono text-ink hover:bg-bg-softer focus:bg-bg-softer focus:outline-none focus:border-green-500 transition-all rounded-none placeholder-ink-faint/30"
-                            placeholder="root@server.com"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col gap-2 pt-2 group">
-                        <label htmlFor="message" className="text-ink-dim select-none">Payload:</label>
-                        <div className="relative">
-                          <textarea
-                            id="message"
-                            name="message"
-                            required
-                            rows={4}
-                            value={formData.message}
-                            onChange={handleInputChange}
-                            onFocus={() => setVimMode('INSERT')}
-                            className="w-full bg-transparent border border-glass-border p-3 pl-8 font-mono text-ink hover:bg-bg-softer focus:bg-bg-softer focus:outline-none focus:border-green-500 transition-all rounded-none resize-none placeholder-ink-faint/30"
-                            placeholder="Type your message here..."
-                          ></textarea>
-                          <span className="absolute left-3 top-3 text-green-500 font-bold opacity-0 group-focus-within:opacity-100 transition-opacity">&gt;</span>
-                        </div>
-                      </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="name" className="block text-xs font-bold text-ink uppercase mb-1.5">Your Full Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-brutal-yellow focus:text-black transition-colors rounded-none shadow-[3px_3px_0px_#000]"
+                        placeholder="John Doe"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="block text-xs font-bold text-ink uppercase mb-1.5">Email Address</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-brutal-yellow focus:text-black transition-colors rounded-none shadow-[3px_3px_0px_#000]"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" className="block text-xs font-bold text-ink uppercase mb-1.5">Message / Inquiry Details</label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        required
+                        rows={5}
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-brutal-yellow focus:text-black transition-colors resize-none rounded-none shadow-[3px_3px_0px_#000]"
+                        placeholder="Write your project details or job opportunity..."
+                      ></textarea>
                     </div>
                   </div>
-                  
-                  {/* Vim Status Bar */}
-                  <div className="bg-bg border-t border-glass-border px-4 py-1 text-xs font-mono flex items-center gap-4 min-h-[32px]">
-                    {vimMode === 'INSERT' && (
-                      <span className="font-bold text-ink">-- INSERT --</span>
-                    )}
-                    {vimMode === 'COMMAND' && (
-                      <span className="text-ink">{vimCommand}<span className="animate-blink inline-block w-2 h-3 bg-ink align-middle" /></span>
-                    )}
-                    {vimMode === 'NORMAL' && (
-                      <span className="text-ink-dim">Press <kbd className="text-ink">ESC</kbd> to enter normal mode, then type <kbd className="text-ink">:wq</kbd> and hit <kbd className="text-ink">ENTER</kbd> to submit.</span>
-                    )}
-                    
-                    {status === 'loading' && <span className="ml-auto text-yellow-500">EXECUTING...</span>}
-                    {status === 'error' && <span className="ml-auto text-red-500">ERR: {errorMessage}</span>}
-                    {/* Hidden fallback submit button for accessibility / standard enter key on form */}
-                    <button type="submit" className="hidden" disabled={status === 'loading'}>Submit</button>
+
+                  <div className="flex items-center justify-between pt-2">
+                    {status === 'error' && <span className="text-xs font-bold text-brutal-red">Error: {errorMessage}</span>}
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="brutal-btn py-4 px-8 text-sm uppercase tracking-wide ml-auto flex items-center gap-2 rounded-none"
+                    >
+                      {status === 'loading' ? 'Dispatching...' : 'Dispatch Message'} <Send className="w-4 h-4" />
+                    </button>
                   </div>
                 </form>
               )}
             </div>
+
           </div>
-        </TextReveal>
+        </BlurFade>
       </section>
 
     </div>

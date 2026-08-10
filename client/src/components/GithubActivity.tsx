@@ -23,29 +23,32 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
 export function GithubActivity() {
   const { theme } = useTheme();
 
-  // Custom grayscale theme matching the site's brutalist aesthetic
+  // Custom Neubrutalist color scheme (yellow/green steps)
   const explicitTheme = {
-    light: ['#e5e5e5', '#cccccc', '#999999', '#666666', '#111111'],
-    dark: ['#111111', '#444444', '#777777', '#aaaaaa', '#ffffff'],
+    light: ['#eef0ea', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'],
+    dark: ['#24242a', '#4a4000', '#998000', '#FFEB3B', '#FF5252'],
   };
 
   return (
     <ErrorBoundary>
-      <div className="glass bg-bg-soft border border-glass-border p-6 sm:p-8 font-mono text-xs sm:text-sm shadow-2xl overflow-hidden mt-6">
-        <div className="text-ink-dim mb-8">
-          <span className="text-green-500/70">guest@server</span>:<span className="text-blue-400/70">~</span>$ <span className="text-ink">curl -s https://api.github.com/users/rishhbh/activity | grep commits</span>
+      <div className="bg-bg-soft border-3 border-black p-6 sm:p-8 font-sans text-xs sm:text-sm shadow-[6px_6px_0px_#000] rounded-none overflow-hidden mt-6">
+        <div className="flex items-center justify-between border-b-3 border-black pb-4 mb-6">
+          <span className="bg-brutal-yellow text-black border-2 border-black font-extrabold text-xs px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none uppercase">
+            GitHub Contributions Calendar
+          </span>
+          <span className="text-ink-dim font-mono font-bold text-xs">@rishhbh</span>
         </div>
         
-        <div className="w-full overflow-x-auto scrollbar-none pb-2 cursor-grab active:cursor-grabbing">
-          <div className="min-w-max text-ink-dim font-mono text-[10px] tracking-tight">
+        <div className="w-full overflow-x-auto scrollbar-none pb-2">
+          <div className="min-w-max text-ink font-bold text-[11px] uppercase">
             <GitHubCalendar
               username="rishhbh"
               colorScheme={theme === 'dark' ? 'dark' : 'light'}
               theme={explicitTheme}
-              blockRadius={0} // Brutalist sharp edges
+              blockRadius={0}
               blockSize={14}
               blockMargin={5}
-              fontSize={10}
+              fontSize={11}
             />
           </div>
         </div>

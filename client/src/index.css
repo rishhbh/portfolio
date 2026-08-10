@@ -3,47 +3,37 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Mode (default) */
-  --bg: #000000;           /* Deepest black for the absolute background */
-  --bg-soft: #0c0c0c;      /* Slightly lighter for terminal windows */
-  --bg-softer: #161616;    /* For inner elements or hover states */
-  --ink: #fcfcfc;          /* Brightest white for primary text */
-  --ink-dim: #a1a1aa;      /* Soft zinc for secondary text */
-  --ink-faint: #52525b;    /* Muted zinc for tertiary text */
-  --line: rgba(255, 255, 255, 0.08);
-  --glass: rgba(255, 255, 255, 0.03);
-  --glass-strong: rgba(255, 255, 255, 0.06);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --selection-bg: rgba(255, 255, 255, 0.15);
-  --glow: rgba(255, 255, 255, 0.06);
-  --glow-strong: rgba(255, 255, 255, 0.10);
-  --heading-gradient: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%);
-  --spotlight-color: rgba(255, 255, 255, 0.06);
+  /* Dark Mode */
+  --bg: #0e0e10;
+  --bg-soft: #18181c;
+  --bg-softer: #24242a;
+  --ink: #ffffff;
+  --ink-dim: #a1a1aa;
+  --ink-faint: #71717a;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #FFEB3B;
+  --selection-ink: #000000;
 }
 
 html.light {
   /* Light Mode */
-  --bg: #f4f4f5;           /* Soft zinc background */
-  --bg-soft: #ffffff;      /* Pure white for terminal windows */
-  --bg-softer: #e4e4e7;    /* For inner elements or hover states */
-  --ink: #09090b;          /* Pure black for primary text */
-  --ink-dim: #52525b;      /* Dark zinc for secondary text */
-  --ink-faint: #a1a1aa;    /* Muted zinc for tertiary text */
-  --line: rgba(0, 0, 0, 0.08);
-  --glass: rgba(0, 0, 0, 0.035);
-  --glass-strong: rgba(0, 0, 0, 0.06);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --selection-bg: rgba(0, 0, 0, 0.15);
-  --glow: rgba(0, 0, 0, 0.06);
-  --glow-strong: rgba(0, 0, 0, 0.10);
-  --heading-gradient: linear-gradient(180deg, #111111 0%, #666666 100%);
-  --spotlight-color: rgba(0, 0, 0, 0.04);
+  --bg: #f8f8f5;
+  --bg-soft: #ffffff;
+  --bg-softer: #eef0ea;
+  --ink: #000000;
+  --ink-dim: #4b5563;
+  --ink-faint: #9ca3af;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #FFEB3B;
+  --selection-ink: #000000;
 }
 
 body {
   background-color: var(--bg);
   color: var(--ink);
-  font-family: 'Inter', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -58,68 +48,87 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   body {
     transition-property: background-color, color;
-    transition-duration: 300ms;
+    transition-duration: 200ms;
     transition-timing-function: ease;
   }
 }
 
-.gradient-heading {
-  background: var(--heading-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-  display: inline-block;
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .spotlight-glow {
-    display: none !important;
-  }
-}
-
-/* Force sharp edges globally - no exceptions */
-* {
-  border-radius: 0px !important;
-}
-
-/* Custom scrollbar matching grayscale theme */
+/* Custom scrollbar matching Neubrutalist theme */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg);
+  border-left: 2px solid var(--border-color);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--ink-faint);
+  background: #FFEB3B;
+  border: 2px solid var(--border-color);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-dim);
+  background: #FF5252;
 }
 
-/* Glassmorphism utility classes */
+/* Neubrutalist Components - Sharp Corners (0px) per DESIGN.md */
+.brutal-card {
+  background-color: var(--bg-soft);
+  border: 3px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  border-radius: 0px;
+}
+
+.brutal-btn {
+  background-color: #FFEB3B;
+  color: #000000;
+  border: 3px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  font-weight: 700;
+  border-radius: 0px;
+  transition: all 150ms ease;
+}
+
+.brutal-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--shadow-color);
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+.brutal-badge {
+  border: 2px solid var(--border-color);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  font-weight: 600;
+  border-radius: 0px;
+}
+
 .glass {
-  /* background: var(--glass); */
-  @apply backdrop-blur-[25px];
-  border: 1px solid var(--glass-border);
+  background-color: var(--bg-soft);
+  border: 3px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  border-radius: 0px;
 }
 
 .glass-strong {
-  background: var(--glass-strong);
-  @apply backdrop-blur-[20px];
-  border: 1px solid var(--glass-border);
+  background-color: var(--bg-soft);
+  border: 3px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  border-radius: 0px;
 }
 
 /* Keyboard focus styling for accessibility */
 *:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
+  outline: 3px solid #FF5252 !important;
+  outline-offset: 2px;
 }
 
-/* Selection color matching grayscale */
+/* Selection color matching Neubrutalism */
 ::selection {
   background: var(--selection-bg);
-  color: var(--ink);
+  color: var(--selection-ink);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -130,7 +139,6 @@ body {
   scrollbar-width: none;
 }
 
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -140,4 +148,24 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Raw Editorial Brutalist Text Stroke Effects */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+.text-outline-thin {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+}
+
+/* Enforce 0px border-radius on GitHub activity rects & SVG elements */
+.react-activity-calendar rect,
+.react-github-calendar rect {
+  rx: 0 !important;
+  ry: 0 !important;
+  border-radius: 0px !important;
+}
+
 

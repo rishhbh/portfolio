@@ -1,9 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Github, Globe, EyeOff, LayoutGrid } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, ChevronLeft, ChevronRight, Terminal, Award } from 'lucide-react';
 import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
+
+const stepLabels: Record<string, string> = {
+  'homepage.png': 'STEP 01 // PLATFORM HOMEPAGE & HERO',
+  'about.png': 'STEP 02 // ARCHITECTURE & HYBRID MODELS',
+  'register.png': 'STEP 03 // SECURE USER REGISTRATION',
+  'login.png': 'STEP 04 // JWT AUTHENTICATION LOGIN',
+  'doc.png': 'STEP 05 // MULTI-FORMAT DOCUMENT INGESTION',
+  'response.png': 'STEP 06 // AI SUMMARY RESPONSE & SSE STREAMING',
+  'kaushal.png': 'STEP 01 // KAUSHAL AI JOB MARKETPLACE',
+  'deepsynth.png': 'STEP 01 // DEEPSYNTH LOCAL LLM INTERFACE',
+  'hershield.png': 'STEP 01 // HERSHIELD EMERGENCY MONITORING',
+};
 
 const renderFormattedText = (text: string) => {
   const lines = text.split('\n');
@@ -11,30 +23,30 @@ const renderFormattedText = (text: string) => {
     const trimmed = line.trim();
     if (!trimmed) return <div key={idx} className="h-4" />;
 
-    // 1. Check if it's a numbered step, e.g. "1. Website URL Flow: Scrapes..."
+    // 1. Numbered step: "1. Website URL Flow: Scrapes..."
     const numMatch = trimmed.match(/^(\d+)\.\s+(.*?)(:\s+.*)?$/);
     if (numMatch) {
       const num = numMatch[1];
       const title = numMatch[2];
-      const rest = numMatch[3] ? numMatch[3].slice(2) : ''; // remove leading ': '
+      const rest = numMatch[3] ? numMatch[3].slice(2) : '';
       return (
-        <div key={idx} className="flex gap-4 items-start pl-1 py-1">
-          <div className="font-mono text-[10px] font-bold bg-white/5 border border-line text-ink py-1 px-2.5 min-w-[32px] text-center">
-            {num.padStart(2, '0')}
+        <div key={idx} className="border-2 border-black bg-bg-soft p-4 shadow-[3px_3px_0px_#000] space-y-1.5 my-3">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs font-black bg-brutal-yellow text-black px-2.5 py-0.5 border border-black">
+              PHASE {num.padStart(2, '0')}
+            </span>
+            <span className="font-extrabold text-sm sm:text-base text-ink uppercase">{title}</span>
           </div>
-          <div className="space-y-1">
-            <span className="font-display font-semibold text-sm sm:text-base text-ink">{title}</span>
-            {rest && (
-              <p className="text-ink-dim text-sm leading-relaxed font-sans font-light">
-                {rest}
-              </p>
-            )}
-          </div>
+          {rest && (
+            <p className="text-ink-dim text-xs sm:text-sm font-medium leading-relaxed pt-1 border-t border-black/10">
+              {rest}
+            </p>
+          )}
         </div>
       );
     }
 
-    // 2. Check if it's a bullet item, e.g. "- Gemini 2.5 Flash (Cloud)"
+    // 2. Bullet item: "- Gemini 2.5 Flash (Cloud)"
     if (trimmed.startsWith('- ')) {
       const content = trimmed.slice(2);
       const splitIndex = content.indexOf(':');
@@ -45,12 +57,12 @@ const renderFormattedText = (text: string) => {
         desc = content.slice(splitIndex + 1);
       }
       return (
-        <div key={idx} className="flex gap-3 items-start pl-4 py-0.5">
-          <span className="font-mono text-[10px] text-ink-faint mt-2">•</span>
-          <p className="text-ink-dim text-sm sm:text-base leading-relaxed font-sans font-light">
+        <div key={idx} className="flex gap-3 items-start py-1">
+          <span className="w-2 h-2 bg-brutal-red border border-black shrink-0 mt-1.5" />
+          <p className="text-ink-dim text-xs sm:text-sm font-medium leading-relaxed">
             {title ? (
               <>
-                <strong className="font-display font-semibold text-ink">{title}:</strong>
+                <strong className="font-bold text-ink uppercase">{title}:</strong>
                 {desc}
               </>
             ) : (
@@ -63,7 +75,7 @@ const renderFormattedText = (text: string) => {
 
     // 3. Regular paragraph
     return (
-      <p key={idx} className="text-ink-dim text-sm sm:text-base leading-relaxed font-sans font-light">
+      <p key={idx} className="text-ink-dim text-xs sm:text-sm font-medium leading-relaxed py-1">
         {trimmed}
       </p>
     );
@@ -74,230 +86,305 @@ export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
   const project = projects.find((p) => p.slug === slug);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   const handleImageError = (imgSrc: string) => {
     setFailedImages((prev) => ({ ...prev, [imgSrc]: true }));
   };
 
-  // Scroll to top when loading a project page
+  const handleGalleryScroll = (direction: 'left' | 'right') => {
+    if (galleryRef.current) {
+      const scrollAmount = galleryRef.current.clientWidth * 0.9;
+      galleryRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Scroll to top when loading page
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
   if (!project) {
     return (
-      <div className="max-w-6xl mx-auto px-6 py-48 text-center space-y-6">
-        <BlurFade delay={0.1}>
-          <h1 className="font-display font-bold text-4xl text-ink gradient-heading">Project Not Found</h1>
-          <p className="text-ink-dim font-mono text-sm">The project you're looking for doesn't exist.</p>
-        </BlurFade>
-        <BlurFade delay={0.2}>
-          <Link
-            to="/#work"
-            className="inline-flex items-center gap-2 text-ink hover:text-ink-dim font-mono text-xs tracking-tight"
-          >
-            <ArrowLeft className="w-4 h-4" /> RETURN HOME
-          </Link>
-        </BlurFade>
+      <div className="max-w-7xl mx-auto px-6 py-48 text-center space-y-6">
+        <h1 className="text-4xl font-black uppercase text-ink">404 // PROJECT NOT FOUND</h1>
+        <p className="text-ink-dim font-medium">The requested project architecture entry does not exist.</p>
+        <Link to="/" className="brutal-btn py-3 px-6 text-xs uppercase inline-block">
+          RETURN TO HOME
+        </Link>
       </div>
     );
   }
 
+  const validImages = project.images.filter(img => !failedImages[img]);
+
   return (
     <>
-      {/* Dynamic SEO Tags */}
       <Helmet>
-        <title>{`${project.name} | Rishabh Sharma — Portfolio`}</title>
-        <meta name="description" content={`${project.name}: ${project.tagline}`} />
-        <meta property="og:title" content={`${project.name} | Rishabh Sharma`} />
-        <meta property="og:description" content={project.tagline} />
-        <meta property="og:type" content="website" />
+        <title>{`${project.name} — Architecture Deep Dive | Rishabh Sharma`}</title>
+        <meta name="title" content={`${project.name} — Architecture Deep Dive | Rishabh Sharma`} />
+        <meta name="description" content={project.tagline} />
+        <link rel="canonical" href={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
+        <meta property="og:title" content={`${project.name} — ${project.tagline}`} />
+        <meta property="og:description" content={project.problem} />
+        {project.images.length > 0 && (
+          <meta property="og:image" content={`https://rishabhh.is-a.dev/${project.images[0]}`} />
+        )}
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
+        <meta name="twitter:title" content={`${project.name} — ${project.tagline}`} />
+        <meta name="twitter:description" content={project.problem} />
+        {project.images.length > 0 && (
+          <meta name="twitter:image" content={`https://rishabhh.is-a.dev/${project.images[0]}`} />
+        )}
       </Helmet>
 
-      <div className="max-w-4xl mx-auto px-6 pt-32 pb-24 space-y-12">
-        {/* Back navigation */}
-        <BlurFade delay={0.05}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-24 space-y-16">
+        
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center justify-between border-b-3 border-black pb-4">
           <Link
             to="/#work"
-            className="inline-flex items-center gap-2 text-ink-dim hover:text-ink transition-colors font-mono text-xs tracking-tight lowercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
+            className="inline-flex items-center gap-2 bg-bg-softer text-ink border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-brutal-yellow hover:text-black font-bold text-xs uppercase px-3.5 py-2 rounded-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to work
+            <ArrowLeft className="w-4 h-4" /> Return to Selected Work
           </Link>
-        </BlurFade>
+          <span className="font-mono text-xs font-bold bg-black text-white px-3 py-1 border-2 border-black uppercase">
+            SYSTEM SPECIFICATION ENTRY
+          </span>
+        </div>
 
-        {/* Title & Tagline Header */}
-        <header className="space-y-4">
-          <BlurFade delay={0.1}>
-            {project.result && (
-              <span className="font-mono text-[10px] tracking-tight bg-white/5 border border-line text-ink py-1 px-3 mb-2 inline-block">
-                🏆 {project.result.toUpperCase()}
-              </span>
-            )}
-            <h1 className="font-display font-bold text-4xl sm:text-6xl tracking-tighter text-ink gradient-heading">
-              {project.name}
-            </h1>
-          </BlurFade>
+        {/* Project Header Banner */}
+        <BlurFade delay={0.1}>
+          <div className="border-3 border-black bg-bg-soft p-6 sm:p-10 shadow-[6px_6px_0px_#000] rounded-none space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b-3 border-black pb-6">
+              <div className="space-y-2">
+                <span className="bg-brutal-yellow text-black font-black text-xs border-2 border-black shadow-[2px_2px_0px_#000] py-1 px-3 inline-block uppercase">
+                  SYSTEM MODULE
+                </span>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase text-ink tracking-tighter flex items-center gap-3">
+                  <span>{project.name}</span>
+                </h1>
+              </div>
 
-          <BlurFade delay={0.15}>
-            <p className="text-ink-dim font-mono text-xs sm:text-sm tracking-tight leading-relaxed">
-              {project.tagline}
-            </p>
-          </BlurFade>
-        </header>
-
-        {/* Buttons / CTAs */}
-        <BlurFade delay={0.2} className="flex flex-wrap gap-4 pt-2 border-b border-line pb-8">
-          {project.githubUrl ? (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-ink hover:bg-ink-dim text-bg font-mono text-xs tracking-tight font-bold py-3.5 px-6 transition-colors flex items-center gap-2"
-            >
-              VIEW CODE <Github className="w-4 h-4" />
-            </a>
-          ) : (
-            <div className="glass border border-glass-border font-mono text-xs tracking-tight text-ink-faint py-3.5 px-6 flex items-center gap-2">
-              PRIVATE REPOSITORY <EyeOff className="w-4 h-4" />
+              <div className="flex flex-wrap items-center gap-3">
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="brutal-btn py-3 px-5 text-xs uppercase flex items-center gap-2"
+                  >
+                    <Github className="w-4 h-4" /> REPOSITORY
+                  </a>
+                )}
+                {project.liveUrl ? (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-brutal-blue text-white border-3 border-black shadow-[4px_4px_0px_#000] font-extrabold text-xs py-3 px-5 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center gap-2 uppercase"
+                  >
+                    <ExternalLink className="w-4 h-4" /> LIVE PRODUCTION DEPLOYMENT
+                  </a>
+                ) : (
+                  <div className="bg-bg-softer text-ink-faint border-2 border-black font-bold text-xs py-3 px-5 flex items-center gap-2 shadow-[2px_2px_0px_#000] uppercase">
+                    PROPRIETARY / INTERNAL SYSTEM
+                  </div>
+                )}
+              </div>
             </div>
-          )}
 
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glass border border-glass-border hover:bg-glass-strong text-ink font-mono text-xs tracking-tight py-3.5 px-6 transition-colors flex items-center gap-2"
-            >
-              VIEW LIVE <Globe className="w-4 h-4" />
-            </a>
-          )}
+            <div className="text-lg sm:text-xl font-bold text-ink uppercase tracking-tight">
+              // {project.tagline}
+            </div>
+
+            {project.result && (
+              <div className="p-4 border-2 border-black bg-brutal-yellow text-black font-extrabold text-xs uppercase flex items-center gap-3 shadow-[3px_3px_0px_#000]">
+                <Award className="w-5 h-5 shrink-0" />
+                <span>{project.result}</span>
+              </div>
+            )}
+          </div>
         </BlurFade>
 
-        {/* Screenshot / Media block */}
-        <BlurFade delay={0.25}>
-          <div className={`grid gap-6 ${project.images.length > 1 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
-            {project.images.map((imgName) => {
-              const imgSrc = `${import.meta.env.BASE_URL}${imgName}`;
-              const hasFailed = failedImages[imgSrc];
+        {/* Visual Workflow Image Step Carousel */}
+        {validImages.length > 0 && (
+          <BlurFade delay={0.2}>
+            <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none overflow-hidden space-y-4 p-6 sm:p-8">
+              <div className="flex flex-wrap items-center justify-between border-b-3 border-black pb-4 gap-4">
+                <div>
+                  <span className="font-extrabold text-sm text-ink uppercase flex items-center gap-2">
+                    <Terminal className="w-4 h-4 text-brutal-red" /> Interactive Interface & Workflow Flow
+                  </span>
+                  <span className="text-xs text-ink-dim font-medium">Horizontal sequence of platform screens</span>
+                </div>
 
-              if (hasFailed) {
-                return (
-                  <div key={imgName} className="w-full aspect-video border border-dashed border-line bg-glass flex flex-col items-center justify-center p-6 text-center space-y-3 hover:bg-glass-strong transition-colors group">
-                    <LayoutGrid className="w-6 h-6 text-ink-faint group-hover:text-ink-dim transition-colors" />
-                    <div className="font-mono text-xs text-ink-dim tracking-tight lowercase">
-                      Missing Media
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-black bg-black text-white px-3 py-1 border-2 border-black">
+                    {String(activeImageIndex + 1).padStart(2, '0')} / {String(validImages.length).padStart(2, '0')}
+                  </span>
+                  <button
+                    onClick={() => handleGalleryScroll('left')}
+                    className="p-2 bg-brutal-yellow text-black border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="w-4 h-4 stroke-[3]" />
+                  </button>
+                  <button
+                    onClick={() => handleGalleryScroll('right')}
+                    className="p-2 bg-brutal-yellow text-black border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="w-4 h-4 stroke-[3]" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Horizontal Scroll Track */}
+              <div 
+                ref={galleryRef} 
+                onScroll={(e) => {
+                  const target = e.currentTarget;
+                  const index = Math.round(target.scrollLeft / (target.clientWidth * 0.8));
+                  if (index >= 0 && index < validImages.length) {
+                    setActiveImageIndex(index);
+                  }
+                }}
+                className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-2"
+              >
+                {validImages.map((imgName) => (
+                  <div 
+                    key={imgName} 
+                    className="w-[90%] sm:w-[80%] md:w-[720px] shrink-0 snap-start border-3 border-black bg-bg-softer shadow-[4px_4px_0px_#000] overflow-hidden space-y-2 p-3"
+                  >
+                    <div className="bg-black text-white font-mono text-xs font-bold px-3 py-1.5 border-2 border-black uppercase flex items-center justify-between">
+                      <span>{stepLabels[imgName] || `SCREENSHOT // ${imgName.toUpperCase()}`}</span>
+                      <span className="text-[10px] text-brutal-yellow">100% SCALE</span>
                     </div>
-                    <div className="text-[10px] text-ink-faint font-mono truncate max-w-full">
-                      {imgName}
+
+                    <div className="border-2 border-black overflow-hidden bg-black/5 aspect-video relative">
+                      <img
+                        src={`/${imgName}`}
+                        alt={`${project.name} ${imgName}`}
+                        onError={() => handleImageError(imgName)}
+                        className="w-full h-full object-contain bg-black/40"
+                        loading="lazy"
+                      />
                     </div>
                   </div>
-                );
-              }
+                ))}
+              </div>
+            </div>
+          </BlurFade>
+        )}
 
-              return (
-                <div key={imgName} className="w-full aspect-video border border-line bg-glass overflow-hidden relative group">
-                  <img 
-                    src={imgSrc}
-                    alt={`${project.name} Screenshot`}
-                    className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 transition-all duration-500"
-                    onError={() => handleImageError(imgSrc)}
-                  />
+        {/* Split Technical Breakdown */}
+        <BlurFade delay={0.3}>
+          <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none grid grid-cols-1 lg:grid-cols-12">
+            
+            {/* Left: Problem & Engineering Strategy */}
+            <div className="lg:col-span-7 p-6 sm:p-10 space-y-8 border-b-3 lg:border-b-0 lg:border-r-3 border-black">
+              
+              {/* Problem Section */}
+              <div className="space-y-3">
+                <span className="bg-brutal-yellow text-black text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
+                  01 // THE PROBLEM STATEMENT
+                </span>
+                <p className="text-ink-dim text-sm sm:text-base font-medium leading-relaxed border-l-3 border-brutal-red pl-4 py-1">
+                  {project.problem}
+                </p>
+              </div>
+
+              {/* How It Works Section */}
+              <div className="space-y-4 pt-4 border-t-2 border-black/20">
+                <span className="bg-brutal-red text-white text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
+                  02 // HOW IT WORKS & ARCHITECTURE
+                </span>
+                <div className="space-y-2">
+                  {renderFormattedText(project.howItWorks)}
                 </div>
-              );
-            })}
+              </div>
+
+              {/* Key Features */}
+              <div className="space-y-4 pt-4 border-t-2 border-black/20">
+                <span className="bg-brutal-blue text-white text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
+                  03 // KEY SYSTEM HIGHLIGHTS
+                </span>
+                <div className="space-y-2">
+                  {project.keyFeatures.map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-3 border-b border-black/10 pb-2">
+                      <span className="w-2.5 h-2.5 bg-brutal-yellow border border-black shrink-0 mt-1" />
+                      <span className="text-xs sm:text-sm font-medium text-ink-dim leading-relaxed">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right: Spec Ledger & Complete Tech Stack */}
+            <div className="lg:col-span-5 p-6 sm:p-8 bg-bg-softer space-y-8 flex flex-col justify-between">
+              
+              {/* Stack Ledger */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b-2 border-black pb-2">
+                  <span className="bg-brutal-yellow text-black text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase">
+                    04 // COMPLETE TECH STACK
+                  </span>
+                  <span className="font-mono text-xs font-bold text-ink">
+                    [{project.techStack.length} MODULES]
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {project.techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="font-bold text-xs bg-bg-soft text-ink border-2 border-black py-1.5 px-3 shadow-[2px_2px_0px_#000] uppercase hover:bg-brutal-yellow hover:text-black transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Footer Callout */}
+              <div className="p-5 border-2 border-black bg-bg-soft space-y-3 shadow-[3px_3px_0px_#000]">
+                <div className="font-black text-xs uppercase text-ink flex items-center justify-between border-b border-black/20 pb-2">
+                  <span>System Repository</span>
+                  <span className="font-mono text-[10px] text-ink-faint">VERIFIED BUILD</span>
+                </div>
+                <p className="text-xs text-ink-dim font-medium leading-relaxed">
+                  Full codebase is maintained with automated tests and Docker deployment workflows.
+                </p>
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="brutal-btn py-2.5 px-4 text-xs uppercase flex items-center justify-center gap-2 w-full mt-2"
+                  >
+                    <Github className="w-4 h-4" /> VIEW ON GITHUB
+                  </a>
+                )}
+              </div>
+
+            </div>
+
           </div>
         </BlurFade>
 
-        {/* Overview & How it works */}
-        <main className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-8">
-          {/* Main content (Left 2 cols) */}
-          <div className="md:col-span-2 space-y-12">
-            
-            {/* Overview */}
-            <BlurFade delay={0.3} className="space-y-4">
-              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
-                <span className="text-ink-faint">01 //</span> OVERVIEW
-              </h2>
-              <p className="text-ink-dim text-sm sm:text-base leading-relaxed font-sans font-light">
-                {project.problem}
-              </p>
-            </BlurFade>
-
-            {/* How it works */}
-            <BlurFade delay={0.35} className="space-y-6">
-              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
-                <span className="text-ink-faint">02 //</span> HOW IT WORKS
-              </h2>
-              <div className="space-y-4">
-                {renderFormattedText(project.howItWorks)}
-              </div>
-            </BlurFade>
-
-            {/* Key Features */}
-            <BlurFade delay={0.4} className="space-y-6">
-              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
-                <span className="text-ink-faint">03 //</span> KEY FEATURES
-              </h2>
-              <ul className="space-y-3 font-sans font-light text-sm sm:text-base text-ink-dim">
-                {project.keyFeatures.map((feature, idx) => {
-                  const splitIndex = feature.indexOf(':');
-                  let title = '';
-                  let desc = feature;
-                  if (splitIndex !== -1) {
-                    title = feature.slice(0, splitIndex);
-                    desc = feature.slice(splitIndex + 1);
-                  }
-                  return (
-                    <li key={idx} className="flex items-start gap-3 pl-1">
-                      <span className="font-mono text-xs text-ink-faint mt-1.5">•</span>
-                      <span className="leading-relaxed">
-                        {title ? (
-                          <>
-                            <strong className="font-display font-semibold text-ink">{title}:</strong>
-                            {desc}
-                          </>
-                        ) : (
-                          desc
-                        )}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </BlurFade>
-          </div>
-
-          {/* Tech stack sidebar (Right 1 col) */}
-          <div className="md:border-l md:border-line md:pl-10 space-y-12">
-            <BlurFade delay={0.3} className="space-y-4">
-              <h2 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
-                <span className="text-ink-faint">04 //</span> TECHNOLOGIES
-              </h2>
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="font-mono text-[10px] tracking-tight bg-white/5 border border-line text-ink-dim py-1.5 px-2.5 transition-colors hover:text-ink hover:border-ink-dim"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </BlurFade>
-
-            {project.result && (
-              <BlurFade delay={0.35} className="space-y-3">
-                <h3 className="font-mono text-xs tracking-tight text-ink lowercase pb-2 border-b border-line flex items-center gap-2">
-                  <span className="text-ink-faint">05 //</span> RECOGNITION
-                </h3>
-                <p className="font-sans text-xs text-ink-dim leading-relaxed font-light">
-                  {project.result}
-                </p>
-              </BlurFade>
-            )}
-          </div>
-        </main>
       </div>
     </>
   );

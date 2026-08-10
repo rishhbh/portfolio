@@ -3,7 +3,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
-import Dock from './components/Dock';
 import Footer from './components/Footer';
 import { PageTransition } from './components/PageTransition';
 import { ThemeProvider } from './context/ThemeContext';
@@ -91,7 +90,6 @@ function App() {
             {!isBooting && (
               <div className="flex flex-col min-h-screen text-ink selection:bg-[var(--selection-bg)] selection:text-ink font-sans relative z-0 select-none">
                 <Navbar />
-                <Dock />
                 <main className="flex-grow">
                   <PageTransition />
                 </main>

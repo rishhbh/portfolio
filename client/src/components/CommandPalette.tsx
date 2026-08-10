@@ -161,12 +161,12 @@ export function CommandPalette() {
             {/* Terminal Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-bg-soft">
               <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80 cursor-pointer" onClick={closePalette} />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                <div className="w-3 h-3 rounded-none bg-red-500 border border-black cursor-pointer" onClick={closePalette} />
+                <div className="w-3 h-3 rounded-none bg-yellow-500 border border-black" />
+                <div className="w-3 h-3 rounded-none bg-green-500 border border-black" />
               </div>
               <div className="text-xs text-ink-dim tracking-wider font-bold">guest@portfolio:~</div>
-              <div className="text-[10px] text-ink-faint border border-line px-1.5 py-0.5 rounded-sm bg-bg">ESC</div>
+              <div className="text-[10px] text-ink-faint border border-line px-1.5 py-0.5 rounded-none bg-bg">ESC</div>
             </div>
 
             {/* Terminal Body */}
