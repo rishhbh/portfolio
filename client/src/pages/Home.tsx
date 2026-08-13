@@ -256,8 +256,8 @@ export default function Home() {
                   <div className="text-xs font-bold text-ink-dim uppercase mt-1">Software Internships</div>
                 </div>
                 <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
-                  <div className="text-3xl sm:text-4xl font-black text-brutal-red">15+</div>
-                  <div className="text-xs font-bold text-ink-dim uppercase mt-1">REST API Modules</div>
+                  <div className="text-3xl sm:text-4xl font-black text-brutal-red">150+</div>
+                  <div className="text-xs font-bold text-ink-dim uppercase mt-1">REST API Endpoints</div>
                 </div>
                 <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
                   <div className="text-3xl sm:text-4xl font-black text-brutal-blue">1st</div>
