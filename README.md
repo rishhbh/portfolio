@@ -19,7 +19,7 @@ A developer portfolio designed in the visual language of Linear.app — featurin
 ### 1. [LayerZero](https://github.com/rishhbh/layerzero)
 AI-powered content summarization platform featuring a hybrid cloud/local LLM architecture.
 * **Ingestion Pipeline**: Scraping web URLs via JSDOM and Mozilla Readability, parsing DOCX files with mammoth, and PDFs with pdfjs-dist via mimetype-based routing.
-* **Hybrid Inference & Streaming**: Supports real-time SSE token streaming across cloud models (Gemini 2.5 Flash, GPT OSS 120B via Cerebras, Sarvam 30B) or local models (Gemma 4 via Ollama).
+* **Hybrid Inference & Streaming**: Supports real-time SSE token streaming across cloud models (Gemini 3.5 Flash, GPT OSS 120B via Cerebras, Sarvam 30B) or local models (Gemma 4 via Ollama).
 * **Caching, Security & Infra**: Upstash Redis caching with SHA-256 fingerprinting (~98% latency reduction), Express.js v5 backend with JWT httpOnly cookies, Zod schema validation, bcrypt, Upstash Redis sliding window rate limiting (@upstash/ratelimit), Jest/Supertest testing with mongodb-memory-server, and Docker Compose on AWS EC2.
 
 ### 2. [KaushalAI](https://github.com/rishhbh/kaushal-ai)
