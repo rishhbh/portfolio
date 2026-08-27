@@ -11,6 +11,7 @@ import { NoiseOverlay } from './components/NoiseOverlay';
 import { CustomCursor } from './components/CustomCursor';
 import { CommandPalette } from './components/CommandPalette';
 import { Preloader } from './components/Preloader';
+
 function App() {
   const [isBooting, setIsBooting] = useState(() => !sessionStorage.getItem('hasBooted'));
 

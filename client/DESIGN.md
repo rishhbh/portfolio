@@ -21,12 +21,13 @@ components:
 
 ## Overview
 
-The current design schema embraces **Raw Editorial Brutalism**. It combines the unpolished, structural aesthetic of classic brutalism with the refined typography and grid systems of editorial design. The result is a highly legible, confrontational, yet systematically organized interface.
+The interface architecture embraces **Maximalist Neubrutalism**. It combines the dense, multi-layered layout complexity of UI Maximalism (dense bento grids, sticky floating HUD docks, scrolling marquee tickers, sticker stamps, and overlapping badge clouds) with the unpolished, structural aesthetic of Neubrutalism.
 
-Key characteristics include absolute sharp corners (`0px` border-radius), thick unbroken black borders separating semantic sections, and high-contrast solid color fills. There are no gradients, no soft corners, and no blurred drop-shadows. Every element is explicitly bordered and structurally stacked.
+Key characteristics include high visual information density, multi-column bento matrices, absolute sharp corners (`0px` border-radius), thick unbroken black borders (`2px`–`4px`), hard offset shadows (`2px`–`8px`), and high-contrast primary color fills. There are zero rounded corners, zero soft gradients, and zero blurred drop-shadows.
 
-- **Style:** Structural, Editorial, Raw, High-Contrast
-- **Keywords:** 0px radius, hard offset shadows, thick borders, grid architecture, text outlines, monochrome with primary accents.
+- **Structural Layout:** Maximalist (bento matrix, sticky HUD dock, marquee tickers, sticker density, multi-widget dashboards).
+- **Visual Style:** Neubrutalist (`0px` radius, hard offset shadows, thick black borders, text outlines, mechanical interaction physics).
+- **Keywords:** Bento grid, floating HUD widget, marquee ticker, 0px radius, hard offset shadows, high contrast, monochrome with primary accents.
 - **Light/Dark:** ✓ Full Dark Mode (Default) / ✓ Light Mode Supported
 
 ## Theme & Variables

@@ -190,4 +190,52 @@ body {
   border-radius: 0px !important;
 }
 
+/* Continuous Marquee Ticker Keyframe Animations */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 25s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+/* Brutalist Sticker Stamps */
+.brutal-sticker {
+  background-color: #FFEB3B;
+  color: #000000;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  font-weight: 800;
+  font-family: monospace;
+  text-transform: uppercase;
+  border-radius: 0px;
+}
+
+/* Floating Dock Glow Border */
+.dock-shadow {
+  box-shadow: 6px 6px 0px #000000;
+}
+
 

@@ -5,6 +5,8 @@ import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
 import { TextReveal } from '../components/TextReveal';
 import { GithubActivity } from '../components/GithubActivity';
+import { MarqueeTicker } from '../components/MarqueeTicker';
+import { GithubBadges } from '../components/GithubBadges';
 import { useSound } from '../hooks/useSound';
 
 export default function Home() {
@@ -172,56 +174,74 @@ export default function Home() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-24 space-y-24">
       
       {/* ==========================================
-          1. HERO SECTION — RAW EDITORIAL BRUTALISM
+          1. HERO SECTION — MAXIMALIST BENTO MATRIX
          ========================================== */}
-      <section id="hero" className="space-y-8 pt-4">
-        <BlurFade delay={0.1} forceAnimate={true} className="w-full space-y-8">
+      <section id="hero" className="space-y-6 pt-4">
+        {/* Top Continuous Marquee Ticker */}
+        <div className="border-3 border-black shadow-[4px_4px_0px_#000]">
+          <MarqueeTicker variant="yellow" />
+        </div>
+
+        <BlurFade delay={0.1} forceAnimate={true} className="w-full space-y-6">
           
           {/* Giant Display Headline */}
-          <div className="border-b-3 border-black pb-8">
+          <div className="border-b-3 border-black pb-6 space-y-4">
+            <div className="flex items-center justify-between font-mono text-xs font-bold text-ink-dim uppercase">
+              <span className="bg-black text-white px-2.5 py-1 border border-black">[SYSTEM MATRIX v2.4]</span>
+              <span className="text-brutal-red font-mono font-extrabold flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-brutal-red border border-black animate-ping" /> MAXIMALIST BRUTALISM
+              </span>
+            </div>
+            
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[104px] font-black uppercase tracking-tighter leading-none flex flex-wrap items-baseline gap-x-4">
               <span className="text-ink">RISHABH</span>
               <span className="text-outline">SHARMA</span>
             </h1>
+
             <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-black/20 mt-4">
               <span className="text-xl sm:text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-ink flex items-center gap-3">
-                SOFTWARE ENGINEER <span className="inline-flex items-center justify-center w-10 h-10 rounded-none border-2 border-black bg-brutal-yellow text-black text-lg shadow-[2px_2px_0px_#000]">→</span>
+                SOFTWARE ENGINEER <span className="inline-flex items-center justify-center w-9 h-9 rounded-none border-2 border-black bg-brutal-yellow text-black text-base shadow-[2px_2px_0px_#000]">→</span>
               </span>
-              <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase">
-                <span className="bg-black text-white px-3 py-1 border-2 border-black rounded-none">LUCKNOW, INDIA</span>
-                <span className="bg-emerald-400 text-black px-3 py-1 border-2 border-black flex items-center gap-1.5 rounded-none shadow-[2px_2px_0px_#000]">
+
+              {/* GitHub Badges Quick Bar */}
+              <div className="flex flex-wrap items-center gap-2">
+                <GithubBadges compact={true} />
+                <span className="bg-emerald-400 text-black px-3 py-1 border-2 border-black font-mono text-xs font-bold uppercase flex items-center gap-1.5 rounded-none shadow-[2px_2px_0px_#000]">
                   <span className="w-2 h-2 bg-emerald-950 animate-pulse" /> OPEN FOR ROLES
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Hero Grid Block */}
+          {/* Hero Grid Bento Matrix */}
           <div className="grid grid-cols-1 md:grid-cols-12 border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none">
             
             {/* Left Column: Directives */}
             <div className="md:col-span-6 p-6 sm:p-8 space-y-6 border-b-3 md:border-b-0 md:border-r-3 border-black">
-              <div className="text-xs font-black uppercase tracking-widest text-brutal-red border-b-2 border-black pb-2 flex items-center gap-2">
-                <span className="w-2 h-2 bg-brutal-red border border-black" /> Architecture & Engineering Directives
+              <div className="text-xs font-black uppercase tracking-widest text-brutal-red border-b-2 border-black pb-2 flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-brutal-red border border-black" /> Engineering Directives
+                </span>
+                <span className="font-mono text-[10px] text-ink-faint">SPEC #01</span>
               </div>
               
-              <div className="space-y-4">
-                <div className="border-b border-black/20 pb-3">
+              <div className="space-y-3.5">
+                <div className="border-b border-black/20 pb-2.5">
                   <span className="text-[11px] font-bold text-ink-faint block uppercase">Primary Focus</span>
                   <span className="text-sm sm:text-base font-extrabold text-ink uppercase">Backend Systems & LLM Integration Pipelines</span>
                 </div>
 
-                <div className="border-b border-black/20 pb-3">
+                <div className="border-b border-black/20 pb-2.5">
                   <span className="text-[11px] font-bold text-ink-faint block uppercase">Academic Degree</span>
                   <span className="text-sm sm:text-base font-extrabold text-ink uppercase">B.Tech CSE (AI & ML) — SMS Lucknow</span>
                 </div>
 
-                <div className="border-b border-black/20 pb-3">
+                <div className="border-b border-black/20 pb-2.5">
                   <span className="text-[11px] font-bold text-ink-faint block uppercase">Core Infrastructure</span>
                   <span className="text-sm sm:text-base font-extrabold text-ink uppercase">Node.js · Express v5 · MongoDB · Upstash Redis</span>
                 </div>
 
-                <div className="border-b border-black/20 pb-3">
+                <div className="border-b border-black/20 pb-2.5">
                   <span className="text-[11px] font-bold text-ink-faint block uppercase">Deployment & Testing</span>
                   <span className="text-sm sm:text-base font-extrabold text-ink uppercase">Docker · AWS EC2 · Cloudflare R2 · Jest Unit Tests</span>
                 </div>
@@ -522,6 +542,11 @@ export default function Home() {
           </div>
         </BlurFade>
 
+        {/* GitHub Achievement Badges */}
+        <BlurFade delay={0.3}>
+          <GithubBadges />
+        </BlurFade>
+
         {/* GitHub Activity */}
         <BlurFade delay={0.4}>
           <div className="border-3 border-black bg-bg-soft p-6 shadow-[6px_6px_0px_#000] rounded-none space-y-4">
@@ -534,6 +559,11 @@ export default function Home() {
             <GithubActivity />
           </div>
         </BlurFade>
+
+        {/* Section Marquee Banner */}
+        <div className="border-3 border-black shadow-[4px_4px_0px_#000] mt-8">
+          <MarqueeTicker variant="blue" direction="right" items={['BACKEND SDE', 'SYSTEMS ARCHITECTURE', 'DOCKER CONTAINERIZATION', 'LLM ORCHESTRATION', 'RESTFUL APIS', 'DATABASE GEO-INDEXING']} />
+        </div>
       </section>
 
       {/* ==========================================
