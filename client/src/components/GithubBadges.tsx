@@ -19,10 +19,10 @@ export const GITHUB_BADGES: GithubBadgeItem[] = [
     name: 'PULL SHARK',
     count: 2,
     description: 'Opened and merged multiple Pull Requests into production codebases.',
-    bgColor: 'bg-brutal-yellow',
-    textColor: 'text-black',
+    bgColor: 'bg-btn-badge-1',
+    textColor: 'text-btn-badge-1-text',
     borderColor: 'border-black',
-    icon: <GitPullRequest className="w-5 h-5 text-black" />,
+    icon: <GitPullRequest className="w-5 h-5 text-current" />,
     unlockedDate: '2x Unlocked',
   },
   {
@@ -30,10 +30,10 @@ export const GITHUB_BADGES: GithubBadgeItem[] = [
     name: 'QUICKDRAW',
     count: 1,
     description: 'Closed an issue or pull request within 5 minutes of opening.',
-    bgColor: 'bg-brutal-blue',
-    textColor: 'text-white',
+    bgColor: 'bg-btn-badge-2',
+    textColor: 'text-btn-badge-2-text',
     borderColor: 'border-black',
-    icon: <Zap className="w-5 h-5 text-white" />,
+    icon: <Zap className="w-5 h-5 text-current" />,
     unlockedDate: '1x Unlocked',
   },
   {
@@ -41,10 +41,10 @@ export const GITHUB_BADGES: GithubBadgeItem[] = [
     name: 'YOLO',
     count: 1,
     description: 'Merged a pull request directly into the primary branch without code review.',
-    bgColor: 'bg-brutal-red',
-    textColor: 'text-white',
+    bgColor: 'bg-btn-badge-3',
+    textColor: 'text-btn-badge-3-text',
     borderColor: 'border-black',
-    icon: <Flame className="w-5 h-5 text-white" />,
+    icon: <Flame className="w-5 h-5 text-current" />,
     unlockedDate: '1x Unlocked',
   },
 ];
@@ -78,7 +78,7 @@ export function GithubBadges({ compact = false }: GithubBadgesProps) {
     <div className="border-3 border-black bg-bg-soft p-6 shadow-[6px_6px_0px_#000] rounded-none space-y-4">
       <div className="flex flex-wrap items-center justify-between border-b-2 border-black pb-3 gap-2">
         <div className="flex items-center gap-2">
-          <Trophy className="w-5 h-5 text-brutal-yellow" />
+          <Trophy className="w-5 h-5 text-ink" />
           <h3 className="font-black text-sm uppercase text-ink tracking-wide">
             GitHub Achievement Ledger
           </h3>
@@ -87,7 +87,7 @@ export function GithubBadges({ compact = false }: GithubBadgesProps) {
           href="https://github.com/rishhbh"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs font-mono font-bold uppercase text-ink-dim hover:text-brutal-red flex items-center gap-1 transition-colors"
+          className="text-xs font-mono font-bold uppercase text-ink-dim hover:text-ink flex items-center gap-1 transition-colors"
         >
           @rishhbh <ExternalLink className="w-3.5 h-3.5" />
         </a>

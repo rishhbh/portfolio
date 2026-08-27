@@ -188,8 +188,8 @@ export default function Home() {
           <div className="border-b-3 border-black pb-6 space-y-4">
             <div className="flex items-center justify-between font-mono text-xs font-bold text-ink-dim uppercase">
               <span className="bg-black text-white px-2.5 py-1 border border-black">[SYSTEM MATRIX v2.4]</span>
-              <span className="text-brutal-red font-mono font-extrabold flex items-center gap-1.5">
-                <span className="w-2 h-2 bg-brutal-red border border-black animate-ping" /> MAXIMALIST BRUTALISM
+              <span className="text-ink font-mono font-extrabold flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-btn-primary border border-black animate-ping" /> MAXIMALIST BRUTALISM
               </span>
             </div>
             
@@ -200,14 +200,14 @@ export default function Home() {
 
             <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-black/20 mt-4">
               <span className="text-xl sm:text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-ink flex items-center gap-3">
-                SOFTWARE ENGINEER <span className="inline-flex items-center justify-center w-9 h-9 rounded-none border-2 border-black bg-brutal-yellow text-black text-base shadow-[2px_2px_0px_#000]">→</span>
+                SOFTWARE ENGINEER <span className="inline-flex items-center justify-center w-9 h-9 rounded-none border-2 border-black bg-btn-primary text-btn-primary-text text-base shadow-[2px_2px_0px_#000]">→</span>
               </span>
 
               {/* GitHub Badges Quick Bar */}
               <div className="flex flex-wrap items-center gap-2">
                 <GithubBadges compact={true} />
-                <span className="bg-emerald-400 text-black px-3 py-1 border-2 border-black font-mono text-xs font-bold uppercase flex items-center gap-1.5 rounded-none shadow-[2px_2px_0px_#000]">
-                  <span className="w-2 h-2 bg-emerald-950 animate-pulse" /> OPEN FOR ROLES
+                <span className="bg-btn-primary text-btn-primary-text px-3 py-1 border-2 border-black font-mono text-xs font-bold uppercase flex items-center gap-1.5 rounded-none shadow-[2px_2px_0px_#000]">
+                  <span className="w-2 h-2 bg-black animate-pulse" /> OPEN FOR ROLES
                 </span>
               </div>
             </div>
@@ -218,9 +218,9 @@ export default function Home() {
             
             {/* Left Column: Directives */}
             <div className="md:col-span-6 p-6 sm:p-8 space-y-6 border-b-3 md:border-b-0 md:border-r-3 border-black">
-              <div className="text-xs font-black uppercase tracking-widest text-brutal-red border-b-2 border-black pb-2 flex items-center justify-between">
+              <div className="text-xs font-black uppercase tracking-widest text-ink border-b-2 border-black pb-2 flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-brutal-red border border-black" /> Engineering Directives
+                  <span className="w-2 h-2 bg-btn-accent border border-black" /> Engineering Directives
                 </span>
                 <span className="font-mono text-[10px] text-ink-faint">SPEC #01</span>
               </div>
@@ -256,7 +256,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-brutal-red text-white border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-xs py-3 px-6 uppercase hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none rounded-none"
+                  className="bg-btn-accent text-btn-accent-text border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-xs py-3 px-6 uppercase hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none rounded-none"
                 >
                   GET IN TOUCH
                 </button>
@@ -267,7 +267,7 @@ export default function Home() {
             <div className="md:col-span-6 p-6 sm:p-8 flex flex-col justify-between bg-bg-softer space-y-6">
               <div className="flex items-center justify-between border-b-2 border-black pb-3">
                 <span className="font-extrabold text-xs text-ink uppercase tracking-wider">Engineering Impact Matrix</span>
-                <span className="bg-brutal-yellow text-black font-black text-[10px] px-2 py-0.5 border border-black uppercase rounded-none">ACTIVE METRICS</span>
+                <span className="bg-btn-primary text-btn-primary-text font-black text-[10px] px-2 py-0.5 border border-black uppercase rounded-none">ACTIVE METRICS</span>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -276,20 +276,20 @@ export default function Home() {
                   <div className="text-xs font-bold text-ink-dim uppercase mt-1">Software Internships</div>
                 </div>
                 <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
-                  <div className="text-3xl sm:text-4xl font-black text-brutal-red">150+</div>
+                  <div className="text-3xl sm:text-4xl font-black text-ink">150+</div>
                   <div className="text-xs font-bold text-ink-dim uppercase mt-1">REST API Endpoints</div>
                 </div>
                 <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
-                  <div className="text-3xl sm:text-4xl font-black text-brutal-blue">1st</div>
+                  <div className="text-3xl sm:text-4xl font-black text-ink">1st</div>
                   <div className="text-xs font-bold text-ink-dim uppercase mt-1">Ideas to Impact Winner</div>
                 </div>
                 <div className="border-2 border-black bg-bg-soft p-4 shadow-[2px_2px_0px_#000] rounded-none">
-                  <div className="text-3xl sm:text-4xl font-black text-emerald-400">&lt;2s</div>
+                  <div className="text-3xl sm:text-4xl font-black text-ink">&lt;2s</div>
                   <div className="text-xs font-bold text-ink-dim uppercase mt-1">Emergency SOS Latency</div>
                 </div>
               </div>
 
-              <div className="p-4 border-2 border-black bg-brutal-yellow text-black space-y-1 shadow-[2px_2px_0px_#000] rounded-none">
+              <div className="p-4 border-2 border-black bg-btn-primary text-btn-primary-text space-y-1 shadow-[2px_2px_0px_#000] rounded-none">
                 <div className="font-black text-xs uppercase flex items-center gap-2">
                   <span className="w-2 h-2 bg-black rounded-none" /> Recent System Milestone
                 </div>
@@ -313,7 +313,7 @@ export default function Home() {
               <span>00 // OVERVIEW</span>
               <span className="text-outline hidden sm:inline">& BIOGRAPHY</span>
             </h2>
-            <span className="bg-brutal-blue text-white font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+            <span className="bg-btn-secondary text-btn-secondary-text font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
               RISHABH SHARMA
             </span>
           </div>
@@ -323,12 +323,12 @@ export default function Home() {
           <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none grid grid-cols-1 lg:grid-cols-12">
             {/* Bio Left Column */}
             <div className="lg:col-span-7 p-6 sm:p-10 space-y-6 border-b-3 lg:border-b-0 lg:border-r-3 border-black">
-              <div className="text-xs font-black uppercase tracking-wider text-brutal-red border-b-2 border-black pb-2">
+              <div className="text-xs font-black uppercase tracking-wider text-ink border-b-2 border-black pb-2">
                 // System Developer Statement
               </div>
               
               <p className="text-lg sm:text-xl font-bold text-ink leading-relaxed tracking-tight">
-                Backend-focused Software Engineer specializing in <span className="bg-brutal-yellow text-black px-1.5 py-0.5 border border-black">scalable API design</span>, microservices, and hybrid LLM orchestration pipelines.
+                Backend-focused Software Engineer specializing in <span className="bg-btn-primary text-btn-primary-text px-1.5 py-0.5 border border-black">scalable API design</span>, microservices, and hybrid LLM orchestration pipelines.
               </p>
 
               <p className="text-ink-dim leading-relaxed font-medium text-sm sm:text-base">
@@ -336,11 +336,18 @@ export default function Home() {
               </p>
 
               <div className="pt-4 border-t-2 border-black/20 flex flex-wrap gap-2">
-                {['Node.js', 'Express v5', 'MongoDB', 'Docker', 'AWS EC2', 'Cloudflare R2', 'Jest', 'Upstash Redis'].map((item) => (
-                  <span key={item} className="font-bold text-xs bg-bg-softer text-ink border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none">
-                    {item}
-                  </span>
-                ))}
+                {['Node.js', 'Express v5', 'MongoDB', 'Docker', 'AWS EC2', 'Cloudflare R2', 'Jest', 'Upstash Redis'].map((item, idx) => {
+                  const badgeClasses = [
+                    'bg-btn-badge-1 text-btn-badge-1-text',
+                    'bg-btn-badge-2 text-btn-badge-2-text',
+                    'bg-btn-badge-3 text-btn-badge-3-text',
+                  ];
+                  return (
+                    <span key={item} className={`font-bold text-xs ${badgeClasses[idx % 3]} border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none`}>
+                      {item}
+                    </span>
+                  );
+                })}
               </div>
             </div>
 
@@ -370,7 +377,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="p-4 border-2 border-black bg-brutal-blue text-white space-y-1 shadow-[2px_2px_0px_#000]">
+              <div className="p-4 border-2 border-black bg-btn-secondary text-btn-secondary-text space-y-1 shadow-[2px_2px_0px_#000]">
                 <div className="font-black text-xs uppercase">Core Engineering Motto</div>
                 <div className="text-xs font-medium leading-tight">"If it cannot be monitored, rate-limited, and tested, it does not belong in production."</div>
               </div>
@@ -389,7 +396,7 @@ export default function Home() {
               <span>01 // SELECTED WORK</span>
               <span className="text-outline hidden sm:inline">& SYSTEMS</span>
             </h2>
-            <span className="bg-brutal-yellow text-black font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+            <span className="bg-btn-primary text-btn-primary-text font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
               [ 04 FEATURED PROJECTS ]
             </span>
           </div>
@@ -412,7 +419,7 @@ export default function Home() {
                       </span>
                       <h3 className="text-2xl sm:text-3xl font-black text-ink uppercase tracking-tight flex items-center gap-2">
                         {project.name}
-                        <ArrowRight className="w-6 h-6 text-brutal-red" />
+                        <ArrowRight className="w-6 h-6 text-ink" />
                       </h3>
                     </div>
 
@@ -422,7 +429,7 @@ export default function Home() {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 bg-bg-soft text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none transition-colors"
+                          className="flex items-center gap-1.5 bg-btn-secondary text-btn-secondary-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none transition-colors"
                         >
                           <Github className="w-4 h-4" /> GitHub
                         </a>
@@ -432,14 +439,14 @@ export default function Home() {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 bg-brutal-yellow text-black border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none transition-colors"
+                          className="flex items-center gap-1.5 bg-btn-primary text-btn-primary-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none transition-colors"
                         >
                           <ExternalLink className="w-4 h-4" /> Live System
                         </a>
                       )}
                       <Link
                         to={`/projects/${project.slug}`}
-                        className="bg-brutal-red text-white border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none flex items-center gap-1 hover:translate-x-0.5 transition-transform"
+                        className="bg-btn-accent text-btn-accent-text border-2 border-black px-3 py-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase rounded-none flex items-center gap-1 hover:translate-x-0.5 transition-transform"
                       >
                         Details <ArrowUpRight className="w-4 h-4 stroke-[3]" />
                       </Link>
@@ -451,7 +458,7 @@ export default function Home() {
                     
                     {/* Left: Problem & Description */}
                     <div className="lg:col-span-7 p-6 sm:p-8 space-y-4 border-b-3 lg:border-b-0 lg:border-r-3 border-black">
-                      <div className="inline-block font-bold text-xs text-brutal-red uppercase tracking-wider">
+                      <div className="inline-block font-bold text-xs text-ink uppercase tracking-wider">
                         // {project.tagline}
                       </div>
                       <p className="text-ink-dim text-sm sm:text-base font-medium leading-relaxed">
@@ -459,14 +466,21 @@ export default function Home() {
                       </p>
 
                       <div className="pt-2 flex flex-wrap gap-2">
-                        {project.homeTags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="font-bold text-xs bg-bg-softer text-ink border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                        {project.homeTags.map((tag, tagIdx) => {
+                          const tagBadgeClasses = [
+                            'bg-btn-badge-1 text-btn-badge-1-text',
+                            'bg-btn-badge-2 text-btn-badge-2-text',
+                            'bg-btn-badge-3 text-btn-badge-3-text',
+                          ];
+                          return (
+                            <span
+                              key={tag}
+                              className={`font-bold text-xs ${tagBadgeClasses[tagIdx % 3]} border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none`}
+                            >
+                              {tag}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
 
@@ -478,7 +492,7 @@ export default function Home() {
                       <ul className="space-y-2.5">
                         {project.keyFeatures.map((feature, idx) => (
                           <li key={idx} className="flex items-start gap-2.5">
-                            <span className="w-2 h-2 bg-brutal-yellow border border-black rounded-none mt-1.5 shrink-0" />
+                            <span className="w-2 h-2 bg-btn-primary border border-black rounded-none mt-1.5 shrink-0" />
                             <span className="text-xs font-medium text-ink-dim leading-relaxed">{feature}</span>
                           </li>
                         ))}
@@ -504,7 +518,7 @@ export default function Home() {
               <span>02 // TECHNICAL STACK</span>
               <span className="text-outline hidden sm:inline">& TOOLING MATRIX</span>
             </h2>
-            <span className="bg-brutal-red text-white font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+            <span className="bg-btn-accent text-btn-accent-text font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
               CATEGORIZED LEDGER
             </span>
           </div>
@@ -522,19 +536,26 @@ export default function Home() {
                 >
                   <div className="flex items-center justify-between border-b-2 border-black pb-2">
                     <span className="font-extrabold text-sm text-ink uppercase">{category.title}</span>
-                    <span className="font-mono text-xs font-bold bg-brutal-yellow text-black px-2 py-0.5 border border-black">
+                    <span className="font-mono text-xs font-bold bg-btn-primary text-btn-primary-text px-2 py-0.5 border border-black">
                       [{category.items.length}]
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {category.items.map((skill) => (
-                      <span
-                        key={skill}
-                        className="font-bold text-xs text-ink bg-bg-softer border-2 border-black py-1.5 px-3 shadow-[2px_2px_0px_#000] rounded-none hover:bg-brutal-yellow hover:text-black transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                    {category.items.map((skill, sIdx) => {
+                      const badgeClasses = [
+                        'bg-btn-badge-1 text-btn-badge-1-text',
+                        'bg-btn-badge-2 text-btn-badge-2-text',
+                        'bg-btn-badge-3 text-btn-badge-3-text',
+                      ];
+                      return (
+                        <span
+                          key={skill}
+                          className={`font-bold text-xs ${badgeClasses[sIdx % 3]} border-2 border-black py-1.5 px-3 shadow-[2px_2px_0px_#000] rounded-none hover:bg-btn-primary hover:text-btn-primary-text transition-colors`}
+                        >
+                          {skill}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -552,7 +573,7 @@ export default function Home() {
           <div className="border-3 border-black bg-bg-soft p-6 shadow-[6px_6px_0px_#000] rounded-none space-y-4">
             <div className="flex items-center justify-between border-b-2 border-black pb-2">
               <span className="font-extrabold text-sm text-ink uppercase flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-brutal-red" /> Continuous Commit Activity
+                <Terminal className="w-4 h-4 text-ink" /> Continuous Commit Activity
               </span>
               <span className="font-mono text-xs font-bold text-ink-dim uppercase">GITHUB TELEMETRY</span>
             </div>
@@ -562,7 +583,7 @@ export default function Home() {
 
         {/* Section Marquee Banner */}
         <div className="border-3 border-black shadow-[4px_4px_0px_#000] mt-8">
-          <MarqueeTicker variant="blue" direction="right" items={['BACKEND SDE', 'SYSTEMS ARCHITECTURE', 'DOCKER CONTAINERIZATION', 'LLM ORCHESTRATION', 'RESTFUL APIS', 'DATABASE GEO-INDEXING']} />
+          <MarqueeTicker variant="secondary" direction="right" items={['BACKEND SDE', 'SYSTEMS ARCHITECTURE', 'DOCKER CONTAINERIZATION', 'LLM ORCHESTRATION', 'RESTFUL APIS', 'DATABASE GEO-INDEXING']} />
         </div>
       </section>
 
@@ -576,7 +597,7 @@ export default function Home() {
               <span>03 // EXPERIENCE</span>
               <span className="text-outline hidden sm:inline">& RECOGNITION</span>
             </h2>
-            <span className="bg-brutal-blue text-white font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+            <span className="bg-btn-secondary text-btn-secondary-text font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
               CAREER TRACK RECORD
             </span>
           </div>
@@ -592,9 +613,9 @@ export default function Home() {
                     <h3 className="font-extrabold text-xl sm:text-2xl text-ink uppercase">
                       {job.role}
                     </h3>
-                    <span className="text-brutal-red font-bold text-sm uppercase">@ {job.company}</span>
+                    <span className="text-ink font-bold text-sm uppercase">@ {job.company}</span>
                   </div>
-                  <span className="bg-brutal-yellow text-black border-2 border-black font-mono font-bold text-xs px-3 py-1.5 shadow-[2px_2px_0px_#000] rounded-none w-fit">
+                  <span className="bg-btn-primary text-btn-primary-text border-2 border-black font-mono font-bold text-xs px-3 py-1.5 shadow-[2px_2px_0px_#000] rounded-none w-fit">
                     {job.duration}
                   </span>
                 </div>
@@ -611,7 +632,7 @@ export default function Home() {
                       }
                       return (
                         <li key={idx} className="flex items-start gap-3">
-                          <CheckCircle2 className="w-4 h-4 text-brutal-blue shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-4 h-4 text-ink shrink-0 mt-0.5" />
                           <span>
                             {title ? (
                               <>
@@ -643,7 +664,7 @@ export default function Home() {
               <BlurFade key={index} delay={0.4 + index * 0.1}>
                 <div className="border-3 border-black bg-bg-soft p-5 shadow-[4px_4px_0px_#000] rounded-none space-y-3 h-full flex flex-col justify-between">
                   <div className="space-y-2">
-                    <span className="bg-brutal-yellow text-black text-[10px] font-bold px-2 py-0.5 border border-black uppercase inline-block">
+                    <span className="bg-btn-primary text-btn-primary-text text-[10px] font-bold px-2 py-0.5 border border-black uppercase inline-block">
                       {award.type}
                     </span>
                     <h4 className="font-extrabold text-base text-ink uppercase leading-snug">
@@ -670,7 +691,7 @@ export default function Home() {
               <span>04 // CONTACT</span>
               <span className="text-outline hidden sm:inline">& DIRECT DISPATCH</span>
             </h2>
-            <span className="bg-brutal-yellow text-black font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
+            <span className="bg-btn-primary text-btn-primary-text font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
               COMMUNICATION CHANNEL
             </span>
           </div>
@@ -682,7 +703,7 @@ export default function Home() {
             {/* Left Column: Direct Info */}
             <div className="lg:col-span-5 p-6 sm:p-10 space-y-6 border-b-3 lg:border-b-0 lg:border-r-3 border-black bg-bg-softer flex flex-col justify-between">
               <div className="space-y-4">
-                <div className="text-xs font-black uppercase tracking-wider text-brutal-red border-b-2 border-black pb-2">
+                <div className="text-xs font-black uppercase tracking-wider text-ink border-b-2 border-black pb-2">
                   // Initiate Connection
                 </div>
 
@@ -698,7 +719,7 @@ export default function Home() {
               <div className="space-y-4 pt-4 border-t-2 border-black">
                 <div className="border-b border-black/20 pb-3">
                   <span className="text-[10px] font-bold text-ink-faint block uppercase">Email Address</span>
-                  <a href="mailto:rishabh223300@gmail.com" className="text-sm font-extrabold text-brutal-red underline hover:text-ink transition-colors">
+                  <a href="mailto:rishabh223300@gmail.com" className="text-sm font-extrabold text-ink underline hover:text-ink-dim transition-colors">
                     rishabh223300@gmail.com
                   </a>
                 </div>
@@ -713,9 +734,9 @@ export default function Home() {
             {/* Right Column: Dispatch Form */}
             <div className="lg:col-span-7 p-6 sm:p-10">
               {status === 'success' ? (
-                <div className="p-8 border-3 border-black bg-emerald-400 text-black font-bold shadow-[4px_4px_0px_#000] rounded-none space-y-3">
+                <div className="p-8 border-3 border-black bg-btn-primary text-btn-primary-text font-bold shadow-[4px_4px_0px_#000] rounded-none space-y-3">
                   <div className="font-black text-2xl uppercase">Message Dispatched Successfully</div>
-                  <div className="text-sm text-black/90 font-mono">Thank you for reaching out. I will respond to your message promptly.</div>
+                  <div className="text-sm font-mono">Thank you for reaching out. I will respond to your message promptly.</div>
                 </div>
               ) : (
                 <form 
@@ -733,7 +754,7 @@ export default function Home() {
                         required
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-brutal-yellow focus:text-black transition-colors rounded-none shadow-[3px_3px_0px_#000]"
+                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-btn-primary focus:text-btn-primary-text transition-colors rounded-none shadow-[3px_3px_0px_#000]"
                         placeholder="John Doe"
                       />
                     </div>
@@ -747,7 +768,7 @@ export default function Home() {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-brutal-yellow focus:text-black transition-colors rounded-none shadow-[3px_3px_0px_#000]"
+                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-btn-primary focus:text-btn-primary-text transition-colors rounded-none shadow-[3px_3px_0px_#000]"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -761,14 +782,14 @@ export default function Home() {
                         rows={5}
                         value={formData.message}
                         onChange={handleInputChange}
-                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-brutal-yellow focus:text-black transition-colors resize-none rounded-none shadow-[3px_3px_0px_#000]"
+                        className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-btn-primary focus:text-btn-primary-text transition-colors resize-none rounded-none shadow-[3px_3px_0px_#000]"
                         placeholder="Write your project details or job opportunity..."
                       ></textarea>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
-                    {status === 'error' && <span className="text-xs font-bold text-brutal-red">Error: {errorMessage}</span>}
+                    {status === 'error' && <span className="text-xs font-bold text-ink">Error: {errorMessage}</span>}
                     <button
                       type="submit"
                       disabled={status === 'loading'}

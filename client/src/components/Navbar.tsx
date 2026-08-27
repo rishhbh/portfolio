@@ -5,6 +5,8 @@ import { useCommandPalette } from '../context/CommandPaletteContext';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 
+import { ColorSchemePicker } from './ColorSchemePicker';
+
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const { openPalette } = useCommandPalette();
@@ -52,7 +54,7 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 w-full z-50 bg-bg-soft border-b-3 border-black shadow-[0_4px_0_#000] rounded-none">
       {/* Scroll progress bar */}
       <motion.div 
-        className="absolute bottom-0 left-0 right-0 h-[3px] bg-brutal-yellow origin-left z-30"
+        className="absolute bottom-0 left-0 right-0 h-[3px] bg-btn-primary origin-left z-30"
         style={{ scaleX }}
       />
 
@@ -69,7 +71,7 @@ export default function Navbar() {
           }}
           className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-ink hover:translate-x-0.5 transition-transform"
         >
-          <span className="bg-brutal-yellow text-black px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] font-black text-sm rounded-none">
+          <span className="bg-btn-primary text-btn-primary-text px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] font-black text-sm rounded-none">
             RS
           </span>
           <span className="font-extrabold uppercase text-sm tracking-wide hidden sm:inline">
@@ -95,7 +97,7 @@ export default function Navbar() {
           {/* Command Palette Trigger */}
           <button
             onClick={openPalette}
-            className="flex items-center gap-1.5 bg-bg-softer text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black px-2.5 py-1 text-xs font-bold shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none uppercase"
+            className="flex items-center gap-1.5 bg-btn-secondary text-btn-secondary-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black px-2.5 py-1 text-xs font-bold shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none uppercase"
             aria-label="Search"
           >
             <Search className="w-3.5 h-3.5" />
@@ -109,7 +111,7 @@ export default function Navbar() {
               href="https://github.com/rishhbh"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-bg-softer text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
+              className="bg-btn-badge-1 text-btn-badge-1-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
               aria-label="GitHub"
             >
               <Github className="w-4 h-4" />
@@ -119,7 +121,7 @@ export default function Navbar() {
               href="https://linkedin.com/in/rishabhh-sharma"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-bg-softer text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
+              className="bg-btn-badge-2 text-btn-badge-2-text hover:bg-btn-secondary hover:text-btn-secondary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-4 h-4" />
@@ -127,18 +129,22 @@ export default function Navbar() {
 
             <Link
               to="/resume"
-              className="bg-bg-softer text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none flex items-center gap-1 text-xs font-bold uppercase"
+              className="bg-btn-badge-3 text-btn-badge-3-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none flex items-center gap-1 text-xs font-bold uppercase"
               aria-label="Resume MAN Page"
             >
               <FileText className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* Theme Toggle */}
+          {/* Color Scheme Picker */}
+          <ColorSchemePicker />
+
+          {/* Theme Quick Toggle (Light / Dark) */}
           <button
             onClick={toggleTheme}
-            className="bg-bg-softer text-ink hover:bg-brutal-yellow hover:text-black border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
+            className="bg-btn-accent text-btn-accent-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
             aria-label="Toggle theme"
+            title="Quick toggle Light/Dark mode"
           >
             {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
           </button>
@@ -146,7 +152,7 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden bg-bg-softer text-ink border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] rounded-none"
+            className="md:hidden bg-btn-primary text-btn-primary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] rounded-none"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -162,7 +168,7 @@ export default function Navbar() {
               <button
                 key={item.target}
                 onClick={() => handleNavClick(item.target)}
-                className="text-left py-2 px-3 bg-bg-softer border border-black text-ink hover:bg-brutal-yellow hover:text-black"
+                className="text-left py-2 px-3 bg-bg-softer border border-black text-ink hover:bg-btn-primary hover:text-btn-primary-text"
               >
                 {item.label}
               </button>
@@ -189,7 +195,7 @@ export default function Navbar() {
             <Link
               to="/resume"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-1.5 bg-brutal-yellow text-black border border-black p-2"
+              className="flex items-center gap-1.5 bg-btn-primary text-btn-primary-text border border-black p-2"
             >
               <FileText className="w-4 h-4" /> Resume
             </Link>

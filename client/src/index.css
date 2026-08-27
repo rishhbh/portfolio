@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Dark Mode */
+:root, html[data-scheme="dark-brutal"] {
+  /* 1. Classic Neubrutalist Dark */
   --bg: #0e0e10;
   --bg-soft: #18181c;
   --bg-softer: #24242a;
@@ -14,10 +14,30 @@
   --shadow-color: #000000;
   --selection-bg: #FFEB3B;
   --selection-ink: #000000;
+  --accent-yellow: #FFEB3B;
+  --accent-yellow-text: #000000;
+  --accent-red: #FF5252;
+  --accent-red-text: #ffffff;
+  --accent-blue: #2196F3;
+  --accent-blue-text: #ffffff;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #FFEB3B;
+  --btn-primary-text: #000000;
+  --btn-secondary: #2196F3;
+  --btn-secondary-text: #ffffff;
+  --btn-accent: #FF5252;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #FFEB3B;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #2196F3;
+  --btn-badge-2-text: #ffffff;
+  --btn-badge-3: #FF5252;
+  --btn-badge-3-text: #ffffff;
 }
 
-html.light {
-  /* Light Mode */
+html[data-scheme="light-brutal"], html.light {
+  /* 2. Classic Neubrutalist Light */
   --bg: #f8f8f5;
   --bg-soft: #ffffff;
   --bg-softer: #eef0ea;
@@ -28,6 +48,366 @@ html.light {
   --shadow-color: #000000;
   --selection-bg: #FFEB3B;
   --selection-ink: #000000;
+  --accent-yellow: #FFEB3B;
+  --accent-yellow-text: #000000;
+  --accent-red: #FF5252;
+  --accent-red-text: #ffffff;
+  --accent-blue: #2196F3;
+  --accent-blue-text: #ffffff;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #FFEB3B;
+  --btn-primary-text: #000000;
+  --btn-secondary: #2196F3;
+  --btn-secondary-text: #ffffff;
+  --btn-accent: #FF5252;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #FFEB3B;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #2196F3;
+  --btn-badge-2-text: #ffffff;
+  --btn-badge-3: #FF5252;
+  --btn-badge-3-text: #ffffff;
+}
+
+html[data-scheme="cyber-matrix"] {
+  /* 3. Cyber Matrix Hacker Green */
+  --bg: #050a05;
+  --bg-soft: #0c160c;
+  --bg-softer: #142214;
+  --ink: #00FF66;
+  --ink-dim: #5ce68a;
+  --ink-faint: #26733a;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #00FF66;
+  --selection-ink: #000000;
+  --accent-yellow: #00FF66;
+  --accent-yellow-text: #000000;
+  --accent-red: #39FF14;
+  --accent-red-text: #000000;
+  --accent-blue: #00E5FF;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #00FF66;
+  --btn-primary-text: #000000;
+  --btn-secondary: #00E5FF;
+  --btn-secondary-text: #000000;
+  --btn-accent: #39FF14;
+  --btn-accent-text: #000000;
+  --btn-badge-1: #00FF66;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #00E5FF;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #143514;
+  --btn-badge-3-text: #00FF66;
+}
+
+html[data-scheme="synth-cyberpunk"] {
+  /* 4. Synthwave Neon Cyberpunk */
+  --bg: #100821;
+  --bg-soft: #1c1035;
+  --bg-softer: #281747;
+  --ink: #F4F0FF;
+  --ink-dim: #C4B5FD;
+  --ink-faint: #8B5CF6;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #FF007F;
+  --selection-ink: #FFFFFF;
+  --accent-yellow: #FF007F;
+  --accent-yellow-text: #ffffff;
+  --accent-red: #FF3366;
+  --accent-red-text: #ffffff;
+  --accent-blue: #00F0FF;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #FF007F;
+  --btn-primary-text: #ffffff;
+  --btn-secondary: #00F0FF;
+  --btn-secondary-text: #000000;
+  --btn-accent: #B800FF;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #FF007F;
+  --btn-badge-1-text: #ffffff;
+  --btn-badge-2: #00F0FF;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #7928CA;
+  --btn-badge-3-text: #ffffff;
+}
+
+html[data-scheme="solar-amber"] {
+  /* 5. Solar Amber Warm Sepia */
+  --bg: #1c1917;
+  --bg-soft: #292524;
+  --bg-softer: #3d3835;
+  --ink: #FEF3C7;
+  --ink-dim: #F59E0B;
+  --ink-faint: #B45309;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #F59E0B;
+  --selection-ink: #000000;
+  --accent-yellow: #F59E0B;
+  --accent-yellow-text: #000000;
+  --accent-red: #EF4444;
+  --accent-red-text: #ffffff;
+  --accent-blue: #14B8A6;
+  --accent-blue-text: #ffffff;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #F59E0B;
+  --btn-primary-text: #000000;
+  --btn-secondary: #14B8A6;
+  --btn-secondary-text: #000000;
+  --btn-accent: #D97706;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #F59E0B;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #14B8A6;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #B45309;
+  --btn-badge-3-text: #ffffff;
+}
+
+html[data-scheme="stark-mono"] {
+  /* 6. High Contrast Monochrome */
+  --bg: #000000;
+  --bg-soft: #121212;
+  --bg-softer: #1e1e1e;
+  --ink: #FFFFFF;
+  --ink-dim: #D1D5DB;
+  --ink-faint: #9CA3AF;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #FFFFFF;
+  --selection-ink: #000000;
+  --accent-yellow: #FFFFFF;
+  --accent-yellow-text: #000000;
+  --accent-red: #E5E7EB;
+  --accent-red-text: #000000;
+  --accent-blue: #9CA3AF;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #FFFFFF;
+  --btn-primary-text: #000000;
+  --btn-secondary: #374151;
+  --btn-secondary-text: #ffffff;
+  --btn-accent: #9CA3AF;
+  --btn-accent-text: #000000;
+  --btn-badge-1: #FFFFFF;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #4B5563;
+  --btn-badge-2-text: #ffffff;
+  --btn-badge-3: #1F2937;
+  --btn-badge-3-text: #ffffff;
+}
+
+html[data-scheme="tokyo-night"] {
+  /* 7. Tokyo Night Indigo */
+  --bg: #1a1b26;
+  --bg-soft: #24283b;
+  --bg-softer: #2f354f;
+  --ink: #c0caf5;
+  --ink-dim: #9aa5ce;
+  --ink-faint: #565f89;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #ff9e64;
+  --selection-ink: #000000;
+  --accent-yellow: #ff9e64;
+  --accent-yellow-text: #000000;
+  --accent-red: #f7768e;
+  --accent-red-text: #000000;
+  --accent-blue: #7dcfff;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #7AA2F7;
+  --btn-primary-text: #000000;
+  --btn-secondary: #FF9E64;
+  --btn-secondary-text: #000000;
+  --btn-accent: #BB9AF7;
+  --btn-accent-text: #000000;
+  --btn-badge-1: #7AA2F7;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #FF9E64;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #F7768E;
+  --btn-badge-3-text: #000000;
+}
+
+html[data-scheme="acid-lime"] {
+  /* 8. Acid Voltage Lime */
+  --bg: #0b120a;
+  --bg-soft: #142013;
+  --bg-softer: #1e301c;
+  --ink: #e2ffcc;
+  --ink-dim: #99e666;
+  --ink-faint: #559933;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #CCFF00;
+  --selection-ink: #000000;
+  --accent-yellow: #CCFF00;
+  --accent-yellow-text: #000000;
+  --accent-red: #FF5500;
+  --accent-red-text: #000000;
+  --accent-blue: #00FFCC;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #CCFF00;
+  --btn-primary-text: #000000;
+  --btn-secondary: #00FFCC;
+  --btn-secondary-text: #000000;
+  --btn-accent: #A6FF00;
+  --btn-accent-text: #000000;
+  --btn-badge-1: #CCFF00;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #00FFCC;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #1E301C;
+  --btn-badge-3-text: #E2FFCC;
+}
+
+html[data-scheme="dracula-goth"] {
+  /* 9. Dracula Vampire Orchid */
+  --bg: #1e1f29;
+  --bg-soft: #282a36;
+  --bg-softer: #383a4c;
+  --ink: #f8f8f2;
+  --ink-dim: #bd93f9;
+  --ink-faint: #6272a4;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #ff79c6;
+  --selection-ink: #000000;
+  --accent-yellow: #ff79c6;
+  --accent-yellow-text: #000000;
+  --accent-red: #ff5555;
+  --accent-red-text: #ffffff;
+  --accent-blue: #8be9fd;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #BD93F9;
+  --btn-primary-text: #000000;
+  --btn-secondary: #8BE9FD;
+  --btn-secondary-text: #000000;
+  --btn-accent: #FF79C6;
+  --btn-accent-text: #000000;
+  --btn-badge-1: #BD93F9;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #8BE9FD;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #FF79C6;
+  --btn-badge-3-text: #000000;
+}
+
+html[data-scheme="nordic-frost"] {
+  /* 10. Nordic Frost Ice */
+  --bg: #151d28;
+  --bg-soft: #1d2736;
+  --bg-softer: #29374c;
+  --ink: #e5e9f0;
+  --ink-dim: #88c0d0;
+  --ink-faint: #4c566a;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #88c0d0;
+  --selection-ink: #000000;
+  --accent-yellow: #88c0d0;
+  --accent-yellow-text: #000000;
+  --accent-red: #bf616a;
+  --accent-red-text: #ffffff;
+  --accent-blue: #81a1c1;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #88C0D0;
+  --btn-primary-text: #000000;
+  --btn-secondary: #81A1C1;
+  --btn-secondary-text: #000000;
+  --btn-accent: #5E81AC;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #88C0D0;
+  --btn-badge-1-text: #000000;
+  --btn-badge-2: #81A1C1;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #D8DEE9;
+  --btn-badge-3-text: #000000;
+}
+
+html[data-scheme="gameboy-retro"] {
+  /* 11. Game Boy Dot Matrix */
+  --bg: #0f170b;
+  --bg-soft: #182412;
+  --bg-softer: #24361b;
+  --ink: #9bbc0f;
+  --ink-dim: #8bac0f;
+  --ink-faint: #306230;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #9bbc0f;
+  --selection-ink: #0f380f;
+  --accent-yellow: #9bbc0f;
+  --accent-yellow-text: #0f380f;
+  --accent-red: #8bac0f;
+  --accent-red-text: #ffffff;
+  --accent-blue: #306230;
+  --accent-blue-text: #ffffff;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #9BBC0F;
+  --btn-primary-text: #0F380F;
+  --btn-secondary: #8BAC0F;
+  --btn-secondary-text: #0F380F;
+  --btn-accent: #306230;
+  --btn-accent-text: #9BBC0F;
+  --btn-badge-1: #9BBC0F;
+  --btn-badge-1-text: #0F380F;
+  --btn-badge-2: #8BAC0F;
+  --btn-badge-2-text: #0F380F;
+  --btn-badge-3: #306230;
+  --btn-badge-3-text: #9BBC0F;
+}
+
+html[data-scheme="hyper-pink"] {
+  /* 12. Hyper Pink & Turquoise */
+  --bg: #180613;
+  --bg-soft: #280b20;
+  --bg-softer: #3a112f;
+  --ink: #ffe6f7;
+  --ink-dim: #ff80df;
+  --ink-faint: #b33696;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #ff1493;
+  --selection-ink: #ffffff;
+  --accent-yellow: #ff1493;
+  --accent-yellow-text: #ffffff;
+  --accent-red: #ff4500;
+  --accent-red-text: #ffffff;
+  --accent-blue: #00f5d4;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #FF1493;
+  --btn-primary-text: #ffffff;
+  --btn-secondary: #00F5D4;
+  --btn-secondary-text: #000000;
+  --btn-accent: #7B2CBF;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #FF1493;
+  --btn-badge-1-text: #ffffff;
+  --btn-badge-2: #00F5D4;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #FF70A6;
+  --btn-badge-3-text: #000000;
 }
 
 body {
@@ -65,11 +445,11 @@ body {
   border-left: 2px solid var(--border-color);
 }
 ::-webkit-scrollbar-thumb {
-  background: #FFEB3B;
+  background: var(--btn-primary);
   border: 2px solid var(--border-color);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF5252;
+  background: var(--btn-accent);
 }
 
 /* Neubrutalist Components - Sharp Corners (0px) per DESIGN.md */
@@ -81,8 +461,8 @@ body {
 }
 
 .brutal-btn {
-  background-color: #FFEB3B;
-  color: #000000;
+  background-color: var(--btn-primary);
+  color: var(--btn-primary-text);
   border: 3px solid var(--border-color);
   box-shadow: 4px 4px 0px var(--shadow-color);
   font-weight: 700;
@@ -90,12 +470,32 @@ body {
   transition: all 150ms ease;
 }
 
-.brutal-btn:hover {
+.brutal-btn-secondary {
+  background-color: var(--btn-secondary);
+  color: var(--btn-secondary-text);
+  border: 3px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  font-weight: 700;
+  border-radius: 0px;
+  transition: all 150ms ease;
+}
+
+.brutal-btn-accent {
+  background-color: var(--btn-accent);
+  color: var(--btn-accent-text);
+  border: 3px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  font-weight: 700;
+  border-radius: 0px;
+  transition: all 150ms ease;
+}
+
+.brutal-btn:hover, .brutal-btn-secondary:hover, .brutal-btn-accent:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0px var(--shadow-color);
 }
 
-.brutal-btn:active {
+.brutal-btn:active, .brutal-btn-secondary:active, .brutal-btn-accent:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0px var(--shadow-color);
 }
@@ -223,8 +623,8 @@ body {
 
 /* Brutalist Sticker Stamps */
 .brutal-sticker {
-  background-color: #FFEB3B;
-  color: #000000;
+  background-color: var(--btn-primary);
+  color: var(--btn-primary-text);
   border: 2px solid #000000;
   box-shadow: 3px 3px 0px #000000;
   font-weight: 800;

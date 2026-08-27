@@ -33,7 +33,7 @@ export function GithubActivity() {
     <ErrorBoundary>
       <div className="bg-bg-soft border-3 border-black p-6 sm:p-8 font-sans text-xs sm:text-sm shadow-[6px_6px_0px_#000] rounded-none overflow-hidden mt-6">
         <div className="flex items-center justify-between border-b-3 border-black pb-4 mb-6">
-          <span className="bg-brutal-yellow text-black border-2 border-black font-extrabold text-xs px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none uppercase">
+          <span className="bg-btn-primary text-btn-primary-text border-2 border-black font-extrabold text-xs px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none uppercase">
             GitHub Contributions Calendar
           </span>
           <span className="text-ink-dim font-mono font-bold text-xs">@rishhbh</span>

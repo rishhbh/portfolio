@@ -32,7 +32,7 @@ const renderFormattedText = (text: string) => {
       return (
         <div key={idx} className="border-2 border-black bg-bg-soft p-4 shadow-[3px_3px_0px_#000] space-y-1.5 my-3">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs font-black bg-brutal-yellow text-black px-2.5 py-0.5 border border-black">
+            <span className="font-mono text-xs font-black bg-btn-primary text-btn-primary-text px-2.5 py-0.5 border border-black">
               PHASE {num.padStart(2, '0')}
             </span>
             <span className="font-extrabold text-sm sm:text-base text-ink uppercase">{title}</span>
@@ -58,7 +58,7 @@ const renderFormattedText = (text: string) => {
       }
       return (
         <div key={idx} className="flex gap-3 items-start py-1">
-          <span className="w-2 h-2 bg-brutal-red border border-black shrink-0 mt-1.5" />
+          <span className="w-2 h-2 bg-btn-primary border border-black shrink-0 mt-1.5" />
           <p className="text-ink-dim text-xs sm:text-sm font-medium leading-relaxed">
             {title ? (
               <>
@@ -155,7 +155,7 @@ export default function ProjectDetail() {
         <div className="flex items-center justify-between border-b-3 border-black pb-4">
           <Link
             to="/#work"
-            className="inline-flex items-center gap-2 bg-bg-softer text-ink border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-brutal-yellow hover:text-black font-bold text-xs uppercase px-3.5 py-2 rounded-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
+            className="inline-flex items-center gap-2 bg-btn-secondary text-btn-secondary-text border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-btn-primary hover:text-btn-primary-text font-bold text-xs uppercase px-3.5 py-2 rounded-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
           >
             <ArrowLeft className="w-4 h-4" /> Return to Selected Work
           </Link>
@@ -169,7 +169,7 @@ export default function ProjectDetail() {
           <div className="border-3 border-black bg-bg-soft p-6 sm:p-10 shadow-[6px_6px_0px_#000] rounded-none space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b-3 border-black pb-6">
               <div className="space-y-2">
-                <span className="bg-brutal-yellow text-black font-black text-xs border-2 border-black shadow-[2px_2px_0px_#000] py-1 px-3 inline-block uppercase">
+                <span className="bg-btn-primary text-btn-primary-text font-black text-xs border-2 border-black shadow-[2px_2px_0px_#000] py-1 px-3 inline-block uppercase">
                   SYSTEM MODULE
                 </span>
                 <h1 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase text-ink tracking-tighter flex items-center gap-3">
@@ -193,7 +193,7 @@ export default function ProjectDetail() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-brutal-blue text-white border-3 border-black shadow-[4px_4px_0px_#000] font-extrabold text-xs py-3 px-5 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center gap-2 uppercase"
+                    className="bg-btn-secondary text-btn-secondary-text border-3 border-black shadow-[4px_4px_0px_#000] font-extrabold text-xs py-3 px-5 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center gap-2 uppercase"
                   >
                     <ExternalLink className="w-4 h-4" /> LIVE PRODUCTION DEPLOYMENT
                   </a>
@@ -210,7 +210,7 @@ export default function ProjectDetail() {
             </div>
 
             {project.result && (
-              <div className="p-4 border-2 border-black bg-brutal-yellow text-black font-extrabold text-xs uppercase flex items-center gap-3 shadow-[3px_3px_0px_#000]">
+              <div className="p-4 border-2 border-black bg-btn-primary text-btn-primary-text font-extrabold text-xs uppercase flex items-center gap-3 shadow-[3px_3px_0px_#000]">
                 <Award className="w-5 h-5 shrink-0" />
                 <span>{project.result}</span>
               </div>
@@ -225,7 +225,7 @@ export default function ProjectDetail() {
               <div className="flex flex-wrap items-center justify-between border-b-3 border-black pb-4 gap-4">
                 <div>
                   <span className="font-extrabold text-sm text-ink uppercase flex items-center gap-2">
-                    <Terminal className="w-4 h-4 text-brutal-red" /> Interactive Interface & Workflow Flow
+                    <Terminal className="w-4 h-4 text-ink" /> Interactive Interface & Workflow Flow
                   </span>
                   <span className="text-xs text-ink-dim font-medium">Horizontal sequence of platform screens</span>
                 </div>
@@ -236,14 +236,14 @@ export default function ProjectDetail() {
                   </span>
                   <button
                     onClick={() => handleGalleryScroll('left')}
-                    className="p-2 bg-brutal-yellow text-black border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                    className="p-2 bg-btn-primary text-btn-primary-text border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="w-4 h-4 stroke-[3]" />
                   </button>
                   <button
                     onClick={() => handleGalleryScroll('right')}
-                    className="p-2 bg-brutal-yellow text-black border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                    className="p-2 bg-btn-primary text-btn-primary-text border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
                     aria-label="Next image"
                   >
                     <ChevronRight className="w-4 h-4 stroke-[3]" />
@@ -270,7 +270,7 @@ export default function ProjectDetail() {
                   >
                     <div className="bg-black text-white font-mono text-xs font-bold px-3 py-1.5 border-2 border-black uppercase flex items-center justify-between">
                       <span>{stepLabels[imgName] || `SCREENSHOT // ${imgName.toUpperCase()}`}</span>
-                      <span className="text-[10px] text-brutal-yellow">100% SCALE</span>
+                      <span className="text-[10px] text-btn-primary-text">100% SCALE</span>
                     </div>
 
                     <div className="border-2 border-black overflow-hidden bg-black/5 aspect-video relative">
@@ -298,17 +298,17 @@ export default function ProjectDetail() {
               
               {/* Problem Section */}
               <div className="space-y-3">
-                <span className="bg-brutal-yellow text-black text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
+                <span className="bg-btn-primary text-btn-primary-text text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
                   01 // THE PROBLEM STATEMENT
                 </span>
-                <p className="text-ink-dim text-sm sm:text-base font-medium leading-relaxed border-l-3 border-brutal-red pl-4 py-1">
+                <p className="text-ink-dim text-sm sm:text-base font-medium leading-relaxed border-l-3 border-ink pl-4 py-1">
                   {project.problem}
                 </p>
               </div>
 
               {/* How It Works Section */}
               <div className="space-y-4 pt-4 border-t-2 border-black/20">
-                <span className="bg-brutal-red text-white text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
+                <span className="bg-btn-secondary text-btn-secondary-text text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
                   02 // HOW IT WORKS & ARCHITECTURE
                 </span>
                 <div className="space-y-2">
@@ -318,13 +318,13 @@ export default function ProjectDetail() {
 
               {/* Key Features */}
               <div className="space-y-4 pt-4 border-t-2 border-black/20">
-                <span className="bg-brutal-blue text-white text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
+                <span className="bg-btn-accent text-btn-accent-text text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
                   03 // KEY SYSTEM HIGHLIGHTS
                 </span>
                 <div className="space-y-2">
                   {project.keyFeatures.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3 border-b border-black/10 pb-2">
-                      <span className="w-2.5 h-2.5 bg-brutal-yellow border border-black shrink-0 mt-1" />
+                      <span className="w-2.5 h-2.5 bg-btn-primary border border-black shrink-0 mt-1" />
                       <span className="text-xs sm:text-sm font-medium text-ink-dim leading-relaxed">{feature}</span>
                     </div>
                   ))}
@@ -339,7 +339,7 @@ export default function ProjectDetail() {
               {/* Stack Ledger */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b-2 border-black pb-2">
-                  <span className="bg-brutal-yellow text-black text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase">
+                  <span className="bg-btn-primary text-btn-primary-text text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase">
                     04 // COMPLETE TECH STACK
                   </span>
                   <span className="font-mono text-xs font-bold text-ink">
@@ -348,14 +348,21 @@ export default function ProjectDetail() {
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-2">
-                  {project.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="font-bold text-xs bg-bg-soft text-ink border-2 border-black py-1.5 px-3 shadow-[2px_2px_0px_#000] uppercase hover:bg-brutal-yellow hover:text-black transition-colors"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                  {project.techStack.map((tech, tIdx) => {
+                    const badgeClasses = [
+                      'bg-btn-badge-1 text-btn-badge-1-text',
+                      'bg-btn-badge-2 text-btn-badge-2-text',
+                      'bg-btn-badge-3 text-btn-badge-3-text',
+                    ];
+                    return (
+                      <span
+                        key={tech}
+                        className={`font-bold text-xs ${badgeClasses[tIdx % 3]} border-2 border-black py-1.5 px-3 shadow-[2px_2px_0px_#000] uppercase hover:bg-btn-primary hover:text-btn-primary-text transition-colors`}
+                      >
+                        {tech}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
 

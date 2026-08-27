@@ -11,10 +11,10 @@ export default function ResumeManPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-bg text-ink p-4 sm:p-8 md:p-12 font-mono text-sm sm:text-base leading-relaxed selection:bg-brutal-yellow selection:text-black pt-28 pb-32"
+      className="min-h-screen bg-bg text-ink p-4 sm:p-8 md:p-12 font-mono text-sm sm:text-base leading-relaxed selection:bg-btn-primary selection:text-btn-primary-text pt-28 pb-32"
     >
       <div className="max-w-4xl mx-auto bg-bg-soft border-3 border-black shadow-[6px_6px_0px_#000] p-6 sm:p-10 rounded-none space-y-8">
-        <div className="flex justify-between font-black text-xs sm:text-sm bg-brutal-yellow text-black border-2 border-black p-3 shadow-[2px_2px_0px_#000] rounded-none uppercase">
+        <div className="flex justify-between font-black text-xs sm:text-sm bg-btn-primary text-btn-primary-text border-2 border-black p-3 shadow-[2px_2px_0px_#000] rounded-none uppercase">
           <span>RISHABH(1)</span>
           <span>Manual Page / Resume</span>
           <span>RISHABH(1)</span>
@@ -29,7 +29,7 @@ export default function ResumeManPage() {
 
         <section>
           <h2 className="font-extrabold text-base mb-3 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Synopsis</h2>
-          <div className="pl-4 font-bold text-brutal-red text-sm sm:text-base">
+          <div className="pl-4 font-bold text-ink text-sm sm:text-base">
             <strong>rishabh</strong> [--backend] [--ai-integrations] [--devops]
           </div>
         </section>
@@ -52,7 +52,7 @@ export default function ResumeManPage() {
           <div className="space-y-6">
             <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
               <div className="font-extrabold text-ink uppercase text-sm sm:text-base">foundertruth — SDE Intern & Tech Lead</div>
-              <div className="bg-brutal-yellow text-black text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Jul 2026 – Present</div>
+              <div className="bg-btn-primary text-btn-primary-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Jul 2026 – Present</div>
               <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
                 <li>Engineered a document upload pipeline using Multer supporting 3+ formats (DOCX, PDF, PPTX) and multi-file batch uploads (5+ files simultaneously), persisting assets to Cloudflare R2 storage.</li>
                 <li>Added JWT and Google OAuth with email verification link using Resend and account linking with existing flow.</li>
@@ -61,7 +61,7 @@ export default function ResumeManPage() {
 
             <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
               <div className="font-extrabold text-ink uppercase text-sm sm:text-base">Decoders Entity — Backend Developer Intern</div>
-              <div className="bg-brutal-yellow text-black text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">June 2026 – Present</div>
+              <div className="bg-btn-secondary text-btn-secondary-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">June 2026 – Present</div>
               <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
                 <li>Architected and developed the complete backend for HerShield using Node.js, Express.js, MongoDB, and Socket.io.</li>
                 <li>Built dual-channel OTP authentication system with phone and email verification, bcrypt hashing, and JWT.</li>
@@ -72,7 +72,7 @@ export default function ResumeManPage() {
 
             <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
               <div className="font-extrabold text-ink uppercase text-sm sm:text-base">Walk Reward — Software Developer Intern</div>
-              <div className="bg-brutal-yellow text-black text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Mar 2026 – Apr 2026</div>
+              <div className="bg-btn-accent text-btn-accent-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Mar 2026 – Apr 2026</div>
               <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
                 <li>Architected a split-domain production setup hosting a React SPA and WordPress blog on the same domain.</li>
                 <li>Built a GitHub Actions CI/CD pipeline automating Vite + React builds and FTP deployment.</li>
@@ -82,7 +82,7 @@ export default function ResumeManPage() {
 
             <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
               <div className="font-extrabold text-ink uppercase text-sm sm:text-base">RevLabz Solutions — MERN Developer Intern</div>
-              <div className="bg-brutal-yellow text-black text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Nov 2025 – Feb 2026</div>
+              <div className="bg-btn-badge-1 text-btn-badge-1-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Nov 2025 – Feb 2026</div>
               <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
                 <li>Engineered the backend for an SDR outreach platform across a Chrome extension and web app using MERN + TypeScript.</li>
                 <li>Engineered 12+ RESTful APIs covering multi-provider OAuth, contact list management, and campaign orchestration.</li>
@@ -122,11 +122,11 @@ export default function ResumeManPage() {
           <h2 className="font-extrabold text-base mb-3 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Links</h2>
           <div className="space-y-2 font-bold text-xs sm:text-sm">
             <div>
-              <span className="text-brutal-red uppercase">GitHub: </span>
+              <span className="text-ink uppercase">GitHub: </span>
               <a href="https://github.com/rishhbh" target="_blank" rel="noreferrer" className="text-ink hover:underline">https://github.com/rishhbh</a>
             </div>
             <div>
-              <span className="text-brutal-red uppercase">LinkedIn: </span>
+              <span className="text-ink uppercase">LinkedIn: </span>
               <a href="https://linkedin.com/in/rishabhh-sharma" target="_blank" rel="noreferrer" className="text-ink hover:underline">https://linkedin.com/in/rishabhh-sharma</a>
             </div>
           </div>

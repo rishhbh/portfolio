@@ -1,7 +1,7 @@
 interface MarqueeTickerProps {
   items?: string[];
   direction?: 'left' | 'right';
-  variant?: 'yellow' | 'dark' | 'red' | 'blue';
+  variant?: 'primary' | 'secondary' | 'accent' | 'dark' | 'yellow' | 'red' | 'blue';
 }
 
 const DEFAULT_ITEMS = [
@@ -20,15 +20,18 @@ const DEFAULT_ITEMS = [
 export function MarqueeTicker({
   items = DEFAULT_ITEMS,
   direction = 'left',
-  variant = 'yellow',
+  variant = 'primary',
 }: MarqueeTickerProps) {
   const repeatedItems = [...items, ...items, ...items, ...items];
 
-  const variantStyles = {
-    yellow: 'bg-brutal-yellow text-black border-y-3 border-black',
+  const variantStyles: Record<string, string> = {
+    primary: 'bg-btn-primary text-btn-primary-text border-y-3 border-black',
+    secondary: 'bg-btn-secondary text-btn-secondary-text border-y-3 border-black',
+    accent: 'bg-btn-accent text-btn-accent-text border-y-3 border-black',
     dark: 'bg-bg-softer text-ink border-y-3 border-black',
-    red: 'bg-brutal-red text-white border-y-3 border-black',
-    blue: 'bg-brutal-blue text-white border-y-3 border-black',
+    yellow: 'bg-btn-primary text-btn-primary-text border-y-3 border-black',
+    red: 'bg-btn-accent text-btn-accent-text border-y-3 border-black',
+    blue: 'bg-btn-secondary text-btn-secondary-text border-y-3 border-black',
   };
 
   const animClass = direction === 'left' ? 'animate-marquee' : 'animate-marquee-reverse';
