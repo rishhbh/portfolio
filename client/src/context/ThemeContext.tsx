@@ -126,10 +126,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (savedScheme && COLOR_SCHEMES.some((s) => s.id === savedScheme)) {
       return savedScheme;
     }
-    // 2. Legacy fallback
+    // 2. Legacy fallback or initial visitor default
     const legacyTheme = localStorage.getItem('theme');
     if (legacyTheme === 'light') return 'light-brutal';
-    return 'dark-brutal';
+    return 'hyper-pink';
   });
 
   const activeSchemeConfig = COLOR_SCHEMES.find((s) => s.id === colorScheme) || COLOR_SCHEMES[0];

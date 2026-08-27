@@ -2,7 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-:root, html[data-scheme="dark-brutal"] {
+:root, html[data-scheme="hyper-pink"] {
+  /* 12. Hyper Pink & Turquoise (Default) */
+  --bg: #180613;
+  --bg-soft: #280b20;
+  --bg-softer: #3a112f;
+  --ink: #ffe6f7;
+  --ink-dim: #ff80df;
+  --ink-faint: #b33696;
+  --border-color: #000000;
+  --shadow-color: #000000;
+  --selection-bg: #ff1493;
+  --selection-ink: #ffffff;
+  --accent-yellow: #ff1493;
+  --accent-yellow-text: #ffffff;
+  --accent-red: #ff4500;
+  --accent-red-text: #ffffff;
+  --accent-blue: #00f5d4;
+  --accent-blue-text: #000000;
+
+  /* Button & Badge Theme Tokens */
+  --btn-primary: #FF1493;
+  --btn-primary-text: #ffffff;
+  --btn-secondary: #00F5D4;
+  --btn-secondary-text: #000000;
+  --btn-accent: #7B2CBF;
+  --btn-accent-text: #ffffff;
+  --btn-badge-1: #FF1493;
+  --btn-badge-1-text: #ffffff;
+  --btn-badge-2: #00F5D4;
+  --btn-badge-2-text: #000000;
+  --btn-badge-3: #FF70A6;
+  --btn-badge-3-text: #000000;
+}
+
+html[data-scheme="dark-brutal"] {
   /* 1. Classic Neubrutalist Dark */
   --bg: #0e0e10;
   --bg-soft: #18181c;
