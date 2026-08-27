@@ -280,6 +280,7 @@ export default function ProjectDetail() {
                         onError={() => handleImageError(imgName)}
                         className="w-full h-full object-contain bg-black/40"
                         loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>

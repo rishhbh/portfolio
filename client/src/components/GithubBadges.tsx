@@ -13,7 +13,7 @@ export interface GithubBadgeItem {
   unlockedDate: string;
 }
 
-export const GITHUB_BADGES: GithubBadgeItem[] = [
+const GITHUB_BADGES: GithubBadgeItem[] = [
   {
     id: 'pull-shark',
     name: 'PULL SHARK',

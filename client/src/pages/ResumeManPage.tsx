@@ -54,8 +54,13 @@ export default function ResumeManPage() {
               <div className="font-extrabold text-ink uppercase text-sm sm:text-base">foundertruth — SDE Intern & Tech Lead</div>
               <div className="bg-btn-primary text-btn-primary-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Jul 2026 – Present</div>
               <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
-                <li>Engineered a document upload pipeline using Multer supporting 3+ formats (DOCX, PDF, PPTX) and multi-file batch uploads (5+ files simultaneously), persisting assets to Cloudflare R2 storage.</li>
-                <li>Added JWT and Google OAuth with email verification link using Resend and account linking with existing flow.</li>
+                <li>Built an asynchronous document ingestion pipeline using Cloudflare R2, text extraction, page/chunk metadata parsing, and VisionJob lifecycle processing to preserve source provenance.</li>
+                <li>Implemented a 4096-dimensional semantic embedding pipeline using Qwen3-Embedding-8B, generating and persisting vector representations for document chunks to enable vector similarity search.</li>
+                <li>Designed a multi-stage RAG engine combining startup-specific document retrieval with a curated founder failure knowledge base, explicitly separating factual startup evidence from historical failure patterns.</li>
+                <li>Architected a decoupled AI service abstraction around Groq (chatCompletion.js), executing GPT-OSS 120B with JSON Schema constraints to produce machine-readable startup analyses, task generation, and evaluations.</li>
+                <li>Developed an evidence-grounded evaluation engine scoring market fit, business model, traction, product, and team with explicit confidence tracking, risk flags, page citations, and missing-evidence representation.</li>
+                <li>Built an incubator-integrated development workflow where GPT-OSS synthesizes weekly tasks from progress history, incubators review/assign tasks, and AI evaluates submissions into an immutable ProgressHistory trajectory.</li>
+                <li>Implemented JWT authentication with HttpOnly cookie handling, admin-protected knowledge base CRUD endpoints, and role-scoped authorization for incubator vs. founder operations.</li>
               </ul>
             </div>
 
@@ -101,19 +106,19 @@ export default function ResumeManPage() {
               <dd className="sm:col-span-3 text-ink-dim">TypeScript, JavaScript, Python, C</dd>
               
               <dt className="font-black text-ink uppercase">FRONTEND</dt>
-              <dd className="sm:col-span-3 text-ink-dim">React.js, Tailwind CSS, Zustand, i18next</dd>
+              <dd className="sm:col-span-3 text-ink-dim">React.js, Tailwind CSS, Zustand, i18next, jsPDF, html2canvas</dd>
               
               <dt className="font-black text-ink uppercase">BACKEND & APIs</dt>
-              <dd className="sm:col-span-3 text-ink-dim">Node.js, Express.js, REST APIs, OAuth 2.0, JWT, Auth0</dd>
+              <dd className="sm:col-span-3 text-ink-dim">Node.js, Express.js, REST APIs, OAuth 2.0, JWT, Auth0, Rate Limiting, RBAC</dd>
               
               <dt className="font-black text-ink uppercase">TESTING</dt>
               <dd className="sm:col-span-3 text-ink-dim">Jest, Supertest, mongodb-memory-server</dd>
               
               <dt className="font-black text-ink uppercase">DEVOPS & INFRA</dt>
-              <dd className="sm:col-span-3 text-ink-dim">AWS EC2, Docker, GitHub Actions, Cloudflare Pages/Workers/R2, Linux</dd>
+              <dd className="sm:col-span-3 text-ink-dim">AWS EC2, Docker, Docker Compose, GitHub Actions, Cloudflare Pages/Workers/R2, Linux</dd>
               
               <dt className="font-black text-ink uppercase">DATABASES & AI</dt>
-              <dd className="sm:col-span-3 text-ink-dim">MongoDB, Redis, Ollama, Gemma, Gemini API</dd>
+              <dd className="sm:col-span-3 text-ink-dim">MongoDB (Vector Search), Redis, Groq SDK, GPT-OSS 120B, Qwen3-Embedding-8B, RAG & Vector Retrieval, Gemini API, Ollama, Gemma 4</dd>
             </dl>
           </div>
         </section>

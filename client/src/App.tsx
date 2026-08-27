@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { AnimatePresence } from 'framer-motion';
@@ -9,8 +9,11 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CommandPaletteProvider } from './context/CommandPaletteContext';
 import { NoiseOverlay } from './components/NoiseOverlay';
 import { CustomCursor } from './components/CustomCursor';
-import { CommandPalette } from './components/CommandPalette';
 import { Preloader } from './components/Preloader';
+
+const CommandPalette = lazy(() =>
+  import('./components/CommandPalette').then((module) => ({ default: module.CommandPalette }))
+);
 
 function App() {
   const [isBooting, setIsBooting] = useState(() => !sessionStorage.getItem('hasBooted'));
@@ -80,7 +83,9 @@ function App() {
           <Router>
             <CustomCursor />
             <NoiseOverlay />
-            <CommandPalette />
+            <Suspense fallback={null}>
+              <CommandPalette />
+            </Suspense>
 
             <AnimatePresence mode="wait">
               {isBooting ? (

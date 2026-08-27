@@ -14,9 +14,20 @@ export function CustomCursor() {
       return;
     }
 
+    let rafId: number | null = null;
+    let latestX = -100;
+    let latestY = -100;
+
     const onMouseMove = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      latestX = e.clientX;
+      latestY = e.clientY;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          cursorX.set(latestX);
+          cursorY.set(latestY);
+          rafId = null;
+        });
+      }
     };
 
     const onMouseOver = (e: MouseEvent) => {
@@ -33,6 +44,7 @@ export function CustomCursor() {
     window.addEventListener('mouseover', onMouseOver, { passive: true });
 
     return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseover', onMouseOver);
     };
