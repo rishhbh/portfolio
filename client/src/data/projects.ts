@@ -82,7 +82,7 @@ export const projects: Project[] = [
     homeTags: ['TypeScript', 'Express.js', 'AWS EC2', 'GitHub Actions', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/layerzero',
     liveUrl: 'https://layerzero.rishhbh.workers.dev',
-    images: ['homepage.png', 'about.png', 'register.png', 'login.png', 'doc.png', 'response.png']
+    images: ['homepage.webp', 'about.webp', 'register.webp', 'login.webp', 'doc.webp', 'response.webp']
   },
   {
     slug: 'deepsynth',
@@ -115,7 +115,7 @@ export const projects: Project[] = [
     homeTags: ['React', 'Tailwind CSS', 'Ollama', 'Gemma 3 4B', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/deepsynth',
     liveUrl: undefined, // Not deployed
-    images: ['deepsynth-one.png', 'deepsynth-two.png']
+    images: ['deepsynth-one.webp', 'deepsynth-two.webp']
   },
   {
     slug: 'calculator',
@@ -151,7 +151,7 @@ export const projects: Project[] = [
     homeTags: ['React', 'TypeScript', 'Stripe', 'Node.js', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/calculator',
     liveUrl: 'https://calculator-67.vercel.app/',
-    images: ['calculator-one.png', 'calculator-two.png']
+    images: ['calculator-one.webp', 'calculator-two.webp']
   },
   {
     slug: 'kaushal-ai',
@@ -188,6 +188,6 @@ export const projects: Project[] = [
     result: '1st place, Ideas to Impact 2026 Innovation Hackathon (Awadh Incubation Foundation, KMCLU Lucknow) — beat 50+ teams from 14+ institutions',
     githubUrl: 'https://github.com/rishhbh/kaushal-ai',
     liveUrl: 'https://kaushal-ai.pages.dev/',
-    images: ['kaushal.png']
+    images: ['kaushal.webp']
   }
 ];

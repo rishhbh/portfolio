@@ -91,13 +91,19 @@ export function CommandPalette() {
         }
         break;
       case 'cd': {
-        const target = args[1];
+        const target = args[1]?.toLowerCase().replace(/^\//, '');
         if (!target) {
           addOutput('cd: missing argument');
           break;
         }
-        const sections = ['work', 'stack', 'experience', 'contact'];
-        const projects = ['layerzero', 'kaushal-ai', 'deepsynth', 'calculator'];
+        const sections = ['work', 'stack', 'experience', 'contact', 'about'];
+        const projectsMap: Record<string, string> = {
+          'layerzero': 'layerzero',
+          'kaushal': 'kaushal-ai',
+          'kaushal-ai': 'kaushal-ai',
+          'deepsynth': 'deepsynth',
+          'calculator': 'calculator',
+        };
         
         if (sections.includes(target)) {
           addOutput(`Navigating to /${target}...`);
@@ -108,20 +114,42 @@ export function CommandPalette() {
             } else {
               navigate('/#' + target);
             }
-          }, 400);
-        } else if (projects.includes(target)) {
-          addOutput(`Opening project /${target}...`);
+          }, 300);
+        } else if (projectsMap[target]) {
+          const projectSlug = projectsMap[target];
+          addOutput(`Opening project /projects/${projectSlug}...`);
           setTimeout(() => {
             closePalette();
-            navigate(`/projects/${target}`);
-          }, 400);
+            navigate(`/projects/${projectSlug}`);
+          }, 300);
         } else {
           addOutput(`cd: ${target}: No such file or directory`);
         }
         break;
       }
+      case 'layerzero':
+      case 'kaushal':
+      case 'kaushal-ai':
+      case 'deepsynth':
+      case 'calculator': {
+        const projectSlug = command === 'kaushal' ? 'kaushal-ai' : command;
+        addOutput(`Opening project /projects/${projectSlug}...`);
+        setTimeout(() => {
+          closePalette();
+          navigate(`/projects/${projectSlug}`);
+        }, 300);
+        break;
+      }
+      case 'resume': {
+        addOutput('Opening resume manual page...');
+        setTimeout(() => {
+          closePalette();
+          navigate('/resume');
+        }, 300);
+        break;
+      }
       default:
-        addOutput(`command not found: ${command}`);
+        addOutput(`command not found: ${command}. Type "help" for available commands.`);
     }
   };
 
@@ -189,11 +217,36 @@ export function CommandPalette() {
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-transparent border-none outline-none text-ink caret-ink placeholder:text-ink-faint/30"
+                  className="w-full bg-transparent border-none outline-none text-ink caret-ink placeholder:text-ink-faint/30 font-bold"
                   spellCheck={false}
                   autoComplete="off"
-                  placeholder="Type a command..."
+                  placeholder="Type 'layerzero', 'kaushal', 'resume', or 'help'..."
                 />
+              </div>
+
+              {/* Quick Command Suggestions Chips */}
+              <div className="mt-4 pt-3 border-t border-black/10 flex flex-wrap items-center gap-1.5 text-xs">
+                <span className="text-[10px] text-ink-faint uppercase font-bold mr-1">QUICK COMMANDS:</span>
+                {[
+                  { cmd: 'layerzero', label: 'layerzero' },
+                  { cmd: 'kaushal-ai', label: 'kaushal-ai' },
+                  { cmd: 'deepsynth', label: 'deepsynth' },
+                  { cmd: 'resume', label: 'resume' },
+                  { cmd: 'help', label: 'help' },
+                  { cmd: 'clear', label: 'clear' },
+                ].map((item) => (
+                  <button
+                    key={item.cmd}
+                    type="button"
+                    onClick={() => {
+                      handleCommand(item.cmd);
+                      setInput('');
+                    }}
+                    className="px-2 py-0.5 bg-bg-softer hover:bg-btn-primary hover:text-btn-primary-text border border-black/30 text-ink text-[11px] font-mono uppercase transition-all rounded-none cursor-pointer"
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
               <div ref={bottomRef} className="h-4" />
             </div>

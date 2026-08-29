@@ -6,15 +6,17 @@ import { projects } from '../data/projects';
 import { BlurFade } from '../components/BlurFade';
 
 const stepLabels: Record<string, string> = {
-  'homepage.png': 'STEP 01 // PLATFORM HOMEPAGE & HERO',
-  'about.png': 'STEP 02 // ARCHITECTURE & HYBRID MODELS',
-  'register.png': 'STEP 03 // SECURE USER REGISTRATION',
-  'login.png': 'STEP 04 // JWT AUTHENTICATION LOGIN',
-  'doc.png': 'STEP 05 // MULTI-FORMAT DOCUMENT INGESTION',
-  'response.png': 'STEP 06 // AI SUMMARY RESPONSE & SSE STREAMING',
-  'kaushal.png': 'STEP 01 // KAUSHAL AI JOB MARKETPLACE',
-  'deepsynth.png': 'STEP 01 // DEEPSYNTH LOCAL LLM INTERFACE',
-  'hershield.png': 'STEP 01 // HERSHIELD EMERGENCY MONITORING',
+  'homepage.webp': 'STEP 01 // PLATFORM HOMEPAGE & HERO',
+  'about.webp': 'STEP 02 // ARCHITECTURE & HYBRID MODELS',
+  'register.webp': 'STEP 03 // SECURE USER REGISTRATION',
+  'login.webp': 'STEP 04 // JWT AUTHENTICATION LOGIN',
+  'doc.webp': 'STEP 05 // MULTI-FORMAT DOCUMENT INGESTION',
+  'response.webp': 'STEP 06 // AI SUMMARY RESPONSE & SSE STREAMING',
+  'kaushal.webp': 'STEP 01 // KAUSHAL AI JOB MARKETPLACE',
+  'deepsynth-one.webp': 'STEP 01 // DEEPSYNTH LOCAL LLM INTERFACE',
+  'deepsynth-two.webp': 'STEP 02 // DEEPSYNTH CHAT INTERFACE',
+  'calculator-one.webp': 'STEP 01 // CALCULATOR INTERFACE',
+  'calculator-two.webp': 'STEP 02 // STRIPE PAYMENT INTENT TRIGGER',
 };
 
 const renderFormattedText = (text: string) => {
@@ -121,32 +123,61 @@ export default function ProjectDetail() {
   }
 
   const validImages = project.images.filter(img => !failedImages[img]);
+  const previewImage = project.images.length > 0
+    ? (project.images[0].startsWith('/') ? project.images[0] : `/${project.images[0]}`)
+    : '/og-image.png';
+  const fullImageUrl = `https://rishabhh.is-a.dev${previewImage}`;
+
+  const schemaJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": project.name,
+    "abstract": project.tagline,
+    "description": project.problem,
+    "codeRepository": project.githubUrl || undefined,
+    "programmingLanguage": project.techStack,
+    "author": {
+      "@type": "Person",
+      "name": "Rishabh Sharma",
+      "url": "https://rishabhh.is-a.dev"
+    }
+  };
 
   return (
     <>
       <Helmet>
-        <title>{`${project.name} — Architecture Deep Dive | Rishabh Sharma`}</title>
-        <meta name="title" content={`${project.name} — Architecture Deep Dive | Rishabh Sharma`} />
-        <meta name="description" content={project.tagline} />
+        {/* Primary Meta Tags */}
+        <title>{`${project.name} — ${project.tagline} | Rishabh Sharma`}</title>
+        <meta name="title" content={`${project.name} — ${project.tagline} | Rishabh Sharma`} />
+        <meta name="description" content={project.problem} />
+        <meta name="keywords" content={`${project.name}, ${project.category}, ${project.homeTags.join(', ')}, ${project.techStack.slice(0, 6).join(', ')}, Rishabh Sharma`} />
         <link rel="canonical" href={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
 
-        {/* Open Graph / Facebook */}
+        {/* Open Graph / Facebook / LinkedIn / Discord Card Previews */}
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
         <meta property="og:title" content={`${project.name} — ${project.tagline}`} />
         <meta property="og:description" content={project.problem} />
-        {project.images.length > 0 && (
-          <meta property="og:image" content={`https://rishabhh.is-a.dev/${project.images[0]}`} />
-        )}
+        <meta property="og:image" content={fullImageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={`${project.name} preview`} />
+        <meta property="og:site_name" content="Rishabh Sharma — Portfolio" />
+        <meta property="og:locale" content="en_IN" />
 
-        {/* Twitter */}
+        {/* Twitter Card Metadata */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
         <meta name="twitter:title" content={`${project.name} — ${project.tagline}`} />
         <meta name="twitter:description" content={project.problem} />
-        {project.images.length > 0 && (
-          <meta name="twitter:image" content={`https://rishabhh.is-a.dev/${project.images[0]}`} />
-        )}
+        <meta name="twitter:image" content={fullImageUrl} />
+        <meta name="twitter:image:alt" content={`${project.name} preview`} />
+        <meta name="twitter:creator" content="@rishhbh" />
+
+        {/* Structured Data (JSON-LD) */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaJsonLd)}
+        </script>
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-24 space-y-16">
@@ -218,10 +249,41 @@ export default function ProjectDetail() {
           </div>
         </BlurFade>
 
+        {/* Sticky System Sub-Navigation Bar */}
+        <div className="sticky top-20 z-40 bg-bg-soft/95 backdrop-blur border-3 border-black p-2.5 shadow-[4px_4px_0px_#000] flex flex-wrap items-center justify-between gap-2 font-mono text-xs uppercase font-extrabold">
+          <span className="text-ink-faint hidden md:inline px-2">QUICK JUMP:</span>
+          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+            <button
+              onClick={() => document.getElementById('sec-gallery')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-btn-badge-1 text-btn-badge-1-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none cursor-pointer"
+            >
+              01 // GALLERY
+            </button>
+            <button
+              onClick={() => document.getElementById('sec-problem')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-btn-badge-2 text-btn-badge-2-text hover:bg-btn-secondary hover:text-btn-secondary-text border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none cursor-pointer"
+            >
+              02 // OVERVIEW & PROBLEM
+            </button>
+            <button
+              onClick={() => document.getElementById('sec-workflow')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-btn-badge-3 text-btn-badge-3-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none cursor-pointer"
+            >
+              03 // WORKFLOW PHASES
+            </button>
+            <button
+              onClick={() => document.getElementById('sec-techstack')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-black text-white hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none cursor-pointer"
+            >
+              04 // TECH STACK
+            </button>
+          </div>
+        </div>
+
         {/* Visual Workflow Image Step Carousel */}
         {validImages.length > 0 && (
           <BlurFade delay={0.2}>
-            <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none overflow-hidden space-y-4 p-6 sm:p-8">
+            <div id="sec-gallery" className="scroll-mt-32 border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none overflow-hidden space-y-4 p-6 sm:p-8">
               <div className="flex flex-wrap items-center justify-between border-b-3 border-black pb-4 gap-4">
                 <div>
                   <span className="font-extrabold text-sm text-ink uppercase flex items-center gap-2">
@@ -298,7 +360,7 @@ export default function ProjectDetail() {
             <div className="lg:col-span-7 p-6 sm:p-10 space-y-8 border-b-3 lg:border-b-0 lg:border-r-3 border-black">
               
               {/* Problem Section */}
-              <div className="space-y-3">
+              <div id="sec-problem" className="scroll-mt-32 space-y-3">
                 <span className="bg-btn-primary text-btn-primary-text text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
                   01 // THE PROBLEM STATEMENT
                 </span>
@@ -308,7 +370,7 @@ export default function ProjectDetail() {
               </div>
 
               {/* How It Works Section */}
-              <div className="space-y-4 pt-4 border-t-2 border-black/20">
+              <div id="sec-workflow" className="scroll-mt-32 space-y-4 pt-4 border-t-2 border-black/20">
                 <span className="bg-btn-secondary text-btn-secondary-text text-xs font-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase inline-block">
                   02 // HOW IT WORKS & ARCHITECTURE
                 </span>
@@ -335,7 +397,7 @@ export default function ProjectDetail() {
             </div>
 
             {/* Right: Spec Ledger & Complete Tech Stack */}
-            <div className="lg:col-span-5 p-6 sm:p-8 bg-bg-softer space-y-8 flex flex-col justify-between">
+            <div id="sec-techstack" className="scroll-mt-32 lg:col-span-5 p-6 sm:p-8 bg-bg-softer space-y-8 flex flex-col justify-between">
               
               {/* Stack Ledger */}
               <div className="space-y-4">

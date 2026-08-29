@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 
 export default function ResumeManPage() {
   useEffect(() => {
@@ -7,12 +8,34 @@ export default function ResumeManPage() {
   }, []);
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="min-h-screen bg-bg text-ink p-4 sm:p-8 md:p-12 font-mono text-sm sm:text-base leading-relaxed selection:bg-btn-primary selection:text-btn-primary-text pt-28 pb-32"
-    >
+    <>
+      <Helmet>
+        <title>Resume & Technical Specs (MAN Page) — Rishabh Sharma</title>
+        <meta name="title" content="Resume & Technical Specs (MAN Page) — Rishabh Sharma" />
+        <meta name="description" content="Full technical resume, backend engineering specs, microservices experience, and LLM pipeline architecture of Rishabh Sharma (B.Tech CSE AI & ML)." />
+        <link rel="canonical" href="https://rishabhh.is-a.dev/resume" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content="https://rishabhh.is-a.dev/resume" />
+        <meta property="og:title" content="Resume & Engineering Specs — Rishabh Sharma" />
+        <meta property="og:description" content="Backend Software Engineer specializing in Node.js, Express v5, MongoDB, Upstash Redis, Docker, AWS EC2, and hybrid LLM ingestion pipelines." />
+        <meta property="og:image" content="https://rishabhh.is-a.dev/og-image.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://rishabhh.is-a.dev/resume" />
+        <meta name="twitter:title" content="Resume & Engineering Specs — Rishabh Sharma" />
+        <meta name="twitter:description" content="Backend Software Engineer specializing in Node.js, Express v5, MongoDB, Upstash Redis, Docker, AWS EC2, and hybrid LLM ingestion pipelines." />
+        <meta name="twitter:image" content="https://rishabhh.is-a.dev/og-image.png" />
+      </Helmet>
+
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="min-h-screen bg-bg text-ink p-4 sm:p-8 md:p-12 font-mono text-sm sm:text-base leading-relaxed selection:bg-btn-primary selection:text-btn-primary-text pt-28 pb-32"
+      >
       <div className="max-w-4xl mx-auto bg-bg-soft border-3 border-black shadow-[6px_6px_0px_#000] p-6 sm:p-10 rounded-none space-y-8">
         
         {/* Top Header & Actions */}
@@ -158,5 +181,6 @@ export default function ResumeManPage() {
         </div>
       </div>
     </motion.div>
+    </>
   );
 }
