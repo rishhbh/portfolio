@@ -24,8 +24,12 @@ export const ContactSection = memo(function ContactSection({ playKeystroke }: Co
     setStatus('loading');
     setErrorMessage('');
 
+    const contactApiEndpoint = import.meta.env.VITE_API_URL
+      ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api/contact`
+      : '/api/contact';
+
     try {
-      const response = await fetch('https://formspree.io/f/mqaeedaa', {
+      const response = await fetch(contactApiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -38,11 +42,11 @@ export const ContactSection = memo(function ContactSection({ playKeystroke }: Co
       } else {
         const data = await response.json().catch(() => ({}));
         setStatus('error');
-        setErrorMessage(data.error || 'Something went wrong.');
+        setErrorMessage(data.error || 'Something went wrong. Please try emailing directly.');
       }
     } catch {
       setStatus('error');
-      setErrorMessage('Failed to connect to the server.');
+      setErrorMessage('Failed to connect to backend server. Please try emailing directly.');
     }
   };
 
@@ -62,7 +66,7 @@ export const ContactSection = memo(function ContactSection({ playKeystroke }: Co
 
       <BlurFade delay={0.2}>
         <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none grid grid-cols-1 lg:grid-cols-12">
-          
+
           {/* Left Column: Direct Info */}
           <div className="lg:col-span-5 p-6 sm:p-10 space-y-6 border-b-3 lg:border-b-0 lg:border-r-3 border-black bg-bg-softer flex flex-col justify-between">
             <div className="space-y-4">
@@ -97,14 +101,18 @@ export const ContactSection = memo(function ContactSection({ playKeystroke }: Co
           {/* Right Column: Dispatch Form */}
           <div className="lg:col-span-7 p-6 sm:p-10">
             {status === 'success' ? (
-              <div className="p-8 border-3 border-black bg-btn-primary text-btn-primary-text font-bold shadow-[4px_4px_0px_#000] rounded-none space-y-3">
+              <div
+                role="alert"
+                aria-live="polite"
+                className="p-8 border-3 border-black bg-btn-primary text-btn-primary-text font-bold shadow-[4px_4px_0px_#000] rounded-none space-y-3"
+              >
                 <div className="font-black text-2xl uppercase">Message Dispatched Successfully</div>
                 <div className="text-sm font-mono">Thank you for reaching out. I will respond to your message promptly.</div>
               </div>
             ) : (
-              <form 
+              <form
                 ref={formRef}
-                onSubmit={handleSubmit} 
+                onSubmit={handleSubmit}
                 className="space-y-6"
               >
                 <div className="space-y-4">
@@ -152,11 +160,15 @@ export const ContactSection = memo(function ContactSection({ playKeystroke }: Co
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  {status === 'error' && <span className="text-xs font-bold text-ink">Error: {errorMessage}</span>}
+                  {status === 'error' && (
+                    <span role="alert" aria-live="assertive" className="text-xs font-bold text-ink">
+                      Error: {errorMessage}
+                    </span>
+                  )}
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="brutal-btn py-4 px-8 text-sm uppercase tracking-wide ml-auto flex items-center gap-2 rounded-none"
+                    className="brutal-btn py-4 px-8 text-sm uppercase tracking-wide ml-auto flex items-center gap-2 rounded-none cursor-pointer"
                   >
                     {status === 'loading' ? 'Dispatching...' : 'Dispatch Message'} <Send className="w-4 h-4" />
                   </button>
