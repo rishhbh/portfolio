@@ -250,8 +250,11 @@ export default function ProjectDetail() {
         </BlurFade>
 
         {/* Sticky System Sub-Navigation Bar */}
-        <div className="sticky top-20 z-40 bg-bg-soft/95 backdrop-blur border-3 border-black p-2.5 shadow-[4px_4px_0px_#000] flex flex-wrap items-center justify-between gap-2 font-mono text-xs uppercase font-extrabold">
-          <span className="text-ink-faint hidden md:inline px-2">QUICK JUMP:</span>
+        <div className="sticky top-20 z-40 bg-bg-soft border-3 border-black p-2.5 shadow-[4px_4px_0px_#000] flex flex-wrap items-center justify-between gap-2 font-mono text-xs uppercase font-extrabold rounded-none">
+          <div className="flex items-center gap-2 px-2 text-ink">
+            <span className="w-2.5 h-2.5 bg-btn-primary border border-black animate-pulse" />
+            <span className="text-ink font-mono font-black text-xs">QUICK JUMP MATRIX</span>
+          </div>
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             <button
               onClick={() => document.getElementById('sec-gallery')?.scrollIntoView({ behavior: 'smooth' })}
@@ -263,13 +266,13 @@ export default function ProjectDetail() {
               onClick={() => document.getElementById('sec-problem')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-btn-badge-2 text-btn-badge-2-text hover:bg-btn-secondary hover:text-btn-secondary-text border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none cursor-pointer"
             >
-              02 // OVERVIEW & PROBLEM
+              02 // OVERVIEW
             </button>
             <button
               onClick={() => document.getElementById('sec-workflow')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-btn-badge-3 text-btn-badge-3-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none cursor-pointer"
             >
-              03 // WORKFLOW PHASES
+              03 // WORKFLOW
             </button>
             <button
               onClick={() => document.getElementById('sec-techstack')?.scrollIntoView({ behavior: 'smooth' })}
