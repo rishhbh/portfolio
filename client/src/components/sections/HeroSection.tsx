@@ -85,13 +85,21 @@ export const HeroSection = memo(function HeroSection() {
               <div className="pt-2 flex flex-wrap gap-3">
                 <button
                   onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="brutal-btn py-3 px-6 text-xs uppercase flex items-center gap-2 rounded-none"
+                  className="brutal-btn py-3 px-6 text-xs uppercase flex items-center gap-2 rounded-none cursor-pointer"
                 >
                   EXPLORE WORK <ArrowUpRight className="w-4 h-4 stroke-[3]" />
                 </button>
+                <a
+                  href="https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-btn-secondary text-btn-secondary-text border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-xs py-3 px-6 uppercase hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none rounded-none flex items-center gap-1.5 cursor-pointer"
+                >
+                  RESUME PDF <ArrowUpRight className="w-4 h-4 stroke-[3]" />
+                </a>
                 <button
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-btn-accent text-btn-accent-text border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-xs py-3 px-6 uppercase hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none rounded-none"
+                  className="bg-btn-accent text-btn-accent-text border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-xs py-3 px-6 uppercase hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none rounded-none cursor-pointer"
                 >
                   GET IN TOUCH
                 </button>

@@ -14,10 +14,24 @@ export default function ResumeManPage() {
       className="min-h-screen bg-bg text-ink p-4 sm:p-8 md:p-12 font-mono text-sm sm:text-base leading-relaxed selection:bg-btn-primary selection:text-btn-primary-text pt-28 pb-32"
     >
       <div className="max-w-4xl mx-auto bg-bg-soft border-3 border-black shadow-[6px_6px_0px_#000] p-6 sm:p-10 rounded-none space-y-8">
-        <div className="flex justify-between font-black text-xs sm:text-sm bg-btn-primary text-btn-primary-text border-2 border-black p-3 shadow-[2px_2px_0px_#000] rounded-none uppercase">
-          <span>RISHABH(1)</span>
-          <span>Manual Page / Resume</span>
-          <span>RISHABH(1)</span>
+        
+        {/* Top Header & Actions */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-btn-primary text-btn-primary-text border-2 border-black p-4 shadow-[2px_2px_0px_#000] rounded-none">
+          <div className="font-black text-xs sm:text-sm uppercase flex items-center justify-between sm:justify-start gap-4">
+            <span>RISHABH(1)</span>
+            <span>Manual Page / Resume</span>
+            <span>RISHABH(1)</span>
+          </div>
+
+          <a
+            href="https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-black text-white hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black px-3.5 py-1.5 text-xs font-black uppercase shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2 rounded-none cursor-pointer"
+          >
+            <span>DOWNLOAD PDF (DRIVE)</span>
+            <span className="text-sm">↗</span>
+          </a>
         </div>
 
         <section>
