@@ -188,7 +188,7 @@ export const projects: Project[] = [
     result: '1st place, Ideas to Impact 2026 Innovation Hackathon (Awadh Incubation Foundation, KMCLU Lucknow) — beat 50+ teams from 14+ institutions',
     githubUrl: 'https://github.com/rishhbh/kaushal-ai',
     liveUrl: 'https://kaushal-ai.pages.dev/',
-    images: ['kaushal.webp']
+    images: ['kaushal-1.webp', 'kaushal-2.webp', 'kaushal-3.webp']
   },
   {
     slug: 'jaas',

@@ -9,6 +9,7 @@ interface ProjectCarouselProps {
 
 export default function ProjectCarousel({ images, projectName, className = '' }: ProjectCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   if (!images || images.length === 0) {
     return (
@@ -22,6 +23,10 @@ export default function ProjectCarousel({ images, projectName, className = '' }:
   const safeIndex = currentIndex < images.length ? currentIndex : 0;
   const currentImage = images[safeIndex] || images[0];
   const imageSrc = currentImage.startsWith('/') ? currentImage : `/${currentImage}`;
+
+  const handleImageError = (src: string) => {
+    setFailedImages((prev) => ({ ...prev, [src]: true }));
+  };
 
   const handlePrev = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,14 +57,27 @@ export default function ProjectCarousel({ images, projectName, className = '' }:
 
       {/* Main Image Display */}
       <div className="relative aspect-video bg-black/5 overflow-hidden flex items-center justify-center">
-        <img
-          key={imageSrc}
-          src={imageSrc}
-          alt={`${projectName} preview ${safeIndex + 1}`}
-          className="w-full h-full object-cover object-top filter grayscale contrast-110 opacity-85 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.02]"
-          loading="lazy"
-          decoding="async"
-        />
+        {failedImages[imageSrc] ? (
+          <div className="w-full h-full bg-black/85 flex flex-col items-center justify-center p-4 text-center space-y-2">
+            <ImageIcon className="w-8 h-8 text-btn-primary animate-pulse" />
+            <span className="font-mono text-xs font-bold text-white uppercase">
+              SCREENSHOT {String(safeIndex + 1).padStart(2, '0')} ASSET PENDING
+            </span>
+            <span className="font-mono text-[10px] text-btn-primary-text font-bold">
+              Add "{currentImage}" to client/public/
+            </span>
+          </div>
+        ) : (
+          <img
+            key={imageSrc}
+            src={imageSrc}
+            alt={`${projectName} preview ${safeIndex + 1}`}
+            onError={() => handleImageError(imageSrc)}
+            className="w-full h-full object-cover object-top filter grayscale contrast-110 opacity-85 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.02]"
+            loading="lazy"
+            decoding="async"
+          />
+        )}
 
         {/* Carousel Prev / Next Buttons */}
         {images.length > 1 && (

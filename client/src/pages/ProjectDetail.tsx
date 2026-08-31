@@ -13,6 +13,12 @@ const stepLabels: Record<string, string> = {
   'doc.webp': 'STEP 05 // MULTI-FORMAT DOCUMENT INGESTION',
   'response.webp': 'STEP 06 // AI SUMMARY RESPONSE & SSE STREAMING',
   'kaushal.webp': 'STEP 01 // KAUSHAL AI JOB MARKETPLACE',
+  'kaushal-1.webp': 'STEP 01 // KAUSHAL AI JOB MARKETPLACE',
+  'kaushal-2.webp': 'STEP 02 // ADAPTIVE SKILL ASSESSMENTS',
+  'kaushal-3.webp': 'STEP 03 // VERIFIABLE CREDENTIALS & TRACKER',
+  'kaushal-1.png': 'STEP 01 // KAUSHAL AI JOB MARKETPLACE',
+  'kaushal-2.png': 'STEP 02 // ADAPTIVE SKILL ASSESSMENTS',
+  'kaushal-3.png': 'STEP 03 // VERIFIABLE CREDENTIALS & TRACKER',
   'deepsynth-one.webp': 'STEP 01 // DEEPSYNTH LOCAL LLM INTERFACE',
   'deepsynth-two.webp': 'STEP 02 // DEEPSYNTH CHAT INTERFACE',
   'calculator-one.webp': 'STEP 01 // CALCULATOR INTERFACE',
@@ -99,14 +105,34 @@ export default function ProjectDetail() {
     setFailedImages((prev) => ({ ...prev, [imgSrc]: true }));
   };
 
-  const handleGalleryScroll = (direction: 'left' | 'right') => {
-    if (galleryRef.current) {
-      const scrollAmount = galleryRef.current.clientWidth * 0.9;
-      galleryRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+  const scrollToImage = (index: number) => {
+    if (!galleryRef.current || !project) return;
+    const container = galleryRef.current;
+    const children = Array.from(container.children).slice(0, project.images.length) as HTMLElement[];
+    if (children[index]) {
+      const targetChild = children[index];
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const targetLeft = Math.min(targetChild.offsetLeft - container.offsetLeft, maxScroll);
+      container.scrollTo({
+        left: targetLeft,
         behavior: 'smooth'
       });
+      setActiveImageIndex(index);
     }
+  };
+
+  const handleGalleryScroll = (direction: 'left' | 'right') => {
+    if (!project || project.images.length === 0) return;
+    const totalImages = project.images.length;
+    let nextIndex = direction === 'left' ? activeImageIndex - 1 : activeImageIndex + 1;
+    
+    if (nextIndex < 0) {
+      nextIndex = totalImages - 1; // Wrap around to end
+    } else if (nextIndex >= totalImages) {
+      nextIndex = 0; // Wrap around to start
+    }
+    
+    scrollToImage(nextIndex);
   };
 
   // Scroll to top when loading page
@@ -288,7 +314,7 @@ export default function ProjectDetail() {
         </div>
 
         {/* Visual Workflow Image Step Carousel */}
-        {validImages.length > 0 && (
+        {project.images.length > 0 && (
           <BlurFade delay={0.2}>
             <div id="sec-gallery" className="scroll-mt-32 border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none overflow-hidden space-y-4 p-6 sm:p-8">
               <div className="flex flex-wrap items-center justify-between border-b-3 border-black pb-4 gap-4">
@@ -301,18 +327,18 @@ export default function ProjectDetail() {
 
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs font-black bg-black text-white px-3 py-1 border-2 border-black">
-                    {String(activeImageIndex + 1).padStart(2, '0')} / {String(validImages.length).padStart(2, '0')}
+                    {String(activeImageIndex + 1).padStart(2, '0')} / {String(project.images.length).padStart(2, '0')}
                   </span>
                   <button
                     onClick={() => handleGalleryScroll('left')}
-                    className="p-2 bg-btn-primary text-btn-primary-text border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                    className="p-2 bg-btn-primary text-btn-primary-text border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="w-4 h-4 stroke-[3]" />
                   </button>
                   <button
                     onClick={() => handleGalleryScroll('right')}
-                    className="p-2 bg-btn-primary text-btn-primary-text border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                    className="p-2 bg-btn-primary text-btn-primary-text border-2 border-black shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
                     aria-label="Next image"
                   >
                     <ChevronRight className="w-4 h-4 stroke-[3]" />
@@ -325,32 +351,69 @@ export default function ProjectDetail() {
                 ref={galleryRef} 
                 onScroll={(e) => {
                   const target = e.currentTarget;
-                  const index = Math.round(target.scrollLeft / (target.clientWidth * 0.8));
-                  if (index >= 0 && index < validImages.length) {
-                    setActiveImageIndex(index);
+                  const maxScroll = target.scrollWidth - target.clientWidth;
+                  if (maxScroll <= 0) return;
+
+                  // If scrolled to the end wall, activate last image
+                  if (target.scrollLeft >= maxScroll - 15) {
+                    const lastIdx = project.images.length - 1;
+                    if (activeImageIndex !== lastIdx) {
+                      setActiveImageIndex(lastIdx);
+                    }
+                    return;
+                  }
+
+                  const children = Array.from(target.children).slice(0, project.images.length) as HTMLElement[];
+                  if (children.length === 0) return;
+                  const currentScrollLeft = target.scrollLeft;
+                  let closestIndex = 0;
+                  let minDiff = Infinity;
+                  children.forEach((child, idx) => {
+                    const childPos = child.offsetLeft - target.offsetLeft;
+                    const diff = Math.abs(currentScrollLeft - childPos);
+                    if (diff < minDiff) {
+                      minDiff = diff;
+                      closestIndex = idx;
+                    }
+                  });
+                  if (closestIndex !== activeImageIndex) {
+                    setActiveImageIndex(closestIndex);
                   }
                 }}
-                className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-2"
+                className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-2 pr-[50vw]"
               >
-                {validImages.map((imgName) => (
+                {project.images.map((imgName, imgIdx) => (
                   <div 
                     key={imgName} 
-                    className="w-[90%] sm:w-[80%] md:w-[720px] shrink-0 snap-start border-3 border-black bg-bg-softer shadow-[4px_4px_0px_#000] overflow-hidden space-y-2 p-3"
+                    onClick={() => scrollToImage(imgIdx)}
+                    className="w-[90%] sm:w-[80%] md:w-[720px] shrink-0 snap-start border-3 border-black bg-bg-softer shadow-[4px_4px_0px_#000] overflow-hidden space-y-2 p-3 cursor-pointer"
                   >
                     <div className="bg-black text-white font-mono text-xs font-bold px-3 py-1.5 border-2 border-black uppercase flex items-center justify-between">
                       <span>{stepLabels[imgName] || `SCREENSHOT // ${imgName.toUpperCase()}`}</span>
                       <span className="text-[10px] text-btn-primary-text">100% SCALE</span>
                     </div>
 
-                    <div className="border-2 border-black overflow-hidden bg-black/5 aspect-video relative">
-                      <img
-                        src={`/${imgName}`}
-                        alt={`${project.name} ${imgName}`}
-                        onError={() => handleImageError(imgName)}
-                        className="w-full h-full object-contain bg-black/40"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                    <div className="border-2 border-black overflow-hidden bg-black/5 aspect-video relative flex items-center justify-center">
+                      {failedImages[imgName] ? (
+                        <div className="w-full h-full bg-black/85 flex flex-col items-center justify-center p-6 text-center space-y-2">
+                          <Terminal className="w-8 h-8 text-btn-primary animate-pulse" />
+                          <span className="font-mono text-xs font-bold text-white uppercase">
+                            SCREENSHOT {String(imgIdx + 1).padStart(2, '0')} ASSET PENDING
+                          </span>
+                          <span className="font-mono text-[10px] text-btn-primary-text font-bold">
+                            Add "{imgName}" to client/public/
+                          </span>
+                        </div>
+                      ) : (
+                        <img
+                          src={`/${imgName}`}
+                          alt={`${project.name} ${imgName}`}
+                          onError={() => handleImageError(imgName)}
+                          className="w-full h-full object-contain bg-black/40"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
                     </div>
                   </div>
                 ))}

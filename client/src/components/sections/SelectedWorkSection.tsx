@@ -658,7 +658,7 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
                               LIVE UI SCREENSHOT PREVIEW
                             </span>
                             <span className="font-mono text-xs font-bold bg-btn-accent text-btn-accent-text px-2 py-0.5 border border-black">
-                              {kaushalProject.images.length} SCREENSHOT
+                              {kaushalProject.images.length} {kaushalProject.images.length === 1 ? 'SCREENSHOT' : 'SCREENSHOTS'}
                             </span>
                           </div>
 
