@@ -180,7 +180,7 @@ export const projects: Project[] = [
       'html2canvas'
     ],
     categorizedTags: {
-      ai: ['Gemini 2.5 Flash', 'Adaptive Prompts'],
+      ai: ['Gemini 3.5 Flash', 'Adaptive Prompts'],
       backend: ['Node / Express', 'MongoDB', 'JWT / RBAC'],
       devops: ['Cloudflare Pages', 'i18next Multilingual']
     },
@@ -189,5 +189,50 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/rishhbh/kaushal-ai',
     liveUrl: 'https://kaushal-ai.pages.dev/',
     images: ['kaushal.webp']
+  },
+  {
+    slug: 'jaas',
+    name: 'JaaS',
+    tagline: 'Raw Editorial Neubrutalism AI repository evaluation engine',
+    category: 'Full-Stack AI',
+    badgeText: 'GROQ GPT-OSS-120B // NEUBRUTALIST COURTROOM',
+    problem: 'Modern software development repositories are saturated with exaggerated marketing fluff. README files frequently claim to be "blazing-fast," "revolutionary," "next-gen," and "enterprise-grade," while failing to answer basic developer questions. JaaS (Judging-as-a-Service) functions as an automated technical judge. It analyzes public GitHub repository README documentation using high-reasoning LLMs (Groq GPT-OSS-120B), dissecting claims, detecting buzzword inflation, and evaluating setup usability through a dry, senior staff engineer courtroom persona.',
+    howItWorks: 'The evaluation and authentication system operates across a high-performance two-step pipeline:\n1. Fetch Stage (POST /api/judge/fetch): Client sends target repository URL (owner/repo). Server validates repository path, queries GitHub REST API, and extracts raw README.md text, star count, fork count, default branch, primary language, and owner metadata for preview.\n2. Roast & Evaluation Stage (POST /api/judge/roast): Server checks Upstash Redis sliding window rate limits (1 guest / 67 authenticated per 24h). Computes SHA-256 hash of repository path and README contents, checking Redis cache key (jaas:roast:<repo_hash>). On cache hit, returns instant cached evaluation (0ms latency, zero token cost).\n3. Groq LPU AI Inference Engine: On cache miss, formats courtroom system prompt and dispatches context to Groq AI (openai/gpt-oss-120b) to generate structured markdown reports (Scorecard, Charges, Buzzword Audit, Aggravating Circumstances, Verdict) in under 2 seconds.\n4. Bun Runtime + Express 5 Backend: Built on Bun (v4+) runtime for native ESM execution and high-throughput HTTP parsing. Secured with Google OAuth 2.0, HTTP-Only JWT cookies (Access + Refresh tokens), and MongoDB Atlas persistence.\n5. Cloudinary CDN Avatar Processing: Automated face detection (g_face) and square cropping (c_thumb) with automatic WebP compression on user avatar URLs.\n6. Next.js 16 App Router & Raw Editorial Neubrutalism UI: Enforces 0px border-radius (rounded-none), hard geometric shadows (2px-8px), JetBrains Mono typography, multi-tier sliding window rate limits, and containerized Docker setup.',
+    keyFeatures: [
+      'Two-Step Fetch & Roast Pipeline: Extracts GitHub metadata & README before triggering Groq AI evaluation.',
+      'Groq LPU Inference (GPT-120B): Sub-second LLM technical critique adhering to rigid courtroom markdown schemas.',
+      '24-Hour Upstash Redis Caching: SHA-256 repo fingerprinting eliminates redundant inference calls (0ms latency).',
+      'Multi-Tier Sliding Rate Limiting: Upstash Redis sliding window limiting (1 roast/24h guest, 67/24h authenticated).',
+      'Google OAuth & Cloudinary: HTTP-Only JWT authentication with face-detected CDN avatar processing.',
+      'Raw Editorial Neubrutalism UI: Next.js 16 App Router interface with 0px geometry and JetBrains Mono typography.'
+    ],
+    techStack: [
+      'Next.js 16',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'JetBrains Mono',
+      'Bun (v4+)',
+      'Express 5',
+      'Groq AI (openai/gpt-oss-120b)',
+      'Upstash Redis (@upstash/redis)',
+      'Upstash Ratelimit (@upstash/ratelimit)',
+      'MongoDB Atlas (Mongoose)',
+      'Google OAuth 2.0',
+      'Cloudinary CDN',
+      'JWT (HTTP-Only Cookies)',
+      'GitHub REST API',
+      'Docker',
+      'Docker Compose'
+    ],
+    categorizedTags: {
+      ai: ['Groq AI (GPT-120B)', 'Courtroom Persona Prompting'],
+      backend: ['Bun + Express 5', 'Upstash Redis', 'MongoDB Atlas', 'Google OAuth / JWT'],
+      devops: ['Docker Compose', 'Cloudinary CDN', 'Vercel / Render']
+    },
+    homeTags: ['Next.js 16', 'Bun', 'Groq AI', 'Upstash Redis', 'MongoDB'],
+    githubUrl: 'https://github.com/rishhbh/jaas',
+    liveUrl: 'https://jaas.localplayer.dev',
+    images: ['jaas-one.webp', 'jaas-two.webp', 'jaas-three.webp', 'jaas-four.webp']
   }
 ];

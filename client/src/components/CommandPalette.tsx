@@ -60,7 +60,7 @@ export function CommandPalette() {
         break;
       case 'ls':
         addOutput('Directories: work/  stack/  experience/  contact/');
-        addOutput('Projects:    layerzero/  kaushal-ai/  deepsynth/  calculator/');
+        addOutput('Projects:    layerzero/  jaas/  kaushal-ai/  deepsynth/  calculator/');
         addOutput('Files:       resume.md');
         break;
       case 'clear':
@@ -99,6 +99,7 @@ export function CommandPalette() {
         const sections = ['work', 'stack', 'experience', 'contact', 'about'];
         const projectsMap: Record<string, string> = {
           'layerzero': 'layerzero',
+          'jaas': 'jaas',
           'kaushal': 'kaushal-ai',
           'kaushal-ai': 'kaushal-ai',
           'deepsynth': 'deepsynth',
@@ -128,6 +129,7 @@ export function CommandPalette() {
         break;
       }
       case 'layerzero':
+      case 'jaas':
       case 'kaushal':
       case 'kaushal-ai':
       case 'deepsynth':
@@ -220,7 +222,7 @@ export function CommandPalette() {
                   className="w-full bg-transparent border-none outline-none text-ink caret-ink placeholder:text-ink-faint/30 font-bold"
                   spellCheck={false}
                   autoComplete="off"
-                  placeholder="Type 'layerzero', 'kaushal', 'resume', or 'help'..."
+                  placeholder="Type 'layerzero', 'jaas', 'kaushal', 'resume', or 'help'..."
                 />
               </div>
 
@@ -229,6 +231,7 @@ export function CommandPalette() {
                 <span className="text-[10px] text-ink-faint uppercase font-bold mr-1">QUICK COMMANDS:</span>
                 {[
                   { cmd: 'layerzero', label: 'layerzero' },
+                  { cmd: 'jaas', label: 'jaas' },
                   { cmd: 'kaushal-ai', label: 'kaushal-ai' },
                   { cmd: 'deepsynth', label: 'deepsynth' },
                   { cmd: 'resume', label: 'resume' },

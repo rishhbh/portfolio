@@ -17,6 +17,10 @@ const stepLabels: Record<string, string> = {
   'deepsynth-two.webp': 'STEP 02 // DEEPSYNTH CHAT INTERFACE',
   'calculator-one.webp': 'STEP 01 // CALCULATOR INTERFACE',
   'calculator-two.webp': 'STEP 02 // STRIPE PAYMENT INTENT TRIGGER',
+  'jaas-one.webp': 'STEP 01 // PLATFORM HOME & LANDING VIEW',
+  'jaas-two.webp': 'STEP 02 // TWO-STEP FETCH & ROAST WORKBENCH',
+  'jaas-three.webp': 'STEP 03 // AI ROAST EVALUATION OUTPUT',
+  'jaas-four.webp': 'STEP 04 // SYSTEM ARCHITECTURE & TECH SPECS',
 };
 
 const renderFormattedText = (text: string) => {
