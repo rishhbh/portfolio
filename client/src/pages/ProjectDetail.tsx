@@ -152,7 +152,6 @@ export default function ProjectDetail() {
     );
   }
 
-  const validImages = project.images.filter(img => !failedImages[img]);
   const previewImage = project.images.length > 0
     ? (project.images[0].startsWith('/') ? project.images[0] : `/${project.images[0]}`)
     : '/og-image.png';
