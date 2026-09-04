@@ -12,6 +12,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
+const CLIENT_URLS_ENV = process.env.CLIENT_URL;
+
+// --- Dynamic CORS Configuration ---
+let allowedOrigins: string[] = [];
+
+if (CLIENT_URLS_ENV) {
+  // Split, trim, and filter out any empty strings resulting from the split
+  allowedOrigins = CLIENT_URLS_ENV.split(',').map(url => url.trim()).filter(url => url.length > 0);
+  console.log(`CORS allowed origins loaded from environment variable: ${allowedOrigins.join(', ')}`);
+} else {
+  console.log(`CLIENT_URL not set. CORS origins are empty; no origins will be allowed by default.`);
+}
 
 // Security and Performance Middlewares
 app.use(helmet());
@@ -26,8 +38,9 @@ const contactLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Apply CORS with dynamically configured origins
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
