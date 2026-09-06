@@ -17,7 +17,7 @@ const skillCategories = [
   },
   {
     title: 'Backend & APIs',
-    items: ['Node.js', 'Express.js', 'REST APIs', 'OAuth 2.0', 'JWT', 'Auth0', 'Rate Limiting', 'RBAC']
+    items: ['Node.js', 'Express.js', 'REST APIs', 'Microservices', 'OAuth 2.0', 'JWT', 'Auth0', 'Rate Limiting', 'RBAC', 'Zod']
   },
   {
     title: 'Testing',

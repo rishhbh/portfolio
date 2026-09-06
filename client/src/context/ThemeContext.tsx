@@ -129,7 +129,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     // 2. Legacy fallback or initial visitor default
     const legacyTheme = localStorage.getItem('theme');
     if (legacyTheme === 'light') return 'light-brutal';
-    return 'hyper-pink';
+    return 'synth-cyberpunk';
   });
 
   const activeSchemeConfig = COLOR_SCHEMES.find((s) => s.id === colorScheme) || COLOR_SCHEMES[0];

@@ -15,7 +15,8 @@ const internships = [
       "Groq Provider Abstraction & Structured Outputs: Architected a decoupled AI service layer around Groq (chatCompletion.js), executing GPT-OSS 120B with JSON Schema constraints to produce machine-readable startup analyses, task generation, and evaluations.",
       "Evidence-Grounded Startup Evaluator: Developed an automated evaluation engine analyzing market fit, business model, traction, product, and team with explicit confidence scoring, risk flags, page/chunk citations, and missing-evidence tracking.",
       "AI-Driven Weekly Founder Workflow: Built an incubator-integrated development pipeline where GPT-OSS synthesizes weekly tasks from progress history, incubators review/assign tasks, and AI evaluates submissions into an immutable ProgressHistory model.",
-      "JWT & RBAC Security Layer: Implemented JWT authentication with HttpOnly cookie handling, admin-protected knowledge base CRUD endpoints, and role-scoped authorization for incubator vs. founder operations."
+      "JWT & RBAC Security Layer: Implemented JWT authentication with HttpOnly cookie handling, admin-protected knowledge base CRUD endpoints, and role-scoped authorization for incubator vs. founder operations.",
+      "Newsletter Microservice: Engineered a standalone newsletter microservice with a dedicated subscription API, Zod validation, Google Sheets API integration for subscriber management, and Resend-powered transactional email delivery."
     ],
   },
   {

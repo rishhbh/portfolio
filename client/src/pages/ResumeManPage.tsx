@@ -98,6 +98,7 @@ export default function ResumeManPage() {
                 <li>Developed an evidence-grounded evaluation engine scoring market fit, business model, traction, product, and team with explicit confidence tracking, risk flags, page citations, and missing-evidence representation.</li>
                 <li>Built an incubator-integrated development workflow where GPT-OSS synthesizes weekly tasks from progress history, incubators review/assign tasks, and AI evaluates submissions into an immutable ProgressHistory trajectory.</li>
                 <li>Implemented JWT authentication with HttpOnly cookie handling, admin-protected knowledge base CRUD endpoints, and role-scoped authorization for incubator vs. founder operations.</li>
+                <li>Engineered a standalone newsletter microservice with a dedicated subscription API, Zod validation, Google Sheets API integration for subscriber management, and Resend-powered transactional email delivery.</li>
               </ul>
             </div>
 
@@ -146,7 +147,7 @@ export default function ResumeManPage() {
               <dd className="sm:col-span-3 text-ink-dim">React.js, Tailwind CSS, Zustand, i18next, jsPDF, html2canvas</dd>
               
               <dt className="font-black text-ink uppercase">BACKEND & APIs</dt>
-              <dd className="sm:col-span-3 text-ink-dim">Node.js, Express.js, REST APIs, OAuth 2.0, JWT, Auth0, Rate Limiting, RBAC</dd>
+              <dd className="sm:col-span-3 text-ink-dim">Node.js, Express.js, REST APIs, Microservices, OAuth 2.0, JWT, Auth0, Rate Limiting, RBAC, Zod</dd>
               
               <dt className="font-black text-ink uppercase">TESTING</dt>
               <dd className="sm:col-span-3 text-ink-dim">Jest, Supertest, mongodb-memory-server</dd>
