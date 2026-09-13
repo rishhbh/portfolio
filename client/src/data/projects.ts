@@ -82,7 +82,7 @@ export const projects: Project[] = [
     homeTags: ['TypeScript', 'Express.js', 'AWS EC2', 'GitHub Actions', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/layerzero',
     liveUrl: 'https://layerzero.rishhbh.workers.dev',
-    images: ['homepage.webp', 'about.webp', 'register.webp', 'login.webp', 'doc.webp', 'response.webp']
+    images: ['homepage.png', 'about.png', 'register.png', 'login.png', 'doc.png', 'response.png']
   },
   {
     slug: 'deepsynth',
