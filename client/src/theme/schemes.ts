@@ -7,7 +7,7 @@ export interface ColorSchemeConfig {
   isDark: boolean;
 }
 
-export const COLOR_SCHEMES = [
+export const COLOR_SCHEMES: ColorSchemeConfig[] = [
   {
     id: 'dark-brutal',
     name: 'CLASSIC DARK',

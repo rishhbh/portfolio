@@ -60,7 +60,7 @@ export function CommandPalette() {
         break;
       case 'ls':
         addOutput('Directories: work/  stack/  experience/  contact/');
-        addOutput('Projects:    layerzero/  jaas/  kaushal-ai/  deepsynth/  calculator/');
+        addOutput('Projects:    layerzero/  jaas/  purgeport/  kaushal-ai/  deepsynth/  calculator/');
         addOutput('Files:       resume.md');
         break;
       case 'clear':
@@ -81,11 +81,11 @@ export function CommandPalette() {
             navigate('/resume');
           }, 400);
         } else if (args[1] === 'resume.pdf') {
-            addOutput('Opening PDF...');
-            setTimeout(() => {
-              closePalette();
-              window.open('https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view', '_blank');
-            }, 400);
+          addOutput('Opening PDF...');
+          setTimeout(() => {
+            closePalette();
+            window.open('https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view', '_blank');
+          }, 400);
         } else {
           addOutput(`cat: ${args[1] || ''}: No such file or directory`);
         }
@@ -104,6 +104,8 @@ export function CommandPalette() {
           'kaushal-ai': 'kaushal-ai',
           'deepsynth': 'deepsynth',
           'calculator': 'calculator',
+          'purgeport': 'purgeport',
+          'portkill': 'purgeport',
         };
         
         if (sections.includes(target)) {
@@ -133,8 +135,10 @@ export function CommandPalette() {
       case 'kaushal':
       case 'kaushal-ai':
       case 'deepsynth':
-      case 'calculator': {
-        const projectSlug = command === 'kaushal' ? 'kaushal-ai' : command;
+      case 'calculator':
+      case 'purgeport':
+      case 'portkill': {
+        const projectSlug = command === 'kaushal' ? 'kaushal-ai' : (command === 'portkill' ? 'purgeport' : command);
         addOutput(`Opening project /projects/${projectSlug}...`);
         setTimeout(() => {
           closePalette();
@@ -222,7 +226,7 @@ export function CommandPalette() {
                   className="w-full bg-transparent border-none outline-none text-ink caret-ink placeholder:text-ink-faint/30 font-bold"
                   spellCheck={false}
                   autoComplete="off"
-                  placeholder="Type 'layerzero', 'jaas', 'kaushal', 'resume', or 'help'..."
+                  placeholder="Type 'layerzero', 'purgeport', 'jaas', 'kaushal', 'resume', or 'help'..."
                 />
               </div>
 
@@ -231,6 +235,7 @@ export function CommandPalette() {
                 <span className="text-[10px] text-ink-faint uppercase font-bold mr-1">QUICK COMMANDS:</span>
                 {[
                   { cmd: 'layerzero', label: 'layerzero' },
+                  { cmd: 'purgeport', label: 'purgeport' },
                   { cmd: 'jaas', label: 'jaas' },
                   { cmd: 'kaushal-ai', label: 'kaushal-ai' },
                   { cmd: 'deepsynth', label: 'deepsynth' },

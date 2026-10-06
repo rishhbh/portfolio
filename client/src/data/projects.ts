@@ -8,7 +8,7 @@ export interface Project {
   slug: string;
   name: string;
   tagline: string;
-  category: 'AI Infrastructure' | 'Full-Stack AI' | 'Offline AI' | 'Fintech & Tooling';
+  category: 'AI Infrastructure' | 'Full-Stack AI' | 'Offline AI' | 'Fintech & Tooling' | 'Developer Tooling';
   badgeText?: string;
   problem: string;
   howItWorks: string;
@@ -234,5 +234,45 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/rishhbh/jaas',
     liveUrl: 'https://jaas.localplayer.dev',
     images: ['jaas-one.webp', 'jaas-two.webp', 'jaas-three.webp', 'jaas-four.webp']
+  },
+  {
+    slug: 'purgeport',
+    name: 'purgeport',
+    tagline: 'Zero-runtime-dependency CLI to find and cleanly terminate processes occupying network ports',
+    category: 'Developer Tooling',
+    badgeText: 'ZERO-DEPENDENCY NPM CLI // POSIX INTEGRATION',
+    problem: 'During modern software engineering workflows (e.g., Node.js servers, Docker containers, Next.js/Vite dev servers, Python Flask/FastAPI backends), developers frequently encounter port binding collisions (Error: listen EADDRINUSE: address already in use :::3000). Resolving this manually requires multi-step terminal friction: running lsof -i :3000, parsing output, copying the PID, and running kill -9 <PID>. purgeport eliminates this manual toil with a zero-runtime-dependency CLI that scans port holders, extracts rich process metadata (user, command arguments, and resolved binary paths), verifies with an interactive confirmation prompt, and dispatches graceful SIGTERM signals.',
+    howItWorks: 'purgeport automates the port cleanup pipeline through an orchestrator loop and native POSIX system utilities:\n1. CLI Argument Parsing & Multi-Port Loop: Native ES Module entrypoint (src/cli.js) parses CLI arguments via process.argv, handling --version and --help flags. Supports scanning and purging multiple ports sequentially in a single invocation.\n2. Terse Port Discovery via lsof: Invokes lsof -i :<port> -t in terse mode to query the kernel for Internet socket files bound to the target port. Safely handles missing processes and returns the raw PID or null without erroring out.\n3. Deep Process Inspection & Metadata: Queries the system process table via ps -p <PID> -o user=,exe=,args= to extract process ownership and full launch arguments. Resolves the canonical binary path through the Linux virtual filesystem using readlink -f /proc/<PID>/exe.\n4. Interactive Safety Confirmation: Bridges Node readline (node:readline) into a Promise-based prompt, printing the process diagnostics (User, Command, Process path) and prompting the user ([y/n]) to prevent accidental kills of system services.\n5. Graceful Signal Termination: Dispatches a POSIX SIGTERM signal directly to the PID using Node.js process.kill(). Allows active socket connections and servers to gracefully shut down and clean up resources, with error handling for EPERM permissions.\n6. Zero-Dependency NPM Packaging: Built purely with standard Node.js built-in modules (node:child_process, node:readline, process) and packaged as a native ESM binary, runnable directly via npx purgeport or global installation.',
+    keyFeatures: [
+      'Zero Runtime Dependencies: Built purely using native Node.js ESM built-ins and POSIX utilities.',
+      'Terse Port Detection: Instant PID resolution querying network sockets via lsof -i :port -t.',
+      'Deep Process Inspection: Resolves process owner, launch arguments, and canonical /proc/PID/exe binary paths.',
+      'Interactive Safety Guard: Detailed diagnostic output and [y/n] prompt prevent accidental process termination.',
+      'Graceful SIGTERM Dispatch: Cleans up processes cleanly without forceful SIGKILL corruption.',
+      'Multi-Port Batch Purging: Inspects and cleans multiple target ports in a single command invocation.'
+    ],
+    techStack: [
+      'Node.js (v18+)',
+      'ES Modules (ESM)',
+      'JavaScript',
+      'POSIX Signals (SIGTERM)',
+      'Linux /proc Filesystem',
+      'lsof',
+      'ps',
+      'readlink',
+      'node:child_process',
+      'node:readline',
+      'npm',
+      'npx'
+    ],
+    categorizedTags: {
+      backend: ['Node.js (ESM)', 'lsof Bridge', 'POSIX Signals', '/proc Filesystem'],
+      devops: ['Linux / POSIX', 'npm CLI Package', 'Zero-Dependency']
+    },
+    homeTags: ['Node.js', 'ESM', 'POSIX', 'CLI', 'npm', 'Linux'],
+    result: 'Published to npm registry with zero runtime dependencies (v0.1.0) • Runnable instantly via npx purgeport',
+    githubUrl: 'https://github.com/rishhbh/purgeport',
+    liveUrl: 'https://www.npmjs.com/package/purgeport',
+    images: ['purgeport-one.webp', 'purgeport-two.webp', 'purgeport-three.webp']
   }
 ];

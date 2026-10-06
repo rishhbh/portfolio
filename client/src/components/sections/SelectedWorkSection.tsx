@@ -1,6 +1,6 @@
 import { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Github, ExternalLink, ArrowRight, Gavel, Award, Zap } from 'lucide-react';
+import { ArrowUpRight, Github, ExternalLink, ArrowRight, Gavel, Award, Zap, Terminal } from 'lucide-react';
 import { projects } from '../../data/projects';
 import { BlurFade } from '../BlurFade';
 import { TextReveal } from '../TextReveal';
@@ -28,7 +28,7 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
           </div>
 
           <span className="bg-btn-primary text-btn-primary-text font-extrabold text-xs px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase self-start sm:self-auto">
-            [ 05 FEATURED PROJECTS ]
+            [ {String(projects.length).padStart(2, '0')} FEATURED PROJECTS ]
           </span>
         </div>
       </TextReveal>
@@ -36,7 +36,7 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
       {/* Category Filter Pills */}
       <BlurFade delay={0.15}>
         <div className="flex flex-wrap gap-2 pt-1 pb-3 border-b-2 border-black/10">
-          {['ALL', 'AI Infrastructure', 'Full-Stack AI', 'Offline AI', 'Fintech & Tooling'].map((cat) => {
+          {['ALL', 'AI Infrastructure', 'Full-Stack AI', 'Offline AI', 'Developer Tooling', 'Fintech & Tooling'].map((cat) => {
             const isActive = selectedCategory === cat;
             return (
               <button
@@ -76,6 +76,7 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
         if (selectedCategory === 'ALL') {
           const flagship = projects.find((p) => p.slug === 'layerzero') || projects[0];
           const jaasProject = projects.find((p) => p.slug === 'jaas');
+          const purgeportProject = projects.find((p) => p.slug === 'purgeport');
           const deepsynthProject = projects.find((p) => p.slug === 'deepsynth');
           const calculatorProject = projects.find((p) => p.slug === 'calculator');
           const kaushalProject = projects.find((p) => p.slug === 'kaushal-ai');
@@ -221,12 +222,12 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
               </BlurFade>
 
 
-              {/* 2. MIDDLE BENTO GRID: JAAS + DEEPSYNTH & CALCULATOR */}
+              {/* 2. MIDDLE BENTO GRID: JAAS & PURGEPORT */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
                 
-                {/* LEFT: JAAS (VERTICAL SPAN) */}
+                {/* LEFT: JAAS */}
                 {jaasProject && (
-                  <BlurFade delay={0.25} className="lg:col-span-1 lg:row-span-2 flex">
+                  <BlurFade delay={0.25} className="lg:col-span-1 flex">
                     <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] hover:shadow-[8px_8px_0px_#000] transition-all rounded-none overflow-hidden flex flex-col justify-between w-full h-full">
                       
                       {/* Card Header */}
@@ -363,8 +364,141 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
                   </BlurFade>
                 )}
 
+                {/* RIGHT: PURGEPORT (CLI & DEV TOOLING) */}
+                {purgeportProject && (
+                  <BlurFade delay={0.28} className="lg:col-span-1 flex">
+                    <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] hover:shadow-[8px_8px_0px_#000] transition-all rounded-none overflow-hidden flex flex-col justify-between w-full h-full">
+                      
+                      {/* Card Header */}
+                      <div className="p-5 border-b-3 border-black bg-bg-softer space-y-3">
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
+                          <span className="bg-black text-white text-xs font-mono font-extrabold px-2.5 py-0.5 border border-black uppercase flex items-center gap-1">
+                            <Terminal className="w-3.5 h-3.5 text-btn-primary" /> {purgeportProject.category}
+                          </span>
+                          {purgeportProject.badgeText && (
+                            <span className="bg-btn-primary text-btn-primary-text text-[11px] font-extrabold px-2.5 py-0.5 border border-black shadow-[1px_1px_0px_#000] uppercase">
+                              {purgeportProject.badgeText}
+                            </span>
+                          )}
+                        </div>
 
-                {/* RIGHT TOP: DEEPSYNTH */}
+                        <div className="flex items-center justify-between gap-4">
+                          <h4 className="text-3xl font-black text-ink uppercase tracking-tight">
+                            {purgeportProject.name}
+                          </h4>
+                          <div className="flex items-center gap-2">
+                            {purgeportProject.githubUrl && (
+                              <a
+                                href={purgeportProject.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-btn-secondary text-btn-secondary-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black p-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase transition-colors"
+                                title="View GitHub Repository"
+                              >
+                                <Github className="w-4 h-4" />
+                              </a>
+                            )}
+                            {purgeportProject.liveUrl && (
+                              <a
+                                href={purgeportProject.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-btn-primary text-btn-primary-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black p-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase transition-colors"
+                                title="View NPM Package"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-xs font-bold text-ink-dim uppercase">
+                          // {purgeportProject.tagline}
+                        </div>
+                      </div>
+
+                      {/* Embedded Project Carousel */}
+                      <div className="p-4 border-b-3 border-black bg-black/5">
+                        <ProjectCarousel images={purgeportProject.images} projectName={purgeportProject.name} />
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="p-6 space-y-5 flex-grow flex flex-col justify-between">
+                        <p className="text-ink-dim text-xs sm:text-sm font-medium leading-relaxed">
+                          {purgeportProject.problem}
+                        </p>
+
+                        {/* Categorized Tech Stack Badges */}
+                        <div className="space-y-3 pt-3 border-t-2 border-black/20">
+                          <span className="font-extrabold text-xs text-ink uppercase block tracking-wider">
+                            SYSTEM & POSIX ARCHITECTURE
+                          </span>
+
+                          <div className="space-y-2">
+                            {purgeportProject.categorizedTags.backend && (
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                <span className="font-mono text-[10px] font-black uppercase text-ink-dim w-16">SYSTEM:</span>
+                                {purgeportProject.categorizedTags.backend.map((tag) => (
+                                  <span key={tag} className="font-bold text-[11px] bg-btn-secondary text-btn-secondary-text border border-black px-2 py-0.5 shadow-[1px_1px_0px_#000]">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+
+                            {purgeportProject.categorizedTags.devops && (
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                <span className="font-mono text-[10px] font-black uppercase text-ink-dim w-16">PACKAGE:</span>
+                                {purgeportProject.categorizedTags.devops.map((tag) => (
+                                  <span key={tag} className="font-bold text-[11px] bg-btn-accent text-btn-accent-text border border-black px-2 py-0.5 shadow-[1px_1px_0px_#000]">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Highlights Checklist */}
+                        <div className="space-y-2 pt-3 border-t-2 border-black/20">
+                          <span className="font-extrabold text-xs text-ink uppercase block tracking-wider">
+                            Key CLI Capabilities
+                          </span>
+                          <ul className="space-y-1.5">
+                            {purgeportProject.keyFeatures.slice(0, 4).map((feat, fIdx) => (
+                              <li key={fIdx} className="flex items-start gap-2">
+                                <span className="w-2 h-2 bg-btn-primary border border-black rounded-none mt-1 shrink-0" />
+                                <span className="text-xs font-medium text-ink-dim leading-tight">{feat}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="p-3 border-2 border-black bg-btn-primary text-btn-primary-text shadow-[2px_2px_0px_#000] text-xs font-bold uppercase flex items-center gap-2">
+                          <Zap className="w-4 h-4 shrink-0" /> Zero dependencies • Published on npm • Runnable instantly via npx purgeport
+                        </div>
+
+                        {/* Details Button */}
+                        <div className="pt-2 border-t-2 border-black/20">
+                          <Link
+                            to={`/projects/${purgeportProject.slug}`}
+                            className="w-full bg-btn-accent text-btn-accent-text border-2 border-black px-4 py-2.5 text-xs font-bold shadow-[3px_3px_0px_#000] uppercase rounded-none flex items-center justify-center gap-2 hover:bg-btn-primary hover:text-btn-primary-text transition-colors"
+                          >
+                            View System Specification & Details <ArrowUpRight className="w-4 h-4 stroke-[3]" />
+                          </Link>
+                        </div>
+                      </div>
+
+                    </div>
+                  </BlurFade>
+                )}
+
+              </div>
+
+
+              {/* 3. SECONDARY BENTO GRID: DEEPSYNTH & CALCULATOR */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                
+                {/* DEEPSYNTH */}
                 {deepsynthProject && (
                   <BlurFade delay={0.3} className="lg:col-span-1">
                     <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] hover:shadow-[8px_8px_0px_#000] transition-all rounded-none overflow-hidden flex flex-col justify-between h-full">
@@ -541,7 +675,7 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
               </div>
 
 
-              {/* 3. BOTTOM SPOTLIGHT CARD: KAUSHAL AI */}
+              {/* 4. BOTTOM SPOTLIGHT CARD: KAUSHAL AI */}
               {kaushalProject && (
                 <BlurFade delay={0.4}>
                   <div className="border-3 border-black bg-bg-soft shadow-[8px_8px_0px_#000] hover:shadow-[10px_10px_0px_#000] transition-all rounded-none overflow-hidden relative">
@@ -720,7 +854,7 @@ export const SelectedWorkSection = memo(function SelectedWorkSection({ playKeyst
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-btn-primary text-btn-primary-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black p-1.5 text-xs font-bold shadow-[2px_2px_0px_#000] uppercase transition-colors"
-                            title="View Live System"
+                            title={project.liveUrl.includes('npmjs.com') ? "View NPM Package" : "View Live System"}
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>

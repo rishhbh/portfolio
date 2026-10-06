@@ -27,6 +27,9 @@ const stepLabels: Record<string, string> = {
   'jaas-two.webp': 'STEP 02 // TWO-STEP FETCH & ROAST WORKBENCH',
   'jaas-three.webp': 'STEP 03 // AI ROAST EVALUATION OUTPUT',
   'jaas-four.webp': 'STEP 04 // SYSTEM ARCHITECTURE & TECH SPECS',
+  'purgeport-one.webp': 'STEP 01 // PORT DETECTION & METADATA INSPECTION',
+  'purgeport-two.webp': 'STEP 02 // MULTI-PORT BATCH PURGE & TERMINATION',
+  'purgeport-three.webp': 'STEP 03 // CLI SPECIFICATIONS & HELP UTILITIES',
 };
 
 const renderFormattedText = (text: string) => {
@@ -255,7 +258,7 @@ export default function ProjectDetail() {
                     rel="noopener noreferrer"
                     className="bg-btn-secondary text-btn-secondary-text border-3 border-black shadow-[4px_4px_0px_#000] font-extrabold text-xs py-3 px-5 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center gap-2 uppercase"
                   >
-                    <ExternalLink className="w-4 h-4" /> LIVE PRODUCTION DEPLOYMENT
+                    <ExternalLink className="w-4 h-4" /> {project.liveUrl.includes('npmjs.com') ? 'NPM PACKAGE REGISTRY' : 'LIVE PRODUCTION DEPLOYMENT'}
                   </a>
                 ) : (
                   <div className="bg-bg-softer text-ink-faint border-2 border-black font-bold text-xs py-3 px-5 flex items-center gap-2 shadow-[2px_2px_0px_#000] uppercase">
