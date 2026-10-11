@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useSmoothScroll } from '../context/SmoothScrollContext';
+import { Magnetic } from './Magnetic';
 
 interface NavbarProps {
   onNavClick?: (targetId: string) => void;
@@ -66,31 +68,45 @@ export default function Navbar({ onNavClick }: NavbarProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav aria-label="Main Navigation" className="hidden md:flex">
+        <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-7">
           {navLinks.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               onClick={(e) => handleLinkClick(item.to, e)}
               aria-current={item.isActive ? 'page' : undefined}
+              className="relative py-1 text-[15px] transition-opacity duration-200"
             >
-              {item.label}
+              <span className={item.isActive ? 'text-white' : 'text-[#888] hover:text-white transition-colors'}>
+                {item.label}
+              </span>
+              {item.isActive && (
+                <motion.span
+                  layoutId="activeNavIndicator"
+                  className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-white pointer-events-none"
+                  transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                />
+              )}
             </Link>
           ))}
-          <Link
-            to="/resume"
-            className="cta ml-2"
-            aria-current={location.pathname.startsWith('/resume') ? 'page' : undefined}
-          >
-            Resume ↗
-          </Link>
-          <a
-            href="/#dispatch"
-            onClick={handleContactClick}
-            className="cta"
-          >
-            Contact
-          </a>
+          <Magnetic strength={0.22}>
+            <Link
+              to="/resume"
+              className="cta ml-1"
+              aria-current={location.pathname.startsWith('/resume') ? 'page' : undefined}
+            >
+              Resume ↗
+            </Link>
+          </Magnetic>
+          <Magnetic strength={0.22}>
+            <a
+              href="/#dispatch"
+              onClick={handleContactClick}
+              className="cta"
+            >
+              Contact
+            </a>
+          </Magnetic>
         </nav>
 
         {/* Mobile Hamburger Toggle */}

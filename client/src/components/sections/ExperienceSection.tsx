@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface WorkRole {
   company: string;
@@ -102,8 +103,18 @@ export function ExperienceSection({ theme = 'lt' }: ExperienceSectionProps) {
               return (
                 <div
                   key={role.company}
-                  className="border-b last:border-b-0 border-[var(--line)]"
+                  className="relative border-b last:border-b-0 border-[var(--line)] overflow-hidden"
                 >
+                  {isOpen && (
+                    <motion.div
+                      key={`beam-${idx}`}
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '100%' }}
+                      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[var(--fg)] to-transparent pointer-events-none opacity-60 z-10"
+                      aria-hidden="true"
+                    />
+                  )}
                   <button
                     type="button"
                     onClick={() => handleToggle(idx)}
@@ -121,14 +132,16 @@ export function ExperienceSection({ theme = 'lt' }: ExperienceSectionProps) {
                       </p>
                     </div>
 
-                    <span
-                      className={`font-serif text-2xl text-[var(--mut)] transition-transform duration-300 select-none ${
-                        isOpen ? 'rotate-45 text-[var(--fg)]' : 'rotate-0'
+                    <motion.span
+                      animate={{ rotate: isOpen ? 45 : 0 }}
+                      transition={{ type: 'spring', stiffness: 360, damping: 24 }}
+                      className={`font-serif text-2xl select-none ${
+                        isOpen ? 'text-[var(--fg)]' : 'text-[var(--mut)]'
                       }`}
                       aria-hidden="true"
                     >
                       +
-                    </span>
+                    </motion.span>
                   </button>
 
                   <div

@@ -79,8 +79,16 @@ export function PageTransition() {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="w-full min-h-screen will-change-[transform,opacity] [transform-style:preserve-3d] [backface-visibility:hidden]"
+          className="w-full min-h-screen will-change-[transform,opacity] [transform-style:preserve-3d] [backface-visibility:hidden] relative"
         >
+          {/* Architectural Leading-Edge Hairline Divider during slide */}
+          <div
+            className="absolute inset-y-0 w-[1px] bg-white/20 pointer-events-none z-50"
+            style={{
+              [dir > 0 ? 'left' : 'right']: 0,
+            }}
+            aria-hidden="true"
+          />
           <Routes location={location}>
             <Route
               path="/"

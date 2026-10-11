@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface SystemItem {
   id: string;
@@ -70,6 +71,7 @@ const SYSTEMS: SystemItem[] = [
 
 export function SelectedWorkSection() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [simMode, setSimMode] = useState<'hit' | 'miss'>('hit');
   const sys = SYSTEMS[activeIdx];
 
   return (
@@ -87,23 +89,50 @@ export function SelectedWorkSection() {
             Real backend architectures built to solve concrete bottlenecks: cache invalidation, dependency bloat, and unverified AI outputs.
           </p>
 
+          {/* Fluid Spring Glider Selector */}
           <div className="mt-8 flex flex-wrap gap-2">
-            {SYSTEMS.map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveIdx(idx)}
-                className={`c text-xs ${idx === activeIdx ? 'on' : ''}`}
-                aria-pressed={idx === activeIdx}
-              >
-                0{idx + 1} {item.name}
-              </button>
-            ))}
+            {SYSTEMS.map((item, idx) => {
+              const isActive = idx === activeIdx;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveIdx(idx)}
+                  className="relative px-3.5 py-1.5 text-xs font-mono border border-[#333] transition-colors duration-200 cursor-pointer overflow-hidden bg-[#0c0c0c]"
+                  aria-pressed={isActive}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeSystemHighlight"
+                      className="absolute inset-0 bg-white pointer-events-none"
+                      transition={{ type: 'spring', stiffness: 440, damping: 32 }}
+                    />
+                  )}
+                  <span
+                    className={`relative z-10 transition-colors duration-150 ${
+                      isActive ? 'text-black font-semibold' : 'text-[#888] hover:text-white'
+                    }`}
+                  >
+                    0{idx + 1} {item.name}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Right Column: Active System Card */}
         <div className="v">
-          <div className="pn p-6 sm:p-8 border border-[#333] bg-[#0a0a0a]">
+          <div className="pn relative p-6 sm:p-8 border border-[#333] bg-[#0a0a0a] overflow-hidden">
+            {/* Architectural Hairline Beam Sweep on system switch */}
+            <motion.div
+              key={activeIdx}
+              initial={{ x: '-100%' }}
+              animate={{ x: '100%' }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none"
+              aria-hidden="true"
+            />
+
             <div className="flex items-center justify-between gap-4 border-b border-[#262626] pb-4">
               <span className="text-xs font-mono text-[#888]">
                 SYSTEM SPECIFICATION // 0{activeIdx + 1} — 0{SYSTEMS.length}
@@ -113,59 +142,126 @@ export function SelectedWorkSection() {
               </span>
             </div>
 
-            <div className="mt-5">
-              <h3 className="font-serif text-3xl text-white">{sys.name}</h3>
-              <p className="text-xs text-[#9b9b9b] font-mono mt-1 uppercase tracking-wide">
-                {sys.tagline}
-              </p>
-            </div>
-
-            <p className="text-sm leading-relaxed text-[#c2c2c2] mt-4 min-h-[64px]">
-              {sys.summary}
-            </p>
-
-            <div className="mt-4 pt-3 border-t border-[#262626] flex items-center justify-between flex-wrap gap-2">
-              <span className="font-mono text-xs text-white">
-                {sys.metrics}
-              </span>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {sys.stack.map((t) => (
-                <span key={t} className="bg-[#161616] px-2 py-0.5 border border-[#333] text-[11px] font-mono text-[#888]">
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-[#262626] flex flex-wrap items-center gap-4 text-xs font-medium">
-              <Link
-                to={`/projects/${sys.slug}`}
-                className="text-white underline hover:text-[#9b9b9b] transition-colors"
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={sys.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               >
-                Deep dive specs ↗
-              </Link>
-              {sys.liveUrl && (
-                <a
-                  href={sys.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#9b9b9b] hover:text-white transition-colors"
-                >
-                  Live deployment ↗
-                </a>
-              )}
-              {sys.githubUrl && (
-                <a
-                  href={sys.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#9b9b9b] hover:text-white transition-colors"
-                >
-                  Source repository ↗
-                </a>
-              )}
-            </div>
+                <div className="mt-5">
+                  <h3 className="font-serif text-3xl text-white">{sys.name}</h3>
+                  <p className="text-xs text-[#9b9b9b] font-mono mt-1 uppercase tracking-wide">
+                    {sys.tagline}
+                  </p>
+                </div>
+
+                <p className="text-sm leading-relaxed text-[#c2c2c2] mt-4 min-h-[56px]">
+                  {sys.summary}
+                </p>
+
+                {/* Interactive Cache Simulation Widget (For Layerzero) */}
+                {sys.id === 'layerzero' && (
+                  <div className="mt-4 p-3.5 border border-[#262626] bg-[#111111]">
+                    <div className="flex items-center justify-between gap-2 border-b border-[#222] pb-2">
+                      <span className="font-mono text-[10px] text-[#888] uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Live Cache Pipeline Simulator
+                      </span>
+                      <div className="flex items-center gap-1 font-mono text-[10px]">
+                        <button
+                          type="button"
+                          onClick={() => setSimMode('hit')}
+                          className={`px-2 py-0.5 border cursor-pointer transition-colors ${
+                            simMode === 'hit'
+                              ? 'bg-white text-black border-white font-semibold'
+                              : 'bg-transparent text-[#888] border-[#333] hover:text-white'
+                          }`}
+                        >
+                          ⚡ Cache Hit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSimMode('miss')}
+                          className={`px-2 py-0.5 border cursor-pointer transition-colors ${
+                            simMode === 'miss'
+                              ? 'bg-white text-black border-white font-semibold'
+                              : 'bg-transparent text-[#888] border-[#333] hover:text-white'
+                          }`}
+                        >
+                          🐢 Cold Run
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-2.5 flex items-center justify-between text-[11px] font-mono flex-wrap gap-2">
+                      <span className="text-[#888]">
+                        Pipeline Trace:{' '}
+                        <strong className="text-white font-normal">
+                          {simMode === 'hit'
+                            ? 'SHA-256 Fingerprint → Upstash Redis → SSE Stream'
+                            : 'Parse Text → Cloudflare R2 → Gemini Flash → SSE Stream'}
+                        </strong>
+                      </span>
+                      <span
+                        className={`font-semibold ${
+                          simMode === 'hit' ? 'text-emerald-400' : 'text-amber-400'
+                        }`}
+                      >
+                        {simMode === 'hit' ? '148ms (-98.2%)' : '8,420ms'}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-4 pt-3 border-t border-[#262626] flex items-center justify-between flex-wrap gap-2">
+                  <span className="font-mono text-xs text-white">
+                    {sys.metrics}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {sys.stack.map((t) => (
+                    <span
+                      key={t}
+                      className="bg-[#161616] px-2 py-0.5 border border-[#333] text-[11px] font-mono text-[#888]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-[#262626] flex flex-wrap items-center gap-4 text-xs font-medium">
+                  <Link
+                    to={`/projects/${sys.slug}`}
+                    className="text-white underline hover:text-[#9b9b9b] transition-colors"
+                  >
+                    Deep dive specs ↗
+                  </Link>
+                  {sys.liveUrl && (
+                    <a
+                      href={sys.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#9b9b9b] hover:text-white transition-colors"
+                    >
+                      Live deployment ↗
+                    </a>
+                  )}
+                  {sys.githubUrl && (
+                    <a
+                      href={sys.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#9b9b9b] hover:text-white transition-colors"
+                    >
+                      Source repository ↗
+                    </a>
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>

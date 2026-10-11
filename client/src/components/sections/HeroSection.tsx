@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Magnetic } from '../Magnetic';
 
 interface QueryPreset {
   question: string;
@@ -86,13 +87,17 @@ export function HeroSection() {
             Backend engineer specializing in distributed pipelines, cache invalidation, and LLM integrations that survive production traffic without burning memory budgets.
           </p>
 
-          <div className="row">
-            <Link to="/work" className="b">
-              Inspect systems <span aria-hidden="true">↗</span>
-            </Link>
-            <Link to="/skills" className="b b2">
-              Tooling & decisions
-            </Link>
+          <div className="row items-center">
+            <Magnetic strength={0.22}>
+              <Link to="/work" className="b">
+                Inspect systems <span aria-hidden="true">↗</span>
+              </Link>
+            </Magnetic>
+            <Magnetic strength={0.22}>
+              <Link to="/skills" className="b b2">
+                Tooling & decisions
+              </Link>
+            </Magnetic>
           </div>
 
           <p className="text-xs text-[#9b9b9b] mt-7 tracking-wide font-mono">

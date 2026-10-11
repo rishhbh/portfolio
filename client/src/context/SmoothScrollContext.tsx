@@ -121,8 +121,14 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       }, 160);
       return () => clearTimeout(timer);
     } else {
-      // Immediately reset scroll on page transition to prevent flash of scrolled state
+      // Immediately reset scroll on page transition to prevent flash of scrolled state,
+      // and briefly pause wheel inputs for 480ms during the horizontal slide to guarantee locked 60/120fps
+      instance.stop();
       instance.scrollTo(0, { immediate: true });
+      const timer = setTimeout(() => {
+        instance.start();
+      }, 480);
+      return () => clearTimeout(timer);
     }
   }, [location.pathname, location.hash]);
 
