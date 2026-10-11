@@ -1,184 +1,166 @@
-import { useState, useRef, memo, type ChangeEvent, type FormEvent } from 'react';
-import { Send } from 'lucide-react';
-import { BlurFade } from '../BlurFade';
-import { TextReveal } from '../TextReveal';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 
 interface ContactSectionProps {
-  playKeystroke?: () => void;
+  theme?: 'dk' | 'lt';
 }
 
-export const ContactSection = memo(function ContactSection({ playKeystroke }: ContactSectionProps) {
-  const formRef = useRef<HTMLFormElement>(null);
+export function ContactSection({ theme = 'dk' }: ContactSectionProps) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (playKeystroke) playKeystroke();
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (status !== 'idle') {
+      setStatus('idle');
+      setStatusMessage('');
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (playKeystroke) playKeystroke();
+    if (!formData.email.trim() || !formData.message.trim()) {
+      setStatus('error');
+      setStatusMessage('Please provide your email address and message.');
+      return;
+    }
+
     setStatus('loading');
-    setErrorMessage('');
+    setStatusMessage('');
 
     const contactApiEndpoint = import.meta.env.VITE_API_URL
       ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api/contact`
       : '/api/contact';
 
     try {
-      const response = await fetch(contactApiEndpoint, {
+      const res = await fetch(contactApiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      if (res.ok) {
         setStatus('success');
+        setStatusMessage('Message sent successfully. I will get back to you shortly.');
         setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setStatus('idle'), 6000);
       } else {
-        const data = await response.json().catch(() => ({}));
         setStatus('error');
-        setErrorMessage(data.error || 'Something went wrong. Please try emailing directly.');
+        setStatusMessage('Unable to send via automated dispatch. Please email directly at rishabh223300@gmail.com.');
       }
     } catch {
       setStatus('error');
-      setErrorMessage('Failed to connect to backend server. Please try emailing directly.');
+      setStatusMessage('Network error. Please email directly at rishabh223300@gmail.com.');
     }
   };
 
   return (
-    <section id="contact" className="scroll-mt-24 mb-24 space-y-8">
-      <TextReveal delay={0.1} className="w-full">
-        <div className="flex items-center justify-between border-b-3 border-black pb-3">
-          <h2 className="text-3xl sm:text-5xl font-black uppercase text-ink flex items-center gap-3">
-            <span>04 // CONTACT</span>
-            <span className="text-outline hidden sm:inline">& DIRECT DISPATCH</span>
+    <section className={`s ${theme}`} id="dispatch" data-name="Dispatch">
+      <div className="w join-layout">
+        {/* Right Column: Headline on desktop */}
+        <div className="t">
+          <p className="eyebrow">
+            <span className="eyebrow-line"></span> DIRECT DISPATCH
+          </p>
+          <h2 className="max-w-[18ch] md:ml-auto">
+            Good conversations start with clear problem statements.
           </h2>
-          <span className="bg-btn-primary text-btn-primary-text font-extrabold text-xs px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] rounded-none uppercase">
-            COMMUNICATION CHANNEL
-          </span>
-        </div>
-      </TextReveal>
+          <p className="lead md:ml-auto">
+            Open for software engineering roles, backend consulting, and complex pipeline architecture. Direct communication with zero marketing funnels.
+          </p>
 
-      <BlurFade delay={0.2}>
-        <div className="border-3 border-black bg-bg-soft shadow-[6px_6px_0px_#000] rounded-none grid grid-cols-1 lg:grid-cols-12">
-
-          {/* Left Column: Direct Info */}
-          <div className="lg:col-span-5 p-6 sm:p-10 space-y-6 border-b-3 lg:border-b-0 lg:border-r-3 border-black bg-bg-softer flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="text-xs font-black uppercase tracking-wider text-ink border-b-2 border-black pb-2">
-                // Initiate Connection
-              </div>
-
-              <h3 className="font-black text-3xl sm:text-4xl text-ink uppercase leading-tight">
-                Let's Build Scale.
-              </h3>
-
-              <p className="text-ink-dim text-sm font-medium leading-relaxed">
-                Open to software engineering roles, backend consulting, or technical collaborations. Feel free to drop a message or send an email directly.
-              </p>
-            </div>
-
-            <div className="space-y-4 pt-4 border-t-2 border-black">
-              <div className="border-b border-black/20 pb-3">
-                <span className="text-[10px] font-bold text-ink-faint block uppercase">Email Address</span>
-                <a href="mailto:rishabh223300@gmail.com" className="text-sm font-extrabold text-ink underline hover:text-ink-dim transition-colors">
-                  rishabh223300@gmail.com
-                </a>
-              </div>
-
-              <div className="border-b border-black/20 pb-3">
-                <span className="text-[10px] font-bold text-ink-faint block uppercase">Base Location</span>
-                <span className="text-sm font-extrabold text-ink uppercase">Lucknow, India (UTC +5:30)</span>
-              </div>
-            </div>
+          <div className="mt-8 space-y-2 text-xs text-[var(--mut)] md:ml-auto md:max-w-[42ch]">
+            <p>
+              <strong className="text-[var(--fg)] uppercase font-mono">Direct Email:</strong>{' '}
+              <a href="mailto:rishabh223300@gmail.com" className="text-[var(--fg)] underline">
+                rishabh223300@gmail.com
+              </a>
+            </p>
+            <p>
+              <strong className="text-[var(--fg)] uppercase font-mono">Base Location:</strong> Lucknow, India (UTC +5:30)
+            </p>
           </div>
+        </div>
 
-          {/* Right Column: Dispatch Form */}
-          <div className="lg:col-span-7 p-6 sm:p-10">
-            {status === 'success' ? (
-              <div
-                role="alert"
+        {/* Left Column: Form on desktop */}
+        <div className="v join-form-wrap border-t border-[var(--line)] pt-6">
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            <div>
+              <label htmlFor="contact-name" className="block mb-2 font-mono text-xs uppercase tracking-wider text-[var(--mut)]">
+                YOUR NAME
+              </label>
+              <input
+                id="contact-name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="f"
+                type="text"
+                placeholder="Jane Doe"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="contact-email" className="block mb-2 font-mono text-xs uppercase tracking-wider text-[var(--mut)]">
+                EMAIL ADDRESS
+              </label>
+              <input
+                id="contact-email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="f"
+                type="email"
+                placeholder="jane@company.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="contact-message" className="block mb-2 font-mono text-xs uppercase tracking-wider text-[var(--mut)]">
+                PROJECT CONTEXT / MESSAGE
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows={4}
+                value={formData.message}
+                onChange={handleChange}
+                className="f"
+                placeholder="Problem statement, timeline, or engineering role details..."
+                required
+              />
+            </div>
+
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="b"
+              >
+                {status === 'loading' ? 'Dispatching...' : (
+                  <>
+                    Send message <span aria-hidden="true">↗</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {statusMessage && (
+              <p
+                role="status"
                 aria-live="polite"
-                className="p-8 border-3 border-black bg-btn-primary text-btn-primary-text font-bold shadow-[4px_4px_0px_#000] rounded-none space-y-3"
+                className={`text-xs mt-3 font-mono ${status === 'error' ? 'text-red-400' : 'text-emerald-400'}`}
               >
-                <div className="font-black text-2xl uppercase">Message Dispatched Successfully</div>
-                <div className="text-sm font-mono">Thank you for reaching out. I will respond to your message promptly.</div>
-              </div>
-            ) : (
-              <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                className="space-y-6"
-              >
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-bold text-ink uppercase mb-1.5">Your Full Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-btn-primary focus:text-btn-primary-text transition-colors rounded-none shadow-[3px_3px_0px_#000]"
-                      placeholder="John Doe"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-xs font-bold text-ink uppercase mb-1.5">Email Address</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-btn-primary focus:text-btn-primary-text transition-colors rounded-none shadow-[3px_3px_0px_#000]"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-xs font-bold text-ink uppercase mb-1.5">Message / Inquiry Details</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="w-full bg-bg-softer border-3 border-black p-3.5 text-sm text-ink font-bold focus:outline-none focus:bg-btn-primary focus:text-btn-primary-text transition-colors resize-none rounded-none shadow-[3px_3px_0px_#000]"
-                      placeholder="Write your project details or job opportunity..."
-                    ></textarea>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  {status === 'error' && (
-                    <span role="alert" aria-live="assertive" className="text-xs font-bold text-ink">
-                      Error: {errorMessage}
-                    </span>
-                  )}
-                  <button
-                    type="submit"
-                    disabled={status === 'loading'}
-                    className="brutal-btn py-4 px-8 text-sm uppercase tracking-wide ml-auto flex items-center gap-2 rounded-none cursor-pointer"
-                  >
-                    {status === 'loading' ? 'Dispatching...' : 'Dispatch Message'} <Send className="w-4 h-4" />
-                  </button>
-                </div>
-              </form>
+                {statusMessage}
+              </p>
             )}
-          </div>
+          </form>
 
+          <p className="form-note text-xs text-[var(--mut)] mt-6">
+            Software engineering roles, backend architecture, and deterministic systems.
+          </p>
         </div>
-      </BlurFade>
+      </div>
     </section>
   );
-});
+}

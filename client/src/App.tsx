@@ -1,107 +1,72 @@
-import { useState, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
-import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { PageTransition } from './components/PageTransition';
+import { ScrollProgress } from './components/ScrollProgress';
+import { SideRail } from './components/SideRail';
 import { ThemeProvider } from './context/ThemeContext';
+import { SmoothScrollProvider } from './context/SmoothScrollContext';
 import { CommandPaletteProvider } from './context/CommandPaletteContext';
-import { NoiseOverlay } from './components/NoiseOverlay';
-import { CustomCursor } from './components/CustomCursor';
-import { Preloader } from './components/Preloader';
 
 const CommandPalette = lazy(() =>
   import('./components/CommandPalette').then((module) => ({ default: module.CommandPalette }))
 );
 
 function App() {
-  const [isBooting, setIsBooting] = useState(() => !sessionStorage.getItem('hasBooted'));
-
-  const handleBootComplete = () => {
-    setIsBooting(false);
-    sessionStorage.setItem('hasBooted', 'true');
-  };
-
   return (
     <ThemeProvider>
       <CommandPaletteProvider>
         <HelmetProvider>
           <Helmet>
-            {/* Primary */}
-            <title>Rishabh Sharma — Software Engineer</title>
-            <meta name="title" content="Rishabh Sharma — Software Engineer" />
-            <meta name="description" content="Backend-focused software engineer. I build APIs, AI systems, and containerized backends. Final year B.Tech CSE (AI & ML), School of Management Sciences, Lucknow." />
-            <meta name="keywords" content="Rishabh Sharma, backend developer, software engineer, Node.js, Express, MongoDB, Docker, AI integration, Layerzero, KaushalAI, Lucknow, SMS Lucknow, portfolio" />
+            <title>Rishabh Sharma — Backend & Systems Engineer</title>
+            <meta name="title" content="Rishabh Sharma — Backend & Systems Engineer" />
+            <meta name="description" content="Backend engineer building distributed pipelines, cache invalidation, and LLM integrations that survive production traffic. B.Tech CSE (AI & ML), Lucknow." />
+            <meta name="keywords" content="Rishabh Sharma, backend developer, software engineer, Node.js, Express, MongoDB, Docker, AI pipelines, Layerzero, KaushalAI, JaaS, Purgeport, Lucknow" />
             <meta name="author" content="Rishabh Sharma" />
             <meta name="robots" content="index, follow" />
-            <meta name="theme-color" content="#0a0a0a" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta name="theme-color" content="#000000" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
             <link rel="canonical" href="https://rishabhh.is-a.dev" />
 
-            {/* Open Graph / Facebook */}
             <meta property="og:type" content="website" />
             <meta property="og:url" content="https://rishabhh.is-a.dev" />
-            <meta property="og:title" content="Rishabh Sharma — Software Engineer" />
-            <meta property="og:description" content="Backend-focused software engineer. APIs, AI systems, containerized backends. Built Layerzero and KaushalAI — winner of Ideas to Impact 2026." />
+            <meta property="og:title" content="Rishabh Sharma — Backend & Systems Engineer" />
+            <meta property="og:description" content="Backend engineer building distributed pipelines, cache invalidation, and LLM integrations that survive production traffic. Built Layerzero, Purgeport, and KaushalAI." />
             <meta property="og:image" content="https://rishabhh.is-a.dev/og-image.png" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
-            <meta property="og:image:alt" content="Rishabh Sharma — Software Engineer" />
             <meta property="og:site_name" content="Rishabh Sharma" />
             <meta property="og:locale" content="en_IN" />
 
-            {/* Twitter / X */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:url" content="https://rishabhh.is-a.dev" />
-            <meta name="twitter:title" content="Rishabh Sharma — Software Engineer" />
-            <meta name="twitter:description" content="Backend-focused software engineer. APIs, AI systems, containerized backends. Built Layerzero and KaushalAI — winner of Ideas to Impact 2026." />
+            <meta name="twitter:title" content="Rishabh Sharma — Backend & Systems Engineer" />
+            <meta name="twitter:description" content="Backend engineer building distributed pipelines, cache invalidation, and LLM integrations that survive production traffic. Built Layerzero, Purgeport, and KaushalAI." />
             <meta name="twitter:image" content="https://rishabhh.is-a.dev/og-image.png" />
             <meta name="twitter:creator" content="@rishhbh" />
 
-            {/* Favicon */}
             <link rel="icon" type="image/png" href="/favicon.png" />
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-            {/* Schema */}
-            <script type="application/ld+json">
-              {`
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Rishabh Sharma",
-  "url": "https://rishabhh.is-a.dev",
-  "jobTitle": "Software Engineer",
-  "sameAs": [
-    "https://github.com/rishhbh",
-    "https://linkedin.com/in/rishabhh-sharma"
-  ]
-}
-              `}
-            </script>
           </Helmet>
+
           <Router>
-            <CustomCursor />
-            <NoiseOverlay />
-            <Suspense fallback={null}>
-              <CommandPalette />
-            </Suspense>
+            <SmoothScrollProvider>
+              <ScrollProgress />
+              <SideRail />
+              <Suspense fallback={null}>
+                <CommandPalette />
+              </Suspense>
 
-            <AnimatePresence mode="wait">
-              {isBooting ? (
-                <Preloader key="preloader" onComplete={handleBootComplete} />
-              ) : null}
-            </AnimatePresence>
-
-            {!isBooting && (
-              <div className="flex flex-col min-h-screen text-ink selection:bg-[var(--selection-bg)] selection:text-ink font-sans relative z-0 select-none">
+              <div className="flex flex-col min-h-screen bg-black text-white font-sans">
                 <Navbar />
                 <main className="flex-grow">
                   <PageTransition />
                 </main>
                 <Footer />
               </div>
-            )}
+            </SmoothScrollProvider>
           </Router>
         </HelmetProvider>
       </CommandPaletteProvider>

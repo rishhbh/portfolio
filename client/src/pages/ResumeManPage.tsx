@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ResumeManPage() {
   useEffect(() => {
@@ -8,180 +9,199 @@ export default function ResumeManPage() {
   }, []);
 
   return (
-    <>
+    <div className="dk min-h-screen pt-28 pb-24 px-6 sm:px-12 font-mono text-sm leading-relaxed text-[#ccc]">
       <Helmet>
-        <title>Resume & Technical Specs (MAN Page) — Rishabh Sharma</title>
-        <meta name="title" content="Resume & Technical Specs (MAN Page) — Rishabh Sharma" />
-        <meta name="description" content="Full technical resume, backend engineering specs, microservices experience, and LLM pipeline architecture of Rishabh Sharma (B.Tech CSE AI & ML)." />
+        <title>Technical Resume & Manual Specifications — Rishabh Sharma</title>
+        <meta name="title" content="Technical Resume & Manual Specifications — Rishabh Sharma" />
+        <meta name="description" content="Technical resume and backend engineering specifications of Rishabh Sharma (B.Tech CSE AI & ML)." />
         <link rel="canonical" href="https://rishabhh.is-a.dev/resume" />
-
-        {/* Open Graph */}
-        <meta property="og:type" content="profile" />
-        <meta property="og:url" content="https://rishabhh.is-a.dev/resume" />
-        <meta property="og:title" content="Resume & Engineering Specs — Rishabh Sharma" />
-        <meta property="og:description" content="Backend Software Engineer specializing in Node.js, Express v5, MongoDB, Upstash Redis, Docker, AWS EC2, and hybrid LLM ingestion pipelines." />
-        <meta property="og:image" content="https://rishabhh.is-a.dev/og-image.png" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://rishabhh.is-a.dev/resume" />
-        <meta name="twitter:title" content="Resume & Engineering Specs — Rishabh Sharma" />
-        <meta name="twitter:description" content="Backend Software Engineer specializing in Node.js, Express v5, MongoDB, Upstash Redis, Docker, AWS EC2, and hybrid LLM ingestion pipelines." />
-        <meta name="twitter:image" content="https://rishabhh.is-a.dev/og-image.png" />
       </Helmet>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="min-h-screen bg-bg text-ink p-4 sm:p-8 md:p-12 font-mono text-sm sm:text-base leading-relaxed selection:bg-btn-primary selection:text-btn-primary-text pt-28 pb-32"
-      >
-      <div className="max-w-4xl mx-auto bg-bg-soft border-3 border-black shadow-[6px_6px_0px_#000] p-6 sm:p-10 rounded-none space-y-8">
-        
-        {/* Top Header & Actions */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-btn-primary text-btn-primary-text border-2 border-black p-4 shadow-[2px_2px_0px_#000] rounded-none">
-          <div className="font-black text-xs sm:text-sm uppercase flex items-center justify-between sm:justify-start gap-4">
-            <span>RISHABH(1)</span>
-            <span>Manual Page / Resume</span>
-            <span>RISHABH(1)</span>
+      <div className="max-w-[1000px] mx-auto space-y-10">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center justify-between border-b border-[#262626] pb-4">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-xs uppercase text-[#9b9b9b] hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Return to Home
+          </Link>
+
+          <span className="text-xs text-[#777] uppercase tracking-wider">
+            MANUAL SPECIFICATION
+          </span>
+        </div>
+
+        {/* Top Header Card */}
+        <div className="border border-[#333] p-6 bg-[#080808] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <div className="text-white font-bold text-sm tracking-wider">
+              RISHABH(1) — SYSTEM ARCHITECTURE MANUAL
+            </div>
+            <div className="text-xs text-[#888] mt-1 font-sans">
+              B.Tech CSE (AI & ML) • SMS Lucknow • Backend Systems Engineer
+            </div>
           </div>
 
           <a
             href="https://drive.google.com/file/d/1_TSEuYMucfqFTDUs2-YR2tvL9uXo5ZBh/view"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-black text-white hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black px-3.5 py-1.5 text-xs font-black uppercase shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2 rounded-none cursor-pointer"
+            className="b text-xs"
           >
-            <span>DOWNLOAD PDF (DRIVE)</span>
-            <span className="text-sm">↗</span>
+            Download PDF (Drive) ↗
           </a>
         </div>
 
-        <section>
-          <h2 className="font-extrabold text-base mb-3 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Name</h2>
-          <div className="pl-4 font-bold text-sm sm:text-base">
-            rishabh-sharma — Software Engineer focusing on Backend, APIs, and AI Systems
+        {/* Section 1: Name */}
+        <section className="space-y-2 border-t border-[#222] pt-6">
+          <div className="text-white font-bold text-xs uppercase tracking-widest text-[#9b9b9b]">
+            NAME
+          </div>
+          <div className="pl-4 text-white">
+            rishabh-sharma — Software Engineer focusing on Backend, Distributed Pipelines, and AI Inference
           </div>
         </section>
 
-        <section>
-          <h2 className="font-extrabold text-base mb-3 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Synopsis</h2>
-          <div className="pl-4 font-bold text-ink text-sm sm:text-base">
-            <strong>rishabh</strong> [--backend] [--ai-integrations] [--devops]
+        {/* Section 2: Synopsis */}
+        <section className="space-y-2 border-t border-[#222] pt-6">
+          <div className="text-white font-bold text-xs uppercase tracking-widest text-[#9b9b9b]">
+            SYNOPSIS
+          </div>
+          <div className="pl-4 text-[#ddd]">
+            <code>rishabh [--backend] [--caching] [--rag-pipelines] [--devops]</code>
           </div>
         </section>
 
-        <section>
-          <h2 className="font-extrabold text-base mb-3 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Description</h2>
-          <div className="pl-4 space-y-3 font-medium text-ink-dim text-sm sm:text-base">
+        {/* Section 3: Description */}
+        <section className="space-y-2 border-t border-[#222] pt-6">
+          <div className="text-white font-bold text-xs uppercase tracking-widest text-[#9b9b9b]">
+            DESCRIPTION
+          </div>
+          <div className="pl-4 space-y-2 text-[#aaa]">
             <p>
-              <strong className="text-ink font-bold">rishabh</strong> is a software engineer focusing on backend architecture and intelligent interfaces. He specializes in combining large language model capabilities with secure, rate-limited application layers that perform at scale.
+              Backend-focused software engineer designing deterministic systems that withstand real production throughput. Experienced in Node.js, Express v5, MongoDB Atlas, Upstash Redis, Docker Compose, and hybrid cloud/local LLM orchestration pipelines.
             </p>
             <p>
-              He is currently a final-year B.Tech CSE (AI & ML) student at the School of Management Sciences, Lucknow.
+              Emphasizes clean error boundaries, unit testing with in-memory database isolation (Jest + mongodb-memory-server), and zero-dependency POSIX tooling.
             </p>
           </div>
         </section>
 
-        <section>
-          <h2 className="font-extrabold text-base mb-4 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Experience</h2>
-          
-          <div className="space-y-6">
-            <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
-              <div className="font-extrabold text-ink uppercase text-sm sm:text-base">foundertruth — SDE Intern & Tech Lead</div>
-              <div className="bg-btn-primary text-btn-primary-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Jul 2026 – Present</div>
-              <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
-                <li>Built an asynchronous document ingestion pipeline using Cloudflare R2, text extraction, page/chunk metadata parsing, and VisionJob lifecycle processing to preserve source provenance.</li>
-                <li>Implemented a 4096-dimensional semantic embedding pipeline using Qwen3-Embedding-8B, generating and persisting vector representations for document chunks to enable vector similarity search.</li>
-                <li>Designed a multi-stage RAG engine combining startup-specific document retrieval with a curated founder failure knowledge base, explicitly separating factual startup evidence from historical failure patterns.</li>
-                <li>Architected a decoupled AI service abstraction around Groq (chatCompletion.js), executing GPT-OSS 120B with JSON Schema constraints to produce machine-readable startup analyses, task generation, and evaluations.</li>
-                <li>Developed an evidence-grounded evaluation engine scoring market fit, business model, traction, product, and team with explicit confidence tracking, risk flags, page citations, and missing-evidence representation.</li>
-                <li>Built an incubator-integrated development workflow where GPT-OSS synthesizes weekly tasks from progress history, incubators review/assign tasks, and AI evaluates submissions into an immutable ProgressHistory trajectory.</li>
-                <li>Implemented JWT authentication with HttpOnly cookie handling, admin-protected knowledge base CRUD endpoints, and role-scoped authorization for incubator vs. founder operations.</li>
-                <li>Engineered a standalone newsletter microservice with a dedicated subscription API, Zod validation, Google Sheets API integration for subscriber management, and Resend-powered transactional email delivery.</li>
+        {/* Section 4: Work Experience */}
+        <section className="space-y-4 border-t border-[#222] pt-6">
+          <div className="text-white font-bold text-xs uppercase tracking-widest text-[#9b9b9b]">
+            EXPERIENCE & WORK HISTORY
+          </div>
+
+          <div className="pl-4 space-y-6">
+            <div className="border border-[#262626] p-4 bg-[#050505] space-y-2">
+              <div className="flex justify-between items-baseline flex-wrap gap-2">
+                <span className="text-white font-bold">foundertruth — SDE Intern & Tech Lead</span>
+                <span className="text-xs text-[#777]">Jul 2026 – Present</span>
+              </div>
+              <ul className="list-disc list-inside space-y-1 text-xs text-[#aaa] pt-2">
+                <li>Built asynchronous document ingestion pipeline using Cloudflare R2, text chunk parsing, and VisionJob lifecycle processing.</li>
+                <li>Implemented 4096-dimensional semantic vector embedding pipeline with Qwen3-Embedding-8B for chunk similarity search.</li>
+                <li>Designed multi-stage RAG engine combining startup document retrieval with a curated knowledge base, separating facts from hallucination.</li>
+                <li>Architected decoupled AI service abstraction around Groq GPT-OSS 120B with JSON Schema constraints.</li>
+                <li>Implemented JWT authentication via HttpOnly cookies, RBAC authorization, and Upstash rate limiting.</li>
               </ul>
             </div>
 
-            <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
-              <div className="font-extrabold text-ink uppercase text-sm sm:text-base">Decoders Entity — Backend Developer Intern</div>
-              <div className="bg-btn-secondary text-btn-secondary-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">June 2026 – Present</div>
-              <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
-                <li>Architected and developed the complete backend for HerShield using Node.js, Express.js, MongoDB, and Socket.io.</li>
-                <li>Built dual-channel OTP authentication system with phone and email verification, bcrypt hashing, and JWT.</li>
-                <li>Engineered a sub-2s SOS emergency pipeline triggering Socket.io alerts, Firebase push notifications, and SMS.</li>
-                <li>Implemented real-time live location tracking using Socket.io rooms.</li>
+            <div className="border border-[#262626] p-4 bg-[#050505] space-y-2">
+              <div className="flex justify-between items-baseline flex-wrap gap-2">
+                <span className="text-white font-bold">Decoders Entity — Backend Developer Intern</span>
+                <span className="text-xs text-[#777]">Jun 2026 – Present</span>
+              </div>
+              <ul className="list-disc list-inside space-y-1 text-xs text-[#aaa] pt-2">
+                <li>Architected backend for HerShield AI safety platform using Node.js, Express, MongoDB, and Socket.io.</li>
+                <li>Engineered sub-2s SOS emergency pipeline with dual-channel OTP (D7 SMS + Nodemailer SMTP) fan-out.</li>
+                <li>Implemented live location tracking with Socket.io rooms (&lt;500ms latency) and MongoDB 2dsphere indexing.</li>
               </ul>
             </div>
 
-            <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
-              <div className="font-extrabold text-ink uppercase text-sm sm:text-base">Walk Reward — Software Developer Intern</div>
-              <div className="bg-btn-accent text-btn-accent-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Mar 2026 – Apr 2026</div>
-              <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
-                <li>Architected a split-domain production setup hosting a React SPA and WordPress blog on the same domain.</li>
-                <li>Built a GitHub Actions CI/CD pipeline automating Vite + React builds and FTP deployment.</li>
-                <li>Optimized Web Vitals, SEO, and mobile responsiveness using Lighthouse and Chrome DevTools.</li>
+            <div className="border border-[#262626] p-4 bg-[#050505] space-y-2">
+              <div className="flex justify-between items-baseline flex-wrap gap-2">
+                <span className="text-white font-bold">RevLabz Solutions — MERN Developer Intern</span>
+                <span className="text-xs text-[#777]">Nov 2025 – Feb 2026</span>
+              </div>
+              <ul className="list-disc list-inside space-y-1 text-xs text-[#aaa] pt-2">
+                <li>Engineered backend for SDR outreach platform across Chrome extension and web app using MERN + TypeScript.</li>
+                <li>Built 12+ RESTful APIs with multi-provider OAuth 2.0 (Google & Microsoft) and real-time contact list synchronization.</li>
               </ul>
             </div>
 
-            <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
-              <div className="font-extrabold text-ink uppercase text-sm sm:text-base">RevLabz Solutions — MERN Developer Intern</div>
-              <div className="bg-btn-badge-1 text-btn-badge-1-text text-xs font-bold px-2.5 py-0.5 border border-black rounded-none inline-block my-2">Nov 2025 – Feb 2026</div>
-              <ul className="list-[square] list-inside space-y-2 text-xs sm:text-sm text-ink-dim font-medium">
-                <li>Engineered the backend for an SDR outreach platform across a Chrome extension and web app using MERN + TypeScript.</li>
-                <li>Engineered 12+ RESTful APIs covering multi-provider OAuth, contact list management, and campaign orchestration.</li>
-                <li>Implemented OAuth 2.0 with session management and org-level RBAC.</li>
-                <li>Built real-time list sync between extension and web app with bulk contact selection.</li>
+            <div className="border border-[#262626] p-4 bg-[#050505] space-y-2">
+              <div className="flex justify-between items-baseline flex-wrap gap-2">
+                <span className="text-white font-bold">Walk Reward — Software Developer Intern</span>
+                <span className="text-xs text-[#777]">Mar 2026 – Apr 2026</span>
+              </div>
+              <ul className="list-disc list-inside space-y-1 text-xs text-[#aaa] pt-2">
+                <li>Architected split-domain production hosting a React SPA and WordPress blog on the same domain via .htaccess.</li>
+                <li>Built GitHub Actions CI/CD pipeline automating Vite builds and FTP production deployment.</li>
               </ul>
             </div>
           </div>
         </section>
 
-        <section>
-          <h2 className="font-extrabold text-base mb-4 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Skills & Environment</h2>
-          <div className="bg-bg-softer border-2 border-black p-4 shadow-[3px_3px_0px_#000] rounded-none">
-            <dl className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs sm:text-sm font-medium">
-              <dt className="font-black text-ink uppercase">LANGUAGES</dt>
-              <dd className="sm:col-span-3 text-ink-dim">TypeScript, JavaScript, Python, C</dd>
-              
-              <dt className="font-black text-ink uppercase">FRONTEND</dt>
-              <dd className="sm:col-span-3 text-ink-dim">React.js, Tailwind CSS, Zustand, i18next, jsPDF, html2canvas</dd>
-              
-              <dt className="font-black text-ink uppercase">BACKEND & APIs</dt>
-              <dd className="sm:col-span-3 text-ink-dim">Node.js, Express.js, REST APIs, Microservices, OAuth 2.0, JWT, Auth0, Rate Limiting, RBAC, Zod</dd>
-              
-              <dt className="font-black text-ink uppercase">TESTING</dt>
-              <dd className="sm:col-span-3 text-ink-dim">Jest, Supertest, mongodb-memory-server</dd>
-              
-              <dt className="font-black text-ink uppercase">DEVOPS & INFRA</dt>
-              <dd className="sm:col-span-3 text-ink-dim">AWS EC2, Docker, Docker Compose, GitHub Actions, Cloudflare Pages/Workers/R2, Linux</dd>
-              
-              <dt className="font-black text-ink uppercase">DATABASES & AI</dt>
-              <dd className="sm:col-span-3 text-ink-dim">MongoDB (Vector Search), Redis, Groq SDK, GPT-OSS 120B, Qwen3-Embedding-8B, RAG & Vector Retrieval, Gemini API, Ollama, Gemma 4</dd>
-            </dl>
+        {/* Section 5: Tooling & Environment */}
+        <section className="space-y-4 border-t border-[#222] pt-6">
+          <div className="text-white font-bold text-xs uppercase tracking-widest text-[#9b9b9b]">
+            ENVIRONMENT & TECHNICAL LEDGER
+          </div>
+
+          <div className="pl-4 border border-[#262626] p-4 bg-[#050505] space-y-3 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <span className="text-white font-semibold">Languages:</span>
+              <span className="sm:col-span-3 text-[#aaa]">TypeScript, JavaScript, Python, C</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <span className="text-white font-semibold">Backend & APIs:</span>
+              <span className="sm:col-span-3 text-[#aaa]">Node.js (v18+), Express v5, Bun, REST, SSE, JWT, Zod, RBAC, OAuth 2.0</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <span className="text-white font-semibold">Persistence & Caching:</span>
+              <span className="sm:col-span-3 text-[#aaa]">MongoDB Atlas (2dsphere), Upstash Redis (Sliding Rate Limit, SHA-256 TTL Caches)</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <span className="text-white font-semibold">Inference & Vector:</span>
+              <span className="sm:col-span-3 text-[#aaa]">Groq LPU, Qwen3-Embedding-8B, Ollama Local (4-bit Quantization), Gemini Flash</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <span className="text-white font-semibold">DevOps & Operating Systems:</span>
+              <span className="sm:col-span-3 text-[#aaa]">Docker, Docker Compose, AWS EC2, Cloudflare R2, GitHub Actions, Linux POSIX Signals</span>
+            </div>
           </div>
         </section>
 
-        <section>
-          <h2 className="font-extrabold text-base mb-3 uppercase bg-black text-white px-3 py-1 border-2 border-black inline-block rounded-none">Links</h2>
-          <div className="space-y-2 font-bold text-xs sm:text-sm">
+        {/* Section 6: Verified Links */}
+        <section className="space-y-2 border-t border-[#222] pt-6">
+          <div className="text-white font-bold text-xs uppercase tracking-widest text-[#9b9b9b]">
+            VERIFIED LINKS
+          </div>
+          <div className="pl-4 space-y-1 text-xs">
             <div>
-              <span className="text-ink uppercase">GitHub: </span>
-              <a href="https://github.com/rishhbh" target="_blank" rel="noreferrer" className="text-ink hover:underline">https://github.com/rishhbh</a>
+              <span className="text-white">GitHub: </span>
+              <a href="https://github.com/rishhbh" target="_blank" rel="noreferrer" className="underline hover:text-white">
+                https://github.com/rishhbh
+              </a>
             </div>
             <div>
-              <span className="text-ink uppercase">LinkedIn: </span>
-              <a href="https://linkedin.com/in/rishabhh-sharma" target="_blank" rel="noreferrer" className="text-ink hover:underline">https://linkedin.com/in/rishabhh-sharma</a>
+              <span className="text-white">LinkedIn: </span>
+              <a href="https://linkedin.com/in/rishabhh-sharma" target="_blank" rel="noreferrer" className="underline hover:text-white">
+                https://linkedin.com/in/rishabhh-sharma
+              </a>
             </div>
           </div>
         </section>
 
-        <div className="pt-4 border-t-3 border-black flex justify-between font-bold text-xs text-ink-dim uppercase">
-          <span>Linux</span>
-          <span>July 2026</span>
+        {/* Bottom Status Line */}
+        <div className="pt-6 border-t border-[#333] flex justify-between text-xs text-[#777] uppercase">
+          <span>Linux Terminal Standards</span>
           <span>RISHABH(1)</span>
         </div>
       </div>
-    </motion.div>
-    </>
+    </div>
   );
 }

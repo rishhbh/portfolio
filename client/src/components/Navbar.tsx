@@ -1,207 +1,144 @@
-import { Sun, Moon, Search, Github, Linkedin, FileText, Menu, X } from 'lucide-react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
-import { useCommandPalette } from '../context/CommandPaletteContext';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useSmoothScroll } from '../context/SmoothScrollContext';
 
-import { ColorSchemePicker } from './ColorSchemePicker';
+interface NavbarProps {
+  onNavClick?: (targetId: string) => void;
+}
 
-export default function Navbar() {
-  const { theme, toggleTheme } = useTheme();
-  const { openPalette } = useCommandPalette();
+export default function Navbar({ onNavClick }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { scrollTo } = useSmoothScroll();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const navItems = [
-    { label: 'About', target: 'about' },
-    { label: 'Work', target: 'work' },
-    { label: 'Stack', target: 'stack' },
-    { label: 'Experience', target: 'experience' },
-    { label: 'Contact', target: 'contact' },
+  const navLinks = [
+    {
+      label: 'Overview',
+      to: '/',
+      isActive: location.pathname === '/',
+    },
+    {
+      label: 'Systems & Work',
+      to: '/work',
+      isActive: location.pathname.startsWith('/work') || location.pathname.startsWith('/projects'),
+    },
+    {
+      label: 'Tooling & Skills',
+      to: '/skills',
+      isActive: location.pathname.startsWith('/skills'),
+    },
   ];
 
-  const handleNavClick = (target: string) => {
+  const handleLinkClick = (to: string, e: React.MouseEvent) => {
+    setMobileMenuOpen(false);
+    if (location.pathname === to) {
+      e.preventDefault();
+      scrollTo(0, { duration: 1.2 });
+    }
+  };
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     setMobileMenuOpen(false);
     if (location.pathname === '/') {
-      const element = document.getElementById(target);
-      if (element) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
+      if (onNavClick) {
+        onNavClick('dispatch');
+      } else {
+        const el = document.getElementById('dispatch');
+        if (el) scrollTo(el, { offset: 0, duration: 1.2 });
       }
     } else {
-      navigate(`/#${target}`);
+      navigate('/#dispatch');
     }
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-50 bg-bg-soft border-b-3 border-black shadow-[0_4px_0_#000] rounded-none">
-      {/* Scroll progress bar */}
-      <motion.div 
-        className="absolute bottom-0 left-0 right-0 h-[3px] bg-btn-primary origin-left z-30"
-        style={{ scaleX }}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between relative z-20">
-        
-        {/* Brand / Logo */}
-        <button
-          onClick={() => {
-            if (location.pathname === '/') {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-              navigate('/');
-            }
-          }}
-          className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-ink hover:translate-x-0.5 transition-transform"
+    <>
+      <header className="hdr" role="banner">
+        <Link
+          to="/"
+          onClick={(e) => handleLinkClick('/', e)}
+          className="logo bg-transparent border-0 text-white cursor-pointer p-0"
+          aria-label="Rishabh Sharma home"
         >
-          <span className="bg-btn-primary text-btn-primary-text px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] font-black text-sm rounded-none">
-            RS
-          </span>
-          <span className="font-extrabold uppercase text-sm tracking-wide hidden sm:inline">
-            rishabh sharma
-          </span>
-        </button>
+          rishabh sharma
+        </Link>
 
-        {/* Desktop Nav Items */}
-        <nav className="hidden md:flex items-center gap-1 font-bold text-xs uppercase tracking-wide">
-          {navItems.map((item) => (
-            <button
-              key={item.target}
-              onClick={() => handleNavClick(item.target)}
-              className="px-3 py-1.5 text-ink-dim hover:text-ink hover:bg-bg-softer border border-transparent hover:border-black transition-all rounded-none"
+        {/* Desktop Navigation */}
+        <nav aria-label="Main Navigation" className="hidden md:flex">
+          {navLinks.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={(e) => handleLinkClick(item.to, e)}
+              aria-current={item.isActive ? 'page' : undefined}
             >
               {item.label}
-            </button>
+            </Link>
           ))}
+          <Link
+            to="/resume"
+            className="cta ml-2"
+            aria-current={location.pathname.startsWith('/resume') ? 'page' : undefined}
+          >
+            Resume ↗
+          </Link>
+          <a
+            href="/#dispatch"
+            onClick={handleContactClick}
+            className="cta"
+          >
+            Contact
+          </a>
         </nav>
 
-        {/* Actions & Links */}
-        <div className="flex items-center gap-2">
-          {/* Command Palette Trigger */}
-          <button
-            onClick={openPalette}
-            className="flex items-center gap-1.5 bg-btn-secondary text-btn-secondary-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black px-2.5 py-1 text-xs font-bold shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none uppercase"
-            aria-label="Search"
-          >
-            <Search className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden lg:inline bg-black/10 px-1 py-0.2 font-mono text-[10px]">⌘K</kbd>
-          </button>
+        {/* Mobile Hamburger Toggle */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden text-white text-xs uppercase tracking-widest border border-white px-3 py-1.5 bg-transparent cursor-pointer"
+          aria-label="Toggle navigation menu"
+        >
+          {mobileMenuOpen ? 'Close' : 'Menu'}
+        </button>
+      </header>
 
-          {/* External Social Links */}
-          <div className="hidden lg:flex items-center gap-1.5 border-l-2 border-black/20 pl-2">
-            <a
-              href="https://github.com/rishhbh"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-btn-badge-1 text-btn-badge-1-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
-              aria-label="GitHub"
-            >
-              <Github className="w-4 h-4" />
-            </a>
-
-            <a
-              href="https://linkedin.com/in/rishabhh-sharma"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-btn-badge-2 text-btn-badge-2-text hover:bg-btn-secondary hover:text-btn-secondary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-
-            <Link
-              to="/resume"
-              className="bg-btn-badge-3 text-btn-badge-3-text hover:bg-btn-accent hover:text-btn-accent-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none flex items-center gap-1 text-xs font-bold uppercase"
-              aria-label="Resume MAN Page"
-            >
-              <FileText className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Color Scheme Picker */}
-          <ColorSchemePicker />
-
-          {/* Theme Quick Toggle (Light / Dark) */}
-          <button
-            onClick={toggleTheme}
-            className="bg-btn-accent text-btn-accent-text hover:bg-btn-primary hover:text-btn-primary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all rounded-none"
-            aria-label="Toggle theme"
-            title="Quick toggle Light/Dark mode"
-          >
-            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-          </button>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden bg-btn-primary text-btn-primary-text border-2 border-black p-1.5 shadow-[2px_2px_0px_#000] rounded-none"
-            aria-label="Toggle Menu"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-bg-soft border-t-2 border-black p-4 space-y-3 font-bold text-xs uppercase">
-          <div className="flex flex-col space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.target}
-                onClick={() => handleNavClick(item.target)}
-                className="text-left py-2 px-3 bg-bg-softer border border-black text-ink hover:bg-btn-primary hover:text-btn-primary-text"
+        <div className="fixed inset-0 z-40 bg-black text-white flex flex-col justify-center px-8 py-16 md:hidden">
+          <p className="eyebrow"><span className="eyebrow-line"></span> NAVIGATION</p>
+          <div className="flex flex-col space-y-6">
+            {navLinks.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={(e) => handleLinkClick(item.to, e)}
+                className={`font-serif text-3xl tracking-tight no-underline transition-opacity ${
+                  item.isActive ? 'opacity-100 underline underline-offset-8' : 'opacity-70 hover:opacity-100'
+                }`}
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
-          </div>
-
-          <div className="pt-2 border-t border-black/20 flex items-center justify-between">
-            <a
-              href="https://github.com/rishhbh"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 bg-bg-softer text-ink border border-black p-2"
-            >
-              <Github className="w-4 h-4" /> GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/rishabhh-sharma"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 bg-bg-softer text-ink border border-black p-2"
-            >
-              <Linkedin className="w-4 h-4" /> LinkedIn
-            </a>
-            <Link
-              to="/resume"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-1.5 bg-btn-primary text-btn-primary-text border border-black p-2"
-            >
-              <FileText className="w-4 h-4" /> Resume
-            </Link>
+            <div className="pt-8 border-t border-[#333] flex flex-col gap-4">
+              <Link
+                to="/resume"
+                onClick={() => setMobileMenuOpen(false)}
+                className="b text-center"
+              >
+                Inspect Resume ↗
+              </Link>
+              <a
+                href="/#dispatch"
+                onClick={handleContactClick}
+                className="b b2 text-center"
+              >
+                Direct Dispatch
+              </a>
+            </div>
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
