@@ -17,7 +17,7 @@ export default function ResumeManPage() {
         <link rel="canonical" href="https://rishabhh.is-a.dev/resume" />
       </Helmet>
 
-      <div className="max-w-[1000px] mx-auto space-y-10">
+      <div className="max-w-[1000px] mx-auto space-y-10 blueprint-standalone">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between border-b border-[#262626] pb-4">
           <Link

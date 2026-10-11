@@ -19,7 +19,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  scroll-behavior: auto;
   background: #000000;
   color: #ffffff;
 }
@@ -365,6 +367,95 @@ a {
   opacity: 1;
   transform: translate3d(0, 0, 0);
   filter: blur(0);
+}
+
+/* Spatial Staggered Blueprint Assembly Transition */
+.blueprint-laser {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 15%,
+    #ffffff 50%,
+    rgba(255, 255, 255, 0.4) 85%,
+    transparent 100%
+  );
+  transform-origin: left center;
+  animation: blueprintLaserSweep 0.44s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  z-index: 60;
+}
+
+@keyframes blueprintLaserSweep {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.95;
+  }
+  60% {
+    transform: scaleX(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+.blueprint-stage .s:first-of-type .t,
+.blueprint-stage .blueprint-col-primary {
+  animation: blueprintColHeadline 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both;
+  will-change: transform, opacity;
+}
+
+.blueprint-stage .s:first-of-type .v,
+.blueprint-stage .blueprint-col-secondary {
+  animation: blueprintColContent 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.09s both;
+  will-change: transform, opacity;
+}
+
+.blueprint-stage .blueprint-standalone {
+  animation: blueprintColHeadline 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
+  will-change: transform, opacity;
+}
+
+@keyframes blueprintColHeadline {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes blueprintColContent {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blueprint-laser,
+  .blueprint-stage .s:first-of-type .t,
+  .blueprint-stage .blueprint-col-primary,
+  .blueprint-stage .s:first-of-type .v,
+  .blueprint-stage .blueprint-col-secondary,
+  .blueprint-stage .blueprint-standalone {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
 }
 
 /* Scroll Progress Bar */
