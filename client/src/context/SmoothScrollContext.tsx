@@ -121,8 +121,16 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       }, 160);
       return () => clearTimeout(timer);
     } else {
-      // Immediately reset scroll on page transition to prevent flash of scrolled state
+      // Immediately reset scroll coordinate for incoming page in both Lenis and DOM
       instance.scrollTo(0, { immediate: true });
+      window.scrollTo(0, 0);
+      // Pause wheel input during the 700ms slide
+      instance.stop();
+      const timer = setTimeout(() => {
+        instance.start();
+        instance.resize();
+      }, 710);
+      return () => clearTimeout(timer);
     }
   }, [location.pathname, location.hash]);
 

@@ -158,7 +158,7 @@ export default function ProjectDetail() {
         <meta property="og:image" content={fullImageUrl} />
       </Helmet>
 
-      <div className="max-w-[1200px] mx-auto space-y-12 blueprint-standalone">
+      <div className="max-w-[1200px] mx-auto space-y-12">
         {/* Top Header / Breadcrumb */}
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#262626] pb-6">
           <Link

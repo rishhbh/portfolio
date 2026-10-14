@@ -102,42 +102,50 @@ export function SideRail({ sections: propSections }: SideRailProps = {}) {
     return () => cancelAnimationFrame(raf);
   }, [location.pathname, location.hash, sections]);
 
-  // Scroll detection
+  // Scroll detection with RAF throttling to prevent layout thrashing
   useEffect(() => {
     if (!sections || !sections.length) return;
 
+    let ticking = false;
+    let rafId: number | null = null;
+
     const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const windowHeight = window.innerHeight;
-      const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      if (ticking) return;
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        ticking = false;
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
 
-      // 1. Top of page
-      if (scrollY < 80) {
-        setActiveIndex(0);
-        return;
-      }
+        // 1. Top of page
+        if (scrollY < 80) {
+          setActiveIndex(0);
+          return;
+        }
 
-      // 2. Near bottom of page
-      if (scrollY + windowHeight >= docHeight - 80) {
-        setActiveIndex(sections.length - 1);
-        return;
-      }
+        // 2. Near bottom of page
+        if (scrollY + windowHeight >= docHeight - 80) {
+          setActiveIndex(sections.length - 1);
+          return;
+        }
 
-      // 3. Viewport threshold
-      const threshold = windowHeight * 0.45;
-      let active = 0;
+        // 3. Viewport threshold
+        const threshold = windowHeight * 0.45;
+        let active = 0;
 
-      for (let i = 0; i < sections.length; i++) {
-        const el = document.getElementById(sections[i].id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= threshold) {
-            active = i;
+        for (let i = 0; i < sections.length; i++) {
+          const el = document.getElementById(sections[i].id);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= threshold) {
+              active = i;
+            }
           }
         }
-      }
 
-      setActiveIndex(active);
+        setActiveIndex(active);
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -145,9 +153,10 @@ export function SideRail({ sections: propSections }: SideRailProps = {}) {
 
     // Initial check
     handleScroll();
-    const t = setTimeout(handleScroll, 120);
+    const t = setTimeout(handleScroll, 200);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       clearTimeout(t);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);

@@ -37,28 +37,32 @@ export function useMotionReveal() {
 
     targets.forEach((el) => observer.observe(el));
 
-    // Post-transition fallback: Once route slide transition settles,
-    // ensure elements within viewport get revealed reliably
+    let checkTicking = false;
+    let checkRafId: number | null = null;
+
     const checkVisible = () => {
-      const vh = window.innerHeight || 800;
-      targets.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < vh + 120 && rect.bottom > -80) {
-          el.classList.add('is-visible');
-        }
+      if (checkTicking) return;
+      checkTicking = true;
+      checkRafId = requestAnimationFrame(() => {
+        checkTicking = false;
+        const vh = window.innerHeight || 800;
+        targets.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < vh + 120 && rect.bottom > -80) {
+            el.classList.add('is-visible');
+          }
+        });
       });
     };
 
-    checkVisible();
-    const t1 = setTimeout(checkVisible, 150);
-    const t2 = setTimeout(checkVisible, 450);
-    const t3 = setTimeout(checkVisible, 850);
+    const t1 = setTimeout(checkVisible, 200);
+    const t2 = setTimeout(checkVisible, 650);
     window.addEventListener('scroll', checkVisible, { passive: true });
 
     return () => {
+      if (checkRafId) cancelAnimationFrame(checkRafId);
       clearTimeout(t1);
       clearTimeout(t2);
-      clearTimeout(t3);
       window.removeEventListener('scroll', checkVisible);
       observer.disconnect();
     };

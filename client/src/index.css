@@ -20,7 +20,6 @@
 
 html {
   overflow-y: scroll;
-  scrollbar-gutter: stable;
   scroll-behavior: auto;
   background: #000000;
   color: #ffffff;
@@ -43,46 +42,26 @@ body {
   color: #000000;
 }
 
-/* Custom Editorial Scrollbar */
-html, body, * {
-  scrollbar-width: thin;
-  scrollbar-color: #3a3a3a transparent;
+/* Completely remove visible scrollbar across all engines while preserving smooth scrolling */
+html,
+body,
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 0px !important;
+  height: 0px !important;
+  display: none !important;
+  background: transparent !important;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2e2e2e;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0 !important;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555555;
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: #ffffff;
-  border-color: #ffffff;
-}
-
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
+  display: none !important;
+  background: transparent !important;
 }
 
 /* Editorial Headings */
@@ -405,56 +384,10 @@ a {
   }
 }
 
-.blueprint-stage .s:first-of-type .t,
-.blueprint-stage .blueprint-col-primary {
-  animation: blueprintColHeadline 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both;
-  will-change: transform, opacity;
-}
-
-.blueprint-stage .s:first-of-type .v,
-.blueprint-stage .blueprint-col-secondary {
-  animation: blueprintColContent 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.09s both;
-  will-change: transform, opacity;
-}
-
-.blueprint-stage .blueprint-standalone {
-  animation: blueprintColHeadline 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
-  will-change: transform, opacity;
-}
-
-@keyframes blueprintColHeadline {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 14px, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes blueprintColContent {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 18px, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .blueprint-laser,
-  .blueprint-stage .s:first-of-type .t,
-  .blueprint-stage .blueprint-col-primary,
-  .blueprint-stage .s:first-of-type .v,
-  .blueprint-stage .blueprint-col-secondary,
-  .blueprint-stage .blueprint-standalone {
+  .blueprint-laser {
     animation: none !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
+    display: none !important;
   }
 }
 

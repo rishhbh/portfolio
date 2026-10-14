@@ -8,14 +8,22 @@ export function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let ticking = false;
+    let rafId: number | null = null;
+
     const update = () => {
-      if (!barRef.current) return;
-      const scrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
-      const winHeight = window.innerHeight;
-      const max = docHeight - winHeight;
-      const ratio = max > 0 ? Math.min(Math.max(scrollY / max, 0), 1) : 0;
-      barRef.current.style.transform = `scaleX(${ratio})`;
+      if (ticking) return;
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        ticking = false;
+        if (!barRef.current) return;
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight;
+        const winHeight = window.innerHeight;
+        const max = docHeight - winHeight;
+        const ratio = max > 0 ? Math.min(Math.max(scrollY / max, 0), 1) : 0;
+        barRef.current.style.transform = `scaleX(${ratio})`;
+      });
     };
 
     if (lenis) {
@@ -25,10 +33,11 @@ export function ScrollProgress() {
     window.addEventListener('resize', update, { passive: true });
 
     update();
-    const t1 = setTimeout(update, 60);
-    const t2 = setTimeout(update, 250);
+    const t1 = setTimeout(update, 100);
+    const t2 = setTimeout(update, 350);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       if (lenis) {
         lenis.off('scroll', update);
       }

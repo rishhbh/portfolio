@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import { PageTransition } from './components/PageTransition';
 import { ScrollProgress } from './components/ScrollProgress';
 import { SideRail } from './components/SideRail';
@@ -64,7 +63,6 @@ function App() {
                 <main className="flex-grow">
                   <PageTransition />
                 </main>
-                <Footer />
               </div>
             </SmoothScrollProvider>
           </Router>
