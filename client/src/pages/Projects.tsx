@@ -78,10 +78,6 @@ export const Projects: React.FC<ProjectsProps> = ({ onNavigate }) => {
                     <TerminalClip
                       isHot={isHot}
                       command="purgeport 3000"
-                      outputLines={[
-                        'port 3000 was held by node (pid 4821)',
-                        'freed port 3000',
-                      ]}
                     />
                   </div>
                 )}

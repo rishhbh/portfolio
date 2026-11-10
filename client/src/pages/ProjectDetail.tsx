@@ -160,10 +160,6 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ slug, onNavigate }
             isHot={true}
             interactive={true}
             command="purgeport 3000"
-            outputLines={[
-              'port 3000 was held by node (pid 4821)',
-              'freed port 3000',
-            ]}
           />
         </section>
       )}

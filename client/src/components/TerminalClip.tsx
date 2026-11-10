@@ -1,5 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+export const DEFAULT_PURGEPORT_OUTPUT = [
+  'Port 3000 is being used by PID 4821.',
+  '',
+  'User: hecker',
+  'Command: node server.js',
+  'Process: /home/hecker/.nvm/versions/node/v24.19.0/bin/node',
+  '',
+  'Kill this process? [y/n]: y',
+  'Process 4821 terminated successfully.',
+  '-----------------------------------------',
+];
+
 interface TerminalClipProps {
   isHot?: boolean;
   command?: string;
@@ -10,7 +22,7 @@ interface TerminalClipProps {
 export const TerminalClip: React.FC<TerminalClipProps> = ({
   isHot = false,
   command = 'purgeport 3000',
-  outputLines = ['port 3000 was held by node (pid 4821)', 'freed port 3000'],
+  outputLines = DEFAULT_PURGEPORT_OUTPUT,
   interactive = false,
 }) => {
   const [typedText, setTypedText] = useState('');
@@ -68,7 +80,7 @@ export const TerminalClip: React.FC<TerminalClipProps> = ({
       t += 260;
       // Output line by line
       outputLines.forEach((line) => {
-        t += 200;
+        t += line === '' ? 120 : 180;
         at(() => {
           setDisplayedOutput((prev) => [...prev, line]);
         });
@@ -90,22 +102,149 @@ export const TerminalClip: React.FC<TerminalClipProps> = ({
     const trimmed = customInput.trim();
     if (!trimmed) return;
 
+    if (trimmed === 'clear') {
+      setHistory([]);
+      setCustomInput('');
+      return;
+    }
+
     let out: string[] = [];
-    if (trimmed.startsWith('purgeport 3000')) {
-      out = ['port 3000 was held by node (pid 4821)', 'freed port 3000'];
-    } else if (trimmed.startsWith('purgeport 8080')) {
-      out = ['port 8080 was held by vite (pid 9120)', 'freed port 8080'];
-    } else if (trimmed.includes('--help')) {
-      out = [
-        'Usage: purgeport <port...>',
-        'Options:',
-        '  -v, --version  output version number (0.1.0)',
-        '  -h, --help     display help for command',
-        'Zero-dependency POSIX port terminator'
-      ];
-    } else if (trimmed.startsWith('purgeport')) {
-      const port = trimmed.split(' ')[1] || 'PORT';
-      out = [`port ${port} held by process (pid ${Math.floor(1000 + Math.random() * 8000)})`, `freed port ${port}`];
+    const args = trimmed.split(/\s+/);
+    const cmd = args[0];
+    const subArgs = args.slice(1);
+
+    if (cmd === 'purgeport') {
+      const hasHelp = subArgs.includes('-h') || subArgs.includes('--help');
+      const hasVersion = subArgs.includes('-v') || subArgs.includes('--version');
+      const skipConfirm = subArgs.includes('-y') || subArgs.includes('--yes');
+
+      if (hasVersion) {
+        out = ['0.1.0'];
+      } else if (hasHelp || subArgs.length === 0) {
+        out = [
+          'purgeport - Kill processes using network ports',
+          '',
+          'Usage:',
+          '  purgeport <port>...',
+          '  purgeport all',
+          '',
+          'Options:',
+          '  -h, --help       Show help',
+          '  -v, --version    Show version',
+          '  -y, --yes        Skip confirmation prompts',
+        ];
+      } else if (subArgs.includes('42997')) {
+        out = [
+          'Port 42997 is being used by PID 2365849.',
+          '',
+          'User: hecker',
+          'Command: agy',
+          'Process: /home/hecker/.local/bin/agy',
+          '',
+          'Kill this process? [y/n]: n',
+          'Process 2365849 was not terminated.',
+          '------------------------------------',
+        ];
+      } else if (subArgs.includes('all')) {
+        out = [
+          'Port 3000 is being used by PID 4821.',
+          '',
+          'User: hecker',
+          'Command: node server.js',
+          'Process: /home/hecker/.nvm/versions/node/v24.19.0/bin/node',
+          '',
+          ...(skipConfirm
+            ? [
+                'Process 4821 terminated successfully.',
+                '-----------------------------------------',
+              ]
+            : [
+                'Kill this process? [y/n]: y',
+                'Process 4821 terminated successfully.',
+                '-----------------------------------------',
+              ]),
+          'Port 8080 is being used by PID 9120.',
+          '',
+          'User: hecker',
+          'Command: vite --port 8080',
+          'Process: /home/hecker/.nvm/versions/node/v24.19.0/bin/vite',
+          '',
+          ...(skipConfirm
+            ? [
+                'Process 9120 terminated successfully.',
+                '-----------------------------------------',
+              ]
+            : [
+                'Kill this process? [y/n]: y',
+                'Process 9120 terminated successfully.',
+                '-----------------------------------------',
+              ]),
+        ];
+      } else if (subArgs.includes('3000')) {
+        out = [
+          'Port 3000 is being used by PID 4821.',
+          '',
+          'User: hecker',
+          'Command: node server.js',
+          'Process: /home/hecker/.nvm/versions/node/v24.19.0/bin/node',
+          '',
+          ...(skipConfirm
+            ? [
+                'Process 4821 terminated successfully.',
+                '-----------------------------------------',
+              ]
+            : [
+                'Kill this process? [y/n]: y',
+                'Process 4821 terminated successfully.',
+                '-----------------------------------------',
+              ]),
+        ];
+      } else if (subArgs.includes('8080')) {
+        out = [
+          'Port 8080 is being used by PID 9120.',
+          '',
+          'User: hecker',
+          'Command: vite --port 8080',
+          'Process: /home/hecker/.nvm/versions/node/v24.19.0/bin/vite',
+          '',
+          ...(skipConfirm
+            ? [
+                'Process 9120 terminated successfully.',
+                '-----------------------------------------',
+              ]
+            : [
+                'Kill this process? [y/n]: y',
+                'Process 9120 terminated successfully.',
+                '-----------------------------------------',
+              ]),
+        ];
+      } else {
+        const portArg = subArgs.find(arg => !arg.startsWith('-')) || '5000';
+        const portNum = parseInt(portArg, 10);
+        if (isNaN(portNum) || portNum < 1 || portNum > 65535) {
+          out = [`Invalid port: ${portArg}.`];
+        } else {
+          const pseudoPid = 3000 + (portNum % 4000);
+          out = [
+            `Port ${portArg} is being used by PID ${pseudoPid}.`,
+            '',
+            'User: hecker',
+            `Command: python app.py --port ${portArg}`,
+            'Process: /usr/bin/python3',
+            '',
+            ...(skipConfirm
+              ? [
+                  `Process ${pseudoPid} terminated successfully.`,
+                  '-----------------------------------------',
+                ]
+              : [
+                  'Kill this process? [y/n]: y',
+                  `Process ${pseudoPid} terminated successfully.`,
+                  '-----------------------------------------',
+                ]),
+          ];
+        }
+      }
     } else {
       out = [`command not recognized: ${trimmed}. Try 'purgeport 3000' or 'purgeport --help'`];
     }
@@ -114,13 +253,17 @@ export const TerminalClip: React.FC<TerminalClipProps> = ({
     setCustomInput('');
   };
 
+  const totalHistoryLines = history.reduce((sum, h) => sum + 1 + h.out.length, 0);
+  const totalLines = outputLines.length + 3 + totalHistoryLines;
+
   return (
     <div className={`term ${isHot || interactive ? 'is-expanded' : ''}`} aria-hidden={!isHot && !interactive}>
       <div>
         <pre
           style={{
-            '--lines': (outputLines.length + 3 + history.length * 3),
+            '--lines': totalLines,
           } as React.CSSProperties}
+          className="max-h-[36rem] overflow-y-auto"
         >
           {/* Default or First Execution */}
           <span className="term-line">
@@ -130,8 +273,8 @@ export const TerminalClip: React.FC<TerminalClipProps> = ({
           </span>
 
           {displayedOutput.map((line, i) => (
-            <span key={i} className="term-out">
-              {line}
+            <span key={i} className="term-out min-h-[1.7em]">
+              {line || '\u00A0'}
             </span>
           ))}
 
@@ -152,8 +295,8 @@ export const TerminalClip: React.FC<TerminalClipProps> = ({
                     <span>{item.cmd}</span>
                   </span>
                   {item.out.map((line, lIdx) => (
-                    <span key={lIdx} className="term-out">
-                      {line}
+                    <span key={lIdx} className="term-out min-h-[1.7em]">
+                      {line || '\u00A0'}
                     </span>
                   ))}
                 </React.Fragment>
@@ -165,7 +308,7 @@ export const TerminalClip: React.FC<TerminalClipProps> = ({
                   type="text"
                   value={customInput}
                   onChange={(e) => setCustomInput(e.target.value)}
-                  placeholder="type 'purgeport 8080' or '--help'"
+                  placeholder="type 'purgeport 3000' or '--help'"
                   className="bg-transparent border-none outline-none font-mono text-inherit w-full pl-1 focus:ring-0"
                   autoComplete="off"
                   spellCheck={false}
