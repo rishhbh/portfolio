@@ -1,361 +1,444 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Github, ChevronLeft, ChevronRight, Terminal, Award } from 'lucide-react';
-import { projects } from '../data/projects';
+import React, { useState } from 'react';
+import { SplitText } from '../components/SplitText';
+import { TerminalClip } from '../components/TerminalClip';
+import { useNpmDownloads } from '../hooks/useNpmDownloads';
+import { projects, type Project } from '../data/projects';
 
-const stepLabels: Record<string, string> = {
-  'homepage.webp': 'SCREEN 01 // PLATFORM HOMEPAGE & INGESTION',
-  'about.webp': 'SCREEN 02 // ARCHITECTURE & HYBRID MODELS',
-  'register.webp': 'SCREEN 03 // SECURE USER AUTHENTICATION',
-  'login.webp': 'SCREEN 04 // JWT SESSION MANAGEMENT',
-  'doc.webp': 'SCREEN 05 // MULTI-FORMAT DOCUMENT PARSING',
-  'response.webp': 'SCREEN 06 // AI STREAMING & SSE TOKENS',
-  'kaushal-1.webp': 'SCREEN 01 // KAUSHAL AI JOB MARKETPLACE',
-  'kaushal-2.webp': 'SCREEN 02 // ADAPTIVE SKILL EVALUATIONS',
-  'kaushal-3.webp': 'SCREEN 03 // VERIFIABLE CREDENTIALS & TRACKER',
-  'deepsynth-one.webp': 'SCREEN 01 // DEEPSYNTH OFFLINE INTERFACE',
-  'deepsynth-two.webp': 'SCREEN 02 // LOCAL LLM INFERENCE STREAM',
-  'calculator-one.webp': 'SCREEN 01 // CALCULATOR INTERFACE',
-  'calculator-two.webp': 'SCREEN 02 // STRIPE PAYMENT INTENT TRIGGER',
-  'jaas-one.webp': 'SCREEN 01 // REPOSITORY INGESTION VIEW',
-  'jaas-two.webp': 'SCREEN 02 // TWO-STEP FETCH & PARSE WORKBENCH',
-  'jaas-three.webp': 'SCREEN 03 // GROQ GPT-120B EVALUATION',
-  'jaas-four.webp': 'SCREEN 04 // ARCHITECTURE & SCHEMAS',
-  'purgeport-one.webp': 'SCREEN 01 // PORT DETECTION & LSOF INSPECTION',
-  'purgeport-two.webp': 'SCREEN 02 // MULTI-PORT BATCH TERMINATION',
-  'purgeport-three.webp': 'SCREEN 03 // CLI COMMAND SPECIFICATIONS',
-};
+interface ProjectDetailProps {
+  slug: string;
+  onNavigate: (id: string, path: string) => void;
+}
 
-const renderFormattedText = (text: string) => {
-  const lines = text.split('\n');
-  return lines.map((line, idx) => {
-    const trimmed = line.trim();
-    if (!trimmed) return <div key={idx} className="h-3" />;
+export const ProjectDetail: React.FC<ProjectDetailProps> = ({ slug, onNavigate }) => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [cacheSimState, setCacheSimState] = useState<'cold' | 'hot'>('hot');
+  const purgeportDownloads = useNpmDownloads('purgeport');
 
-    const numMatch = trimmed.match(/^(\d+)\.\s+(.*?)(:\s+.*)?$/);
-    if (numMatch) {
-      const num = numMatch[1];
-      const title = numMatch[2];
-      const rest = numMatch[3] ? numMatch[3].slice(2) : '';
-      return (
-        <div key={idx} className="border border-[#262626] p-4 bg-[#080808] my-3">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-[11px] font-semibold text-white border border-[#444] px-2 py-0.5">
-              PHASE {num.padStart(2, '0')}
-            </span>
-            <span className="font-semibold text-sm sm:text-base text-white">{title}</span>
-          </div>
-          {rest && (
-            <p className="text-[#a4a4a4] text-xs sm:text-sm leading-relaxed pt-2 mt-2 border-t border-[#1a1a1a]">
-              {rest}
-            </p>
-          )}
-        </div>
-      );
-    }
+  const currentIndex = projects.findIndex((p) => p.slug === slug);
+  const project: Project | undefined = projects[currentIndex];
 
-    if (trimmed.startsWith('- ')) {
-      const content = trimmed.slice(2);
-      const splitIndex = content.indexOf(':');
-      let title = '';
-      let desc = content;
-      if (splitIndex !== -1) {
-        title = content.slice(0, splitIndex);
-        desc = content.slice(splitIndex + 1);
-      }
-      return (
-        <div key={idx} className="flex gap-2.5 items-start py-1">
-          <span className="text-[#666] select-none">›</span>
-          <p className="text-[#a4a4a4] text-xs sm:text-sm leading-relaxed">
-            {title ? (
-              <>
-                <strong className="text-white font-medium">{title}:</strong>
-                {desc}
-              </>
-            ) : (
-              desc
-            )}
-          </p>
-        </div>
-      );
-    }
-
-    return (
-      <p key={idx} className="text-[#a4a4a4] text-xs sm:text-sm leading-relaxed py-1">
-        {trimmed}
-      </p>
-    );
-  });
-};
-
-export default function ProjectDetail() {
-  const { slug } = useParams<{ slug: string }>();
-  const project = projects.find((p) => p.slug === slug);
-  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const galleryRef = useRef<HTMLDivElement>(null);
-
-  const handleImageError = (imgSrc: string) => {
-    setFailedImages((prev) => ({ ...prev, [imgSrc]: true }));
-  };
-
-  const scrollToImage = (index: number) => {
-    if (!galleryRef.current || !project) return;
-    const container = galleryRef.current;
-    const children = Array.from(container.children).slice(0, project.images.length) as HTMLElement[];
-    if (children[index]) {
-      const targetChild = children[index];
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      const targetLeft = Math.min(targetChild.offsetLeft - container.offsetLeft, maxScroll);
-      container.scrollTo({
-        left: targetLeft,
-        behavior: 'smooth',
-      });
-      setActiveImageIndex(index);
-    }
-  };
-
-  const handleGalleryScroll = (direction: 'left' | 'right') => {
-    if (!project || project.images.length === 0) return;
-    const totalImages = project.images.length;
-    let nextIndex = direction === 'left' ? activeImageIndex - 1 : activeImageIndex + 1;
-    if (nextIndex < 0) nextIndex = totalImages - 1;
-    else if (nextIndex >= totalImages) nextIndex = 0;
-    scrollToImage(nextIndex);
-  };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
+  const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : projects[projects.length - 1];
+  const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : projects[0];
 
   if (!project) {
     return (
-      <div className="max-w-[1360px] mx-auto px-6 py-48 text-center space-y-6 dk">
-        <h1 className="font-serif text-4xl sm:text-6xl text-white">Project Not Found</h1>
-        <p className="text-[#9b9b9b]">The requested system architecture specification does not exist.</p>
-        <Link to="/" className="b inline-block">
-          Return to Overview
-        </Link>
+      <div className="wrap pt-20">
+        <h1 className="font-serif text-3xl">Project Not Found</h1>
+        <p className="mt-4 text-[var(--muted)]">The requested architecture specification does not exist.</p>
+        <button
+          type="button"
+          onClick={() => onNavigate('projects', '/projects')}
+          className="link-ink mt-6 inline-block font-mono text-sm"
+        >
+          ← Return to Projects
+        </button>
       </div>
     );
   }
 
-  const previewImage = project.images.length > 0
-    ? (project.images[0].startsWith('/') ? project.images[0] : `/${project.images[0]}`)
-    : '/og-image.png';
-  const fullImageUrl = `https://rishabhh.is-a.dev${previewImage}`;
+  // Parse "How It Works" phases
+  const renderPhases = (text: string) => {
+    const lines = text.split('\n');
+    return lines.map((line, idx) => {
+      const trimmed = line.trim();
+      if (!trimmed) return null;
+
+      const numMatch = trimmed.match(/^(\d+)\.\s+(.*?)(:\s+.*)?$/);
+      if (numMatch) {
+        const num = numMatch[1];
+        const title = numMatch[2];
+        const rest = numMatch[3] ? numMatch[3].slice(2) : '';
+        return (
+          <div key={idx} className="phase-card">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)] border border-[var(--rule)] px-2 py-0.5">
+                PHASE {num.padStart(2, '0')}
+              </span>
+              <span className="font-medium text-base text-[var(--ink)]">{title}</span>
+            </div>
+            {rest && (
+              <p className="mt-2 text-sm text-[var(--muted)] leading-relaxed">
+                {rest}
+              </p>
+            )}
+          </div>
+        );
+      }
+
+      return (
+        <p key={idx} className="text-sm text-[var(--muted)] leading-relaxed py-1">
+          {trimmed}
+        </p>
+      );
+    });
+  };
 
   return (
-    <div className="dk min-h-screen pt-28 pb-24 px-6 sm:px-12">
-      <Helmet>
-        <title>{`${project.name} — Technical Architecture | Rishabh Sharma`}</title>
-        <meta name="title" content={`${project.name} — ${project.tagline} | Rishabh Sharma`} />
-        <meta name="description" content={project.problem} />
-        <link rel="canonical" href={`https://rishabhh.is-a.dev/projects/${project.slug}`} />
-        <meta property="og:title" content={`${project.name} — ${project.tagline}`} />
-        <meta property="og:description" content={project.problem} />
-        <meta property="og:image" content={fullImageUrl} />
-      </Helmet>
+    <div className="wrap">
+      {/* Top Back Navigation */}
+      <div className="pt-8 sm:pt-12 pb-2 flex items-center justify-between border-b border-[var(--rule)]">
+        <button
+          type="button"
+          onClick={() => onNavigate('projects', '/projects')}
+          className="link-ink inline-flex items-center gap-2 font-mono text-xs text-[var(--muted)] hover:text-[var(--ink)] cursor-pointer bg-transparent border-none p-0"
+        >
+          ← All Projects
+        </button>
+        <span className="font-mono text-[11px] text-[var(--muted)] uppercase tracking-wider">
+          SYSTEM ARCHITECTURE SPECIFICATION
+        </span>
+      </div>
 
-      <div className="max-w-[1200px] mx-auto space-y-12">
-        {/* Top Header / Breadcrumb */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#262626] pb-6">
-          <Link
-            to="/#systems"
-            className="inline-flex items-center gap-2 text-xs uppercase text-[#9b9b9b] hover:text-white transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> Return to Systems
-          </Link>
+      {/* Project Title with SplitText */}
+      <header className="pt-4 pb-8">
+        <SplitText
+          tag="h1"
+          text={project.name}
+          className="page-title !pt-6 !pb-3"
+          delay={120}
+          trigger={project.slug}
+        />
 
-          <span className="font-mono text-xs text-[#777] uppercase tracking-wider">
-            ARCHITECTURE SPECIFICATION
-          </span>
-        </div>
-
-        {/* Project Header */}
-        <div className="space-y-4">
-          <p className="eyebrow"><span className="eyebrow-line"></span> {project.category}</p>
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl text-white font-normal tracking-tight">
-            {project.name}
-          </h1>
-          <p className="lead text-[#9b9b9b] max-w-[50ch]">
-            {project.tagline}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 pt-4">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="b"
-              >
-                {project.liveUrl.includes('npmjs.com') ? 'NPM Package ↗' : 'Live Deployment ↗'}
-              </a>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--rule)] pb-6">
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[var(--muted)]">
+            <span className="border border-[var(--rule)] px-2.5 py-1">
+              {project.category}
+            </span>
+            {project.badgeText && (
+              <span className="text-[var(--ink)] font-medium">
+                {project.slug === 'purgeport' && purgeportDownloads
+                  ? `ZERO-DEPENDENCY NPM CLI // ${purgeportDownloads.toLocaleString()} LIVE DOWNLOADS`
+                  : project.badgeText}
+              </span>
             )}
+          </div>
 
+          <div className="flex items-center gap-5 font-mono text-xs">
             {project.githubUrl && (
               <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="b b2"
+                className="link-ink"
               >
-                Source Code ↗
+                GitHub Repository ↗
+              </a>
+            )}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-ink"
+              >
+                {project.slug === 'purgeport' ? 'npm Registry ↗' : 'Live System ↗'}
               </a>
             )}
           </div>
-
-          {project.result && (
-            <div className="p-4 border border-[#333] bg-[#0c0c0c] text-xs text-[#ccc] flex items-center gap-3 mt-4">
-              <Award className="w-4 h-4 text-white shrink-0" />
-              <span>{project.result}</span>
-            </div>
-          )}
         </div>
 
-        {/* Visual Screenshots Track */}
-        {project.images.length > 0 && (
-          <div className="border border-[#262626] p-6 space-y-4 bg-[#050505]">
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#888]">
-                Screenshots & Working Interface
-              </span>
+        <p className="mt-6 font-serif text-2xl sm:text-3xl leading-snug tracking-tight text-[var(--ink)] max-w-3xl">
+          {project.tagline}
+        </p>
+      </header>
 
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-[#9b9b9b]">
-                  {String(activeImageIndex + 1).padStart(2, '0')} / {String(project.images.length).padStart(2, '0')}
-                </span>
-                <button
-                  onClick={() => handleGalleryScroll('left')}
-                  className="p-1.5 border border-[#444] text-white hover:bg-white hover:text-black transition-colors cursor-pointer"
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => handleGalleryScroll('right')}
-                  className="p-1.5 border border-[#444] text-white hover:bg-white hover:text-black transition-colors cursor-pointer"
-                  aria-label="Next image"
-                >
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-
-            <div
-              ref={galleryRef}
-              className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-2"
-            >
-              {project.images.map((imgName, imgIdx) => (
-                <div
-                  key={imgName}
-                  onClick={() => scrollToImage(imgIdx)}
-                  className="w-[88%] sm:w-[75%] md:w-[680px] shrink-0 snap-start border border-[#333] bg-black p-2.5 cursor-pointer"
-                >
-                  <div className="font-mono text-[11px] text-[#888] pb-1.5 border-b border-[#222] mb-2 flex justify-between">
-                    <span>{stepLabels[imgName] || imgName}</span>
-                    <span>100% SCALE</span>
-                  </div>
-
-                  <div className="aspect-video bg-[#111] overflow-hidden flex items-center justify-center">
-                    {failedImages[imgName] ? (
-                      <div className="p-4 text-center space-y-1">
-                        <Terminal className="w-6 h-6 text-[#777] mx-auto" />
-                        <span className="font-mono text-xs text-[#777] block">
-                          Asset Pending: {imgName}
-                        </span>
-                      </div>
-                    ) : (
-                      <img
-                        src={`/${imgName}`}
-                        alt={`${project.name} ${imgName}`}
-                        onError={() => handleImageError(imgName)}
-                        className="w-full h-full object-contain"
-                        loading="lazy"
-                      />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+      {/* Interactive Project-Specific Demonstration */}
+      {project.slug === 'purgeport' && (
+        <section className="mb-12 border border-[var(--rule)] p-6 bg-[var(--panel)]">
+          <div className="flex items-center justify-between mb-3 border-b border-[var(--rule)] pb-3">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)]">
+              INTERACTIVE POSIX TERMINAL SIMULATOR
+            </span>
+            <span className="font-mono text-[11px] text-[var(--muted)]">
+              Pure ESM • Zero Dependencies
+            </span>
           </div>
-        )}
+          <p className="text-xs text-[var(--muted)] mb-4">
+            Type any command below (e.g. <code className="font-mono text-[var(--ink)]">purgeport 3000</code> or <code className="font-mono text-[var(--ink)]">purgeport --help</code>) to simulate kernel socket inspection:
+          </p>
+          <TerminalClip
+            isHot={true}
+            interactive={true}
+            command="purgeport 3000"
+            outputLines={[
+              'port 3000 was held by node (pid 4821)',
+              'freed port 3000',
+            ]}
+          />
+        </section>
+      )}
 
-        {/* Technical Problem & Architecture Breakdown */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-t border-[#262626] pt-8">
-          <div className="lg:col-span-7 space-y-8">
-            {/* The Problem */}
-            <div>
-              <p className="eyebrow"><span className="eyebrow-line"></span> 01 // THE BOTTLENECK</p>
-              <h2 className="font-serif text-2xl sm:text-3xl text-white font-normal">
-                Why this system needed to exist
-              </h2>
-              <p className="text-sm sm:text-base text-[#a4a4a4] leading-relaxed mt-3 border-l-2 border-[#444] pl-4">
-                {project.problem}
+      {project.slug === 'layerzero' && (
+        <section className="mb-12 border border-[var(--rule)] p-6 bg-[var(--panel)]">
+          <div className="flex items-center justify-between mb-4 border-b border-[var(--rule)] pb-3">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)]">
+              SHA-256 REDIS CACHE LATENCY BENCHMARK
+            </span>
+            <span className="font-mono text-xs text-[var(--muted)]">
+              ~98% LATENCY REDUCTION
+            </span>
+          </div>
+
+          <div className="flex gap-3 mb-6">
+            <button
+              type="button"
+              onClick={() => setCacheSimState('hot')}
+              className={`editorial-btn-outline ${cacheSimState === 'hot' ? '!border-[var(--ink)] !text-[var(--ink)] font-semibold' : ''}`}
+            >
+              Hot Cache Hit (SHA-256 Redis)
+            </button>
+            <button
+              type="button"
+              onClick={() => setCacheSimState('cold')}
+              className={`editorial-btn-outline ${cacheSimState === 'cold' ? '!border-[var(--ink)] !text-[var(--ink)] font-semibold' : ''}`}
+            >
+              Cold Cache Miss (Direct LLM)
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+            <div className={`p-4 border ${cacheSimState === 'hot' ? 'border-[var(--ink)]' : 'border-[var(--rule)]'}`}>
+              <span className="text-[var(--muted)] block">RESPONSE LATENCY</span>
+              <span className="text-2xl font-serif text-[var(--ink)] mt-1 block">
+                {cacheSimState === 'hot' ? '150 ms' : '8,500 ms'}
+              </span>
+              <p className="mt-2 text-[var(--muted)] text-[11px]">
+                {cacheSimState === 'hot'
+                  ? 'SHA-256 cache match retrieved directly from Upstash Redis memory.'
+                  : 'Full multi-modal PDF parsing and cloud GPU token inference iteration.'}
               </p>
             </div>
-
-            {/* Architecture */}
-            <div className="pt-6 border-t border-[#262626]">
-              <p className="eyebrow"><span className="eyebrow-line"></span> 02 // ARCHITECTURE & PIPELINE</p>
-              <div className="space-y-2 mt-3">
-                {renderFormattedText(project.howItWorks)}
-              </div>
-            </div>
-
-            {/* Key Features */}
-            <div className="pt-6 border-t border-[#262626]">
-              <p className="eyebrow"><span className="eyebrow-line"></span> 03 // MEASURED HIGHLIGHTS</p>
-              <div className="space-y-2 mt-3">
-                {project.keyFeatures.map((feat, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 py-1">
-                    <span className="text-[#666] select-none">›</span>
-                    <span className="text-xs sm:text-sm text-[#a4a4a4] leading-relaxed">{feat}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="p-4 border border-[var(--rule)]">
+              <span className="text-[var(--muted)] block">TOKEN & INFERENCE COST</span>
+              <span className="text-2xl font-serif text-[var(--ink)] mt-1 block">
+                {cacheSimState === 'hot' ? '$0.00 / 0 Tokens' : '~4,200 Tokens Billed'}
+              </span>
+              <p className="mt-2 text-[var(--muted)] text-[11px]">
+                Deterministic hashing prevents duplicate document processing across all sessions.
+              </p>
             </div>
           </div>
+        </section>
+      )}
 
-          {/* Right Column: Complete Tech Stack */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="border border-[#262626] p-6 bg-[#080808] space-y-4">
-              <p className="eyebrow"><span className="eyebrow-line"></span> 04 // TECH STACK</p>
-              <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="c text-xs"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
+      {/* Visual Artifacts / Screenshots Gallery */}
+      {project.images && project.images.length > 0 && (
+        <section className="mb-12">
+          <div className="flex items-center justify-between mb-4 border-b border-[var(--rule)] pb-2">
+            <h2 className="font-serif text-2xl">Visual Artifacts & Interfaces</h2>
+            <span className="font-mono text-xs text-[var(--muted)]">
+              {project.images.length} Captured Screens
+            </span>
+          </div>
 
-            {project.githubUrl && (
-              <div className="border border-[#262626] p-6 bg-[#080808] space-y-3">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#888]">
-                  Verified Codebase
-                </span>
-                <p className="text-xs text-[#a4a4a4] leading-relaxed">
-                  Repository includes automated unit tests, Docker Compose container setups, and GitHub Actions CI pipelines.
-                </p>
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="b w-full justify-center text-xs mt-2"
+          <div className={project.images.length === 1 ? 'max-w-2xl' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'}>
+            {project.images.map((imgName, imgIdx) => {
+              const isExternal = imgName.startsWith('http://') || imgName.startsWith('https://');
+              const isPurgeportPng = imgName === 'purgeport.png';
+              const imgSrc = isExternal
+                ? imgName
+                : isPurgeportPng
+                ? '/purgeport.png'
+                : `/${imgName.replace(/\.png$/, '.webp')}`;
+              const fallbackSrc = isExternal
+                ? imgName
+                : isPurgeportPng
+                ? 'https://raw.githubusercontent.com/rishhbh/purgeport/main/assets/purgeport.png'
+                : `/${imgName}`;
+
+              return (
+                <div
+                  key={imgIdx}
+                  onClick={() => setSelectedImage(imgSrc)}
+                  className="group relative border border-[var(--rule)] bg-[var(--panel)] overflow-hidden cursor-pointer aspect-video transition-all hover:border-[var(--ink)]"
                 >
-                  <Github className="w-3.5 h-3.5" /> Inspect Repository ↗
-                </a>
+                  <img
+                    src={imgSrc}
+                    alt={`${project.name} screen ${imgIdx + 1}`}
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target.src !== fallbackSrc) {
+                        target.src = fallbackSrc;
+                      }
+                    }}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="font-mono text-xs text-white bg-black/75 px-3 py-1 border border-white/20">
+                      View Fullscreen ↗
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Problem Specification */}
+      <section className="mb-12">
+        <h2 className="font-serif text-2xl border-b border-[var(--rule)] pb-2 mb-4">
+          The Problem
+        </h2>
+        <p className="text-base text-[var(--muted)] leading-relaxed max-w-3xl">
+          {project.problem}
+        </p>
+      </section>
+
+      {/* Architecture & How It Works */}
+      <section className="mb-12">
+        <h2 className="font-serif text-2xl border-b border-[var(--rule)] pb-2 mb-4">
+          System Architecture & Mechanics
+        </h2>
+        <div className="space-y-2 max-w-3xl">
+          {renderPhases(project.howItWorks)}
+        </div>
+      </section>
+
+      {/* Key Architectural Features */}
+      {project.keyFeatures && project.keyFeatures.length > 0 && (
+        <section className="mb-12">
+          <h2 className="font-serif text-2xl border-b border-[var(--rule)] pb-2 mb-4">
+            Key Engineering Specifications
+          </h2>
+          <ul className="space-y-3 max-w-3xl list-none p-0">
+            {project.keyFeatures.map((feat, fIdx) => (
+              <li key={fIdx} className="flex items-start gap-3 text-sm text-[var(--muted)] leading-relaxed">
+                <span className="font-mono text-xs text-[var(--ink)] mt-0.5 select-none">—</span>
+                <span>{feat}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Technical Stack & Categorized Tags */}
+      <section className="mb-12">
+        <h2 className="font-serif text-2xl border-b border-[var(--rule)] pb-2 mb-4">
+          Technology Matrix
+        </h2>
+
+        {project.categorizedTags && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 max-w-3xl">
+            {project.categorizedTags.ai && project.categorizedTags.ai.length > 0 && (
+              <div>
+                <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)] block mb-2">
+                  AI & INFERENCE
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.categorizedTags.ai.map((t, idx) => (
+                    <span key={idx} className="font-mono text-xs border border-[var(--rule)] px-2 py-0.5">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {project.categorizedTags.backend && project.categorizedTags.backend.length > 0 && (
+              <div>
+                <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)] block mb-2">
+                  BACKEND & STORAGE
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.categorizedTags.backend.map((t, idx) => (
+                    <span key={idx} className="font-mono text-xs border border-[var(--rule)] px-2 py-0.5">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {project.categorizedTags.devops && project.categorizedTags.devops.length > 0 && (
+              <div>
+                <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)] block mb-2">
+                  INFRASTRUCTURE & DEVOPS
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.categorizedTags.devops.map((t, idx) => (
+                    <span key={idx} className="font-mono text-xs border border-[var(--rule)] px-2 py-0.5">
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
           </div>
+        )}
+
+        <div className="flex flex-wrap gap-2 pt-2 max-w-3xl">
+          {project.techStack.map((tech, tIdx) => (
+            <span
+              key={tIdx}
+              className="font-mono text-xs text-[var(--muted)] bg-[var(--panel)] border border-[var(--rule)] px-2.5 py-1"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
-      </div>
+      </section>
+
+      {/* Results / Awards if present */}
+      {project.result && (
+        <section className="mb-14 border border-[var(--rule)] p-5 bg-[var(--panel)] max-w-3xl">
+          <span className="font-mono text-xs uppercase tracking-wider text-[var(--muted)] block mb-1">
+            BENCHMARK & VERIFIED OUTCOME
+          </span>
+          <p className="font-serif text-xl text-[var(--ink)]">
+            {project.slug === 'purgeport' && purgeportDownloads
+              ? `Published to npm registry with zero runtime dependencies (v0.1.0) • ${purgeportDownloads.toLocaleString()} live downloads • Runnable instantly via npx purgeport`
+              : project.result}
+          </p>
+        </section>
+      )}
+
+      {/* Bottom Navigation between Projects */}
+      <footer className="pt-8 border-t border-[var(--rule)] flex flex-wrap items-center justify-between gap-6">
+        <button
+          type="button"
+          onClick={() => onNavigate('project-detail', `/projects/${prevProject.slug}`)}
+          className="link-ink text-left font-serif text-lg cursor-pointer bg-transparent border-none p-0"
+        >
+          <span className="font-mono text-xs text-[var(--muted)] block">← Previous System</span>
+          {prevProject.name}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('project-detail', `/projects/${nextProject.slug}`)}
+          className="link-ink text-right font-serif text-lg cursor-pointer bg-transparent border-none p-0 ml-auto"
+        >
+          <span className="font-mono text-xs text-[var(--muted)] block">Next System →</span>
+          {nextProject.name}
+        </button>
+      </footer>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div
+          className="lightbox-backdrop"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={selectedImage}
+              alt="Screenshot full view"
+              className="lightbox-content"
+            />
+            <button
+              type="button"
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 bg-black/80 text-white font-mono text-sm px-3 py-1 border border-white/20 cursor-pointer"
+            >
+              ✕ Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default ProjectDetail;

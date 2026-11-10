@@ -19,7 +19,7 @@ export interface Project {
   result?: string;
   githubUrl?: string; // If undefined or empty, means private repository
   liveUrl?: string;   // If undefined or empty, means not deployed
-  images: string[];   // The screenshot filenames in the public/ folder
+  images: string[];   // The screenshot filenames in the public/ folder or full URLs
 }
 
 export const projects: Project[] = [
@@ -82,113 +82,47 @@ export const projects: Project[] = [
     homeTags: ['TypeScript', 'Express.js', 'AWS EC2', 'GitHub Actions', 'Docker'],
     githubUrl: 'https://github.com/rishhbh/layerzero',
     liveUrl: 'https://layerzero.rishhbh.workers.dev',
-    images: ['homepage.png', 'about.png', 'register.png', 'login.png', 'doc.png', 'response.png']
+    images: ['homepage.webp', 'about.webp', 'register.webp', 'login.webp', 'doc.webp', 'response.webp']
   },
   {
-    slug: 'deepsynth',
-    name: 'DeepSynth',
-    tagline: 'Offline-first AI chat app',
-    category: 'Offline AI',
-    badgeText: 'OFFLINE LOCAL LLM // 4-BIT QUANTIZED',
-    problem: 'People want private, local LLM chat without cloud dependency or per-token cost.',
-    howItWorks: 'The chat flow functions entirely on-device and is containerized as follows:\n1. Local Inference: Runs Gemma 3 4B (4-bit quantized) completely offline through Ollama.\n2. System Prompting: Injects a custom sarcastic, humorous personality layer directly into the system prompt settings.\n3. Backend Security: Wraps the local agent in an Express.js server secured with Auth0 JWT token authentication.\n4. Container Dev: Orchestrates frontend, backend, and LLM services in Docker Compose, mapping Vite using host flags for container routing.',
+    slug: 'purgeport',
+    name: 'purgeport',
+    tagline: 'Zero-runtime-dependency CLI to find and cleanly terminate processes occupying network ports',
+    category: 'Developer Tooling',
+    badgeText: 'ZERO-DEPENDENCY NPM CLI // POSIX INTEGRATION',
+    problem: 'During modern software engineering workflows (e.g., Node.js servers, Docker containers, Next.js/Vite dev servers, Python Flask/FastAPI backends), developers frequently encounter port binding collisions (Error: listen EADDRINUSE: address already in use :::3000). Resolving this manually requires multi-step terminal friction: running lsof -i :3000, parsing output, copying the PID, and running kill -9 <PID>. purgeport eliminates this manual toil with a zero-runtime-dependency CLI that scans port holders, extracts rich process metadata (user, command arguments, and resolved binary paths), verifies with an interactive confirmation prompt, and dispatches graceful SIGTERM signals.',
+    howItWorks: 'purgeport automates the port cleanup pipeline through an orchestrator loop and native POSIX system utilities:\n1. CLI Argument Parsing & Multi-Port Loop: Native ES Module entrypoint (src/cli.js) parses CLI arguments via process.argv, handling --version and --help flags. Supports scanning and purging multiple ports sequentially in a single invocation.\n2. Terse Port Discovery via lsof: Invokes lsof -i :<port> -t in terse mode to query the kernel for Internet socket files bound to the target port. Safely handles missing processes and returns the raw PID or null without erroring out.\n3. Deep Process Inspection & Metadata: Queries the system process table via ps -p <PID> -o user=,exe=,args= to extract process ownership and full launch arguments. Resolves the canonical binary path through the Linux virtual filesystem using readlink -f /proc/<PID>/exe.\n4. Interactive Safety Confirmation: Bridges Node readline (node:readline) into a Promise-based prompt, printing the process diagnostics (User, Command, Process path) and prompting the user ([y/n]) to prevent accidental kills of system services.\n5. Graceful Signal Termination: Dispatches a POSIX SIGTERM signal directly to the PID using Node.js process.kill(). Allows active socket connections and servers to gracefully shut down and clean up resources, with error handling for EPERM permissions.\n6. Zero-Dependency NPM Packaging: Built purely with standard Node.js built-in modules (node:child_process, node:readline, process) and packaged as a native ESM binary, runnable directly via npx purgeport or global installation.',
     keyFeatures: [
-      'Offline LLM: Local 4-bit quantized inference executing Gemma 3 4B via Ollama.',
-      'Secured Endpoints: Orchestrated Express.js backend protected with Auth0 JWT tokens.',
-      'Custom Persona: Humor and sarcasm layers embedded natively inside the agent rules.',
-      'Container Routing: Optimized Docker Compose setup mapping Vite network ports.'
+      'Zero Runtime Dependencies: Built purely using native Node.js ESM built-ins and POSIX utilities.',
+      'Terse Port Detection: Instant PID resolution querying network sockets via lsof -i :port -t.',
+      'Deep Process Inspection: Resolves process owner, launch arguments, and canonical /proc/PID/exe binary paths.',
+      'Interactive Safety Guard: Detailed diagnostic output and [y/n] prompt prevent accidental process termination.',
+      'Graceful SIGTERM Dispatch: Cleans up processes cleanly without forceful SIGKILL corruption.',
+      'Multi-Port Batch Purging: Inspects and cleans multiple target ports in a single command invocation.'
     ],
     techStack: [
-      'React',
-      'Tailwind CSS',
-      'Express.js',
-      'Ollama',
-      'Gemma 3 4B',
-      'Auth0',
-      'Docker'
+      'Node.js (v18+)',
+      'ES Modules (ESM)',
+      'JavaScript',
+      'POSIX Signals (SIGTERM)',
+      'Linux /proc Filesystem',
+      'lsof',
+      'ps',
+      'readlink',
+      'node:child_process',
+      'node:readline',
+      'npm',
+      'npx'
     ],
     categorizedTags: {
-      ai: ['Gemma 3 4B', 'Ollama Offline'],
-      backend: ['Express.js', 'Auth0 JWT'],
-      devops: ['Docker Compose', 'Local Container Host']
+      backend: ['Node.js (ESM)', 'lsof Bridge', 'POSIX Signals', '/proc Filesystem'],
+      devops: ['Linux / POSIX', 'npm CLI Package', 'Zero-Dependency']
     },
-    homeTags: ['React', 'Tailwind CSS', 'Ollama', 'Gemma 3 4B', 'Docker'],
-    githubUrl: 'https://github.com/rishhbh/deepsynth',
-    liveUrl: undefined, // Not deployed
-    images: ['deepsynth-one.webp', 'deepsynth-two.webp']
-  },
-  {
-    slug: 'calculator',
-    name: 'Calculator',
-    tagline: 'A full-stack calculator that behaves completely normally... until the answer equals 67',
-    category: 'Fintech & Tooling',
-    badgeText: 'CUSTOM PAYMENT GATEWAY TRIGGER',
-    problem: 'A joke project — looks and works like a normal React calculator until the result hits exactly 67, at which point it triggers a Stripe checkout flow that charges $67. Because mathematics should have consequences.',
-    howItWorks: 'The payment integration coordinates the calculator state across standard math and custom triggers:\n1. Frontend Math: User performs standard mathematical calculations on the frontend React interface.\n2. State Monitoring: The system monitors the calculation result state.\n3. Gateway Redirection: When the answer evaluates to exactly 67, the frontend calls the Node/Express backend.\n4. Stripe Checkout: The backend initializes a Stripe checkout process (Stripe Elements & Stripe Payment Intents) securely keeping Stripe secret keys hidden.\n5. Payment Wall: The user is redirected to pay $67 to continue using the calculator.',
-    keyFeatures: [
-      'Fully Functioning Calculator: Operates with standard arithmetic logic.',
-      'Magic State Trigger: Watches calculation output for the value 67.',
-      'Stripe Integration: Employs Stripe Elements and Payment Intents for secure processing.',
-      'DevOps Containerization: Fully containerized with Docker and Docker Compose.'
-    ],
-    techStack: [
-      'React',
-      'TypeScript',
-      'Vite',
-      'Tailwind CSS',
-      'Node.js',
-      'Express',
-      'Stripe Elements',
-      'Stripe Payment Intents',
-      'Docker',
-      'Docker Compose'
-    ],
-    categorizedTags: {
-      ai: [],
-      backend: ['Node.js / Express', 'Stripe Payments'],
-      devops: ['Vercel', 'Docker Compose']
-    },
-    homeTags: ['React', 'TypeScript', 'Stripe', 'Node.js', 'Docker'],
-    githubUrl: 'https://github.com/rishhbh/calculator',
-    liveUrl: 'https://calculator-67.vercel.app/',
-    images: ['calculator-one.webp', 'calculator-two.webp']
-  },
-  {
-    slug: 'kaushal-ai',
-    name: 'KaushalAI',
-    tagline: 'AI-powered job marketplace for India\'s informal workforce',
-    category: 'Full-Stack AI',
-    badgeText: '🏆 1ST PLACE WINNER // IDEAS TO IMPACT 2026',
-    problem: 'Informal-sector workers lack digital tools to prove their skills or get matched to employers, especially across language barriers.',
-    howItWorks: 'The marketplace coordinates roles and assessments through three primary steps:\n1. Adaptive Assessments: Gemini 2.5 Flash runs conversational skill evaluations tailored to individual workers.\n2. Credentials & Tracking: Passing assessments generates QR-verifiable PDF certificates using jsPDF and html2canvas. Employers manage applicants via a Kanban tracker.\n3. Accessible UX: The interface is fully localized in Hindi, Marathi, and English via i18next, utilizing a mobile-first rural-optimized layout, plus an AI resume builder.',
-    keyFeatures: [
-      'Conversational Skill Assessments: Powered by Gemini 2.5 Flash with custom adaptive questioning.',
-      'Verifiable Credentials: Dynamic PDF certificates generated client-side using jsPDF and html2canvas.',
-      'Two-Sided RBAC: Dedicated dashboard workflows optimized for both workers and employer roles.',
-      'Localized Interface: Full multi-lingual support in Hindi, Marathi, and English using i18next.'
-    ],
-    techStack: [
-      'React',
-      'Node.js',
-      'Express.js',
-      'MongoDB',
-      'Gemini API',
-      'i18next',
-      'JWT',
-      'RBAC',
-      'jsPDF',
-      'html2canvas'
-    ],
-    categorizedTags: {
-      ai: ['Gemini 3.5 Flash', 'Adaptive Prompts'],
-      backend: ['Node / Express', 'MongoDB', 'JWT / RBAC'],
-      devops: ['Cloudflare Pages', 'i18next Multilingual']
-    },
-    homeTags: ['React', 'Node/Express', 'MongoDB', 'Gemini API', 'i18next'],
-    result: '1st place, Ideas to Impact 2026 Innovation Hackathon (Awadh Incubation Foundation, KMCLU Lucknow) — beat 50+ teams from 14+ institutions',
-    githubUrl: 'https://github.com/rishhbh/kaushal-ai',
-    liveUrl: 'https://kaushal-ai.pages.dev/',
-    images: ['kaushal-1.webp', 'kaushal-2.webp', 'kaushal-3.webp']
+    homeTags: ['Node.js', 'ESM', 'POSIX', 'CLI', 'npm', 'Linux'],
+    result: 'Published to npm registry with zero runtime dependencies (v0.1.0) • Runnable instantly via npx purgeport',
+    githubUrl: 'https://github.com/rishhbh/purgeport',
+    liveUrl: 'https://www.npmjs.com/package/purgeport',
+    images: ['purgeport.png']
   },
   {
     slug: 'jaas',
@@ -236,43 +170,39 @@ export const projects: Project[] = [
     images: ['jaas-one.webp', 'jaas-two.webp', 'jaas-three.webp', 'jaas-four.webp']
   },
   {
-    slug: 'purgeport',
-    name: 'purgeport',
-    tagline: 'Zero-runtime-dependency CLI to find and cleanly terminate processes occupying network ports',
-    category: 'Developer Tooling',
-    badgeText: 'ZERO-DEPENDENCY NPM CLI // POSIX INTEGRATION',
-    problem: 'During modern software engineering workflows (e.g., Node.js servers, Docker containers, Next.js/Vite dev servers, Python Flask/FastAPI backends), developers frequently encounter port binding collisions (Error: listen EADDRINUSE: address already in use :::3000). Resolving this manually requires multi-step terminal friction: running lsof -i :3000, parsing output, copying the PID, and running kill -9 <PID>. purgeport eliminates this manual toil with a zero-runtime-dependency CLI that scans port holders, extracts rich process metadata (user, command arguments, and resolved binary paths), verifies with an interactive confirmation prompt, and dispatches graceful SIGTERM signals.',
-    howItWorks: 'purgeport automates the port cleanup pipeline through an orchestrator loop and native POSIX system utilities:\n1. CLI Argument Parsing & Multi-Port Loop: Native ES Module entrypoint (src/cli.js) parses CLI arguments via process.argv, handling --version and --help flags. Supports scanning and purging multiple ports sequentially in a single invocation.\n2. Terse Port Discovery via lsof: Invokes lsof -i :<port> -t in terse mode to query the kernel for Internet socket files bound to the target port. Safely handles missing processes and returns the raw PID or null without erroring out.\n3. Deep Process Inspection & Metadata: Queries the system process table via ps -p <PID> -o user=,exe=,args= to extract process ownership and full launch arguments. Resolves the canonical binary path through the Linux virtual filesystem using readlink -f /proc/<PID>/exe.\n4. Interactive Safety Confirmation: Bridges Node readline (node:readline) into a Promise-based prompt, printing the process diagnostics (User, Command, Process path) and prompting the user ([y/n]) to prevent accidental kills of system services.\n5. Graceful Signal Termination: Dispatches a POSIX SIGTERM signal directly to the PID using Node.js process.kill(). Allows active socket connections and servers to gracefully shut down and clean up resources, with error handling for EPERM permissions.\n6. Zero-Dependency NPM Packaging: Built purely with standard Node.js built-in modules (node:child_process, node:readline, process) and packaged as a native ESM binary, runnable directly via npx purgeport or global installation.',
+    slug: 'calculator',
+    name: 'Calculator',
+    tagline: 'A full-stack calculator that behaves completely normally... until the answer equals 67',
+    category: 'Fintech & Tooling',
+    badgeText: 'CUSTOM PAYMENT GATEWAY TRIGGER',
+    problem: 'A joke project — looks and works like a normal React calculator until the result hits exactly 67, at which point it triggers a Stripe checkout flow that charges $67. Because mathematics should have consequences.',
+    howItWorks: 'The payment integration coordinates the calculator state across standard math and custom triggers:\n1. Frontend Math: User performs standard mathematical calculations on the frontend React interface.\n2. State Monitoring: The system monitors the calculation result state.\n3. Gateway Redirection: When the answer evaluates to exactly 67, the frontend calls the Node/Express backend.\n4. Stripe Checkout: The backend initializes a Stripe checkout process (Stripe Elements & Stripe Payment Intents) securely keeping Stripe secret keys hidden.\n5. Payment Wall: The user is redirected to pay $67 to continue using the calculator.',
     keyFeatures: [
-      'Zero Runtime Dependencies: Built purely using native Node.js ESM built-ins and POSIX utilities.',
-      'Terse Port Detection: Instant PID resolution querying network sockets via lsof -i :port -t.',
-      'Deep Process Inspection: Resolves process owner, launch arguments, and canonical /proc/PID/exe binary paths.',
-      'Interactive Safety Guard: Detailed diagnostic output and [y/n] prompt prevent accidental process termination.',
-      'Graceful SIGTERM Dispatch: Cleans up processes cleanly without forceful SIGKILL corruption.',
-      'Multi-Port Batch Purging: Inspects and cleans multiple target ports in a single command invocation.'
+      'Fully Functioning Calculator: Operates with standard arithmetic logic.',
+      'Magic State Trigger: Watches calculation output for the value 67.',
+      'Stripe Integration: Employs Stripe Elements and Payment Intents for secure processing.',
+      'DevOps Containerization: Fully containerized with Docker and Docker Compose.'
     ],
     techStack: [
-      'Node.js (v18+)',
-      'ES Modules (ESM)',
-      'JavaScript',
-      'POSIX Signals (SIGTERM)',
-      'Linux /proc Filesystem',
-      'lsof',
-      'ps',
-      'readlink',
-      'node:child_process',
-      'node:readline',
-      'npm',
-      'npx'
+      'React',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'Node.js',
+      'Express',
+      'Stripe Elements',
+      'Stripe Payment Intents',
+      'Docker',
+      'Docker Compose'
     ],
     categorizedTags: {
-      backend: ['Node.js (ESM)', 'lsof Bridge', 'POSIX Signals', '/proc Filesystem'],
-      devops: ['Linux / POSIX', 'npm CLI Package', 'Zero-Dependency']
+      ai: [],
+      backend: ['Node.js / Express', 'Stripe Payments'],
+      devops: ['Vercel', 'Docker Compose']
     },
-    homeTags: ['Node.js', 'ESM', 'POSIX', 'CLI', 'npm', 'Linux'],
-    result: 'Published to npm registry with zero runtime dependencies (v0.1.0) • Runnable instantly via npx purgeport',
-    githubUrl: 'https://github.com/rishhbh/purgeport',
-    liveUrl: 'https://www.npmjs.com/package/purgeport',
-    images: ['purgeport-one.webp', 'purgeport-two.webp', 'purgeport-three.webp']
+    homeTags: ['React', 'TypeScript', 'Stripe', 'Node.js', 'Docker'],
+    githubUrl: 'https://github.com/rishhbh/calculator',
+    liveUrl: 'https://calculator-67.vercel.app/',
+    images: ['calculator-one.webp', 'calculator-two.webp']
   }
 ];
