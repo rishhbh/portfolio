@@ -16,15 +16,8 @@ interface RoleItem {
 
 const ROLES: RoleItem[] = [
   {
-    company: 'Kraftors Web Solutions Pvt Ltd',
-    role: 'AI Engineer Intern (Onsite · Lucknow)',
-    period: 'Nov 2026 to Present',
-    summary: '',
-    details: [],
-  },
-  {
     company: 'foundertruth',
-    role: 'SDE Intern & Tech Lead',
+    role: 'Software Engineering Intern',
     period: 'Jul 2026 to Oct 2026',
     summary: 'Architected asynchronous document ingestion, dual-path vector RAG, and schema-enforced LLM pipelines.',
     details: [

@@ -65,7 +65,7 @@ export const Resume: React.FC<ResumeProps> = ({ onNavigate }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
         >
-          <p className="meta">2022 to 2026<br />Lucknow, India</p>
+          <p className="meta">2023 - Present<br />Lucknow, India</p>
           <div className="body">
             <h3>School of Management Sciences (SMS)</h3>
             <p className="font-medium text-[var(--ink)]">
@@ -100,7 +100,7 @@ export const Resume: React.FC<ResumeProps> = ({ onNavigate }) => {
                 Backend Frameworks &amp; Protocols
               </span>
               <p className="text-sm text-[var(--ink)] mt-0.5">
-                Express.js v5, Fastify, REST APIs, Server-Sent Events (SSE), WebSockets, Zod, JSON Schema, JWT, RBAC
+                Express.js v5, FastAPI, REST APIs, Server-Sent Events (SSE), WebSockets, Zod, JSON Schema, JWT, RBAC
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export const Resume: React.FC<ResumeProps> = ({ onNavigate }) => {
                 Databases &amp; Distributed Caching
               </span>
               <p className="text-sm text-[var(--ink)] mt-0.5">
-                Upstash Redis, MongoDB Atlas (Mongoose &amp; 2dsphere indexing), PostgreSQL, Prisma ORM, Cloudflare R2, AWS S3
+                Upstash Redis, MongoDB Atlas (Mongoose &amp; 2dsphere indexing), MySQL, Cloudflare R2
               </p>
             </div>
 
@@ -127,7 +127,7 @@ export const Resume: React.FC<ResumeProps> = ({ onNavigate }) => {
                 Infrastructure &amp; DevOps
               </span>
               <p className="text-sm text-[var(--ink)] mt-0.5">
-                Docker, Docker Compose, AWS EC2, Linux /proc &amp; POSIX Signals, GitHub Actions CI/CD, npm CLI Packaging, Vercel, Cloudflare Pages
+                Docker, Docker Compose, AWS EC2, Linux /proc &amp; POSIX Signals, GitHub Actions CI/CD, npm CLI Packaging, Cloudflare Pages
               </p>
             </div>
           </div>
@@ -144,21 +144,10 @@ export const Resume: React.FC<ResumeProps> = ({ onNavigate }) => {
           <div className="body space-y-6">
             <div>
               <div className="flex justify-between items-baseline">
-                <span className="font-medium text-[var(--ink)]">Kraftors Web Solutions Pvt Ltd</span>
-                <span className="font-mono text-xs text-[var(--muted)]">Nov 2026 – Present</span>
-              </div>
-              <p className="text-xs text-[var(--muted)] font-mono">AI Engineer Intern (Onsite · Lucknow)</p>
-              <p className="text-sm text-[var(--muted)] mt-1">
-                Engineering production LLM pipelines, autonomous agentic workflows, prompt-routing architectures, and schema-enforced inference layers.
-              </p>
-            </div>
-
-            <div>
-              <div className="flex justify-between items-baseline">
                 <span className="font-medium text-[var(--ink)]">foundertruth</span>
                 <span className="font-mono text-xs text-[var(--muted)]">Jul 2026 – Oct 2026</span>
               </div>
-              <p className="text-xs text-[var(--muted)] font-mono">SDE Intern &amp; Tech Lead</p>
+              <p className="text-xs text-[var(--muted)] font-mono">Software Engineering Intern</p>
               <p className="text-sm text-[var(--muted)] mt-1">
                 Engineered async R2 ingestion pipeline, 4096-D vector embedding with Qwen3-Embedding-8B, dual-path RAG, Groq schema-enforced inference, and HttpOnly JWT auth.
               </p>
